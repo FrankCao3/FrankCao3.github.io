@@ -105,3 +105,4 @@ theme: landscape
 deploy:
   type: git
   repo: https://github.com/FrankCao3/FrankCao3.github.io.git
+  branch: master
