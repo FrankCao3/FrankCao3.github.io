@@ -6,15 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Hexo</title>
+  <title>5.OSPF | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="OSPF 实验 实验拓扑  实验需求 按照图示配置 IP 地址 按照图示分区域配置 OSPF ，实现全网互通 为了路由结构稳定，要求路由器使用环回口作为 Router-id，ABR 的环回口宣告进骨干区域   实验解法1.按图所示配置 IP 地址和环回口 步骤 1：配置R1的接口地址和环回口 123456[R1]interface L0[R1-LoopBack0]ip address 1.1.1.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5.OSPF">
+<meta property="og:url" content="http://yoursite.com/2020/08/15/5.OSPF/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="OSPF 实验 实验拓扑  实验需求 按照图示配置 IP 地址 按照图示分区域配置 OSPF ，实现全网互通 为了路由结构稳定，要求路由器使用环回口作为 Router-id，ABR 的环回口宣告进骨干区域   实验解法1.按图所示配置 IP 地址和环回口 步骤 1：配置R1的接口地址和环回口 123456[R1]interface L0[R1-LoopBack0]ip address 1.1.1.">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/08/15/5.OSPF/5.OSPF/tuopu.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/15/5.OSPF/5.OSPF/R1%E9%82%BB%E5%B1%85%E5%85%B3%E7%B3%BB.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/15/5.OSPF/R3%E9%82%BB%E5%B1%85%E5%85%B3%E7%B3%BB.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/15/5.OSPF/R1%E8%B7%AF%E7%94%B1%E8%A1%A8.PNG">
+<meta property="og:image" content="http://yoursite.com/2020/08/15/5.OSPF/R3%E8%B7%AF%E7%94%B1%E8%A1%A8.PNG">
+<meta property="article:published_time" content="2020-08-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-08-16T11:42:28.638Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="实训-网络建设部分">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/08/15/5.OSPF/5.OSPF/tuopu.PNG">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -150,101 +161,101 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-5.OSPF" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      5.OSPF
+    </h1>
+  
+
+        
+        <a href="/2020/08/15/5.OSPF/" class="archive-article-date">
+  	<time datetime="2020-08-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-15</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="OSPF-实验"><a href="#OSPF-实验" class="headerlink" title="OSPF 实验"></a>OSPF 实验</h2><hr>
+<h3 id="实验拓扑"><a href="#实验拓扑" class="headerlink" title="实验拓扑"></a>实验拓扑</h3><p><img src="/2020/08/15/5.OSPF/5.OSPF/tuopu.PNG"></p>
+<hr>
+<h3 id="实验需求"><a href="#实验需求" class="headerlink" title="实验需求"></a>实验需求</h3><ol>
+<li>按照图示配置 IP 地址</li>
+<li>按照图示分区域配置 OSPF ，实现全网互通</li>
+<li>为了路由结构稳定，要求路由器使用环回口作为 Router-id，ABR 的环回口宣告进骨干区域</li>
+</ol>
+<hr>
+<h3 id="实验解法"><a href="#实验解法" class="headerlink" title="实验解法"></a>实验解法</h3><p>1.<strong>按图所示配置 IP 地址和环回口</strong></p>
+<p><em>步骤 1：配置R1的接口地址和环回口</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[R1]interface L0</span><br><span class="line">[R1-LoopBack0]ip address 1.1.1.1 32</span><br><span class="line">[R1-LoopBack0]interface g0&#x2F;0</span><br><span class="line">[R1-GigabitEthernet0&#x2F;0]ip address 100.1.1.1 24</span><br><span class="line">[R1-GigabitEthernet0&#x2F;0]interface g0&#x2F;1</span><br><span class="line">[R1-GigabitEthernet0&#x2F;1]ip address 100.3.3.1 24</span><br></pre></td></tr></table></figure>
+
+<p><em>步骤 2：配置R2的接口地址和环回口</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[R2]interface L0</span><br><span class="line">[R2-LoopBack0]ip address 2.2.2.2 32</span><br><span class="line">[R2-LoopBack0]interface g0&#x2F;0</span><br><span class="line">[R2-GigabitEthernet0&#x2F;0]ip address 100.1.1.2 24</span><br><span class="line">[R2-GigabitEthernet0&#x2F;0]interface g0&#x2F;1</span><br><span class="line">[R2-GigabitEthernet0&#x2F;1]ip address 100.2.2.2 24</span><br></pre></td></tr></table></figure>
+
+<p><em>步骤 3：配置R3的接口地址和环回口</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[R3]interface L0</span><br><span class="line">[R3-LoopBack0]ip address 3.3.3.3 32</span><br><span class="line">[R3-LoopBack0]interface g0&#x2F;0</span><br><span class="line">[R3-GigabitEthernet0&#x2F;0]ip address 100.2.2.3 24</span><br><span class="line">[R3-GigabitEthernet0&#x2F;0]interface g0&#x2F;1</span><br><span class="line">[R3-GigabitEthernet0&#x2F;1]ip address 100.4.4.3 24</span><br></pre></td></tr></table></figure>
+
+<p><em>步骤 4：配置R4的接口地址和环回口</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[R4]interface L0</span><br><span class="line">[R4-LoopBack0]ip address 4.4.4.4 32</span><br><span class="line">[R4-LoopBack0]interface g0&#x2F;0</span><br><span class="line">[R4-GigabitEthernet0&#x2F;0]ip address 100.3.3.4 24</span><br></pre></td></tr></table></figure>
+
+<p><em>步骤 5：配置R5的接口地址和环回口</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[R4]interface L0</span><br><span class="line">[R4-LoopBack0]ip address 5.5.5.5 32</span><br><span class="line">[R4-LoopBack0]interface g0&#x2F;0</span><br><span class="line">[R4-GigabitEthernet0&#x2F;0]ip address 100.4.4.5 24</span><br></pre></td></tr></table></figure>
+
+<p>2.<strong>按照图示分区域配置 OSPF ，实现全网互通</strong></p>
+<p><em>步骤 1：在路由器上分别配置 OSPF，按区域宣告所有直连网段和环回口</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[R1]ospf 1 router-id 1.1.1.1</span><br><span class="line">[R1-ospf-1]area 0</span><br><span class="line">[R1-ospf-1-area-0.0.0.0]network 1.1.1.1 0.0.0.0</span><br><span class="line">[R1-ospf-1-area-0.0.0.0]network 100.1.1.0 0.0.0.255</span><br><span class="line">[R1-ospf-1-area-0.0.0.0]area 1</span><br><span class="line">[R1-ospf-1-area-0.0.0.1]network 100.3.3.0 0.0.0.255</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[R2]ospf 1 router-id 2.2.2.2</span><br><span class="line">[R2-ospf-1]area 0</span><br><span class="line">[R2-ospf-1-area-0.0.0.0]network 2.2.2.2 0.0.0.0</span><br><span class="line">[R2-ospf-1-area-0.0.0.0]network 100.1.1.0 0.0.0.255</span><br><span class="line">[R2-ospf-1-area-0.0.0.0]network 100.2.2.0 0.0.0.255</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[R3]ospf 1 router-id 3.3.3.3</span><br><span class="line">[R3-ospf-1]area 0</span><br><span class="line">[R3-ospf-1-area-0.0.0.0]network 3.3.3.3 0.0.0.0</span><br><span class="line">[R3-ospf-1-area-0.0.0.0]network 100.2.2.0 0.0.0.255</span><br><span class="line">[R3-ospf-1-area-0.0.0.0]area 2</span><br><span class="line">[R3-ospf-1-area-0.0.0.2]network 100.4.4.0 0.0.0.255</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[R4]ospf 1 router-id 4.4.4.4</span><br><span class="line">[R4-ospf-1]area 1</span><br><span class="line">[R4-ospf-1-area-0.0.0.1]network 4.4.4.4 0.0.0.0</span><br><span class="line">[R4-ospf-1-area-0.0.0.1]network 100.3.3.0 0.0.0.255</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[R5]ospf 1 router-id 5.5.5.5</span><br><span class="line">[R5-ospf-1]area 2</span><br><span class="line">[R5-ospf-1-area-0.0.0.2]network 5.5.5.5 0.0.0.0</span><br><span class="line">[R5-ospf-1-area-0.0.0.2]network 100.4.4.0 0.0.0.255</span><br></pre></td></tr></table></figure>
+
+<p>3.<strong>检查是否全网互通</strong></p>
+<p><em>步骤 1：检查 R1 的邻居关闭表，发现R1 分别和 R2 和 R4 建立了邻接关系，状态为 FULL</em></p>
+<p><img src="/2020/08/15/5.OSPF/5.OSPF/R1%E9%82%BB%E5%B1%85%E5%85%B3%E7%B3%BB.PNG"></p>
+<p><em>步骤 2：检查 R3 的邻居关闭表，发现R3 分别和 R2 和 R5 建立了邻接关系，状态为 FULL</em></p>
+<p><img src="/2020/08/15/5.OSPF/R3%E9%82%BB%E5%B1%85%E5%85%B3%E7%B3%BB.PNG"></p>
+<p><em>步骤3：检查 R1 的路由表</em></p>
+<p><img src="/2020/08/15/5.OSPF/R1%E8%B7%AF%E7%94%B1%E8%A1%A8.PNG"></p>
+<p><em>步骤4：检查 R3 的路由表</em></p>
+<p><img src="/2020/08/15/5.OSPF/R3%E8%B7%AF%E7%94%B1%E8%A1%A8.PNG"></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/15/hello-world/" class="archive-article-date">
-  	<time datetime="2020-08-15T13:06:58.801Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/15/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/15/MyfirstBlog/" class="archive-article-date">
-  	<time datetime="2020-08-15T12:26:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/15/MyfirstBlog/">MyfirstBlog</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">搭建博客</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/15/1.VLAN%E5%AE%9E%E9%AA%8C/" class="archive-article-date">
-  	<time datetime="2020-08-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/15/1.VLAN%E5%AE%9E%E9%AA%8C/">1.VLAN实验</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -256,247 +267,115 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/08/15/5.OSPF/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/15/2.IRF%E3%80%81%E8%81%9A%E5%90%88%E5%AE%9E%E9%AA%8C/" class="archive-article-date">
-  	<time datetime="2020-08-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-15</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2020/08/15/4.%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          4.三层交换
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/08/15/6.NAT/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">6.NAT</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/15/2.IRF%E3%80%81%E8%81%9A%E5%90%88%E5%AE%9E%E9%AA%8C/">2.IRF、聚合实验</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">实训-网络建设部分</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/15/3.route-static/" class="archive-article-date">
-  	<time datetime="2020-08-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/15/3.route-static/">3.route-static</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">实训-网络建设部分</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/15/4.%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2/" class="archive-article-date">
-  	<time datetime="2020-08-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/15/4.%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2/">4.三层交换</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">实训-网络建设部分</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/15/5.OSPF/" class="archive-article-date">
-  	<time datetime="2020-08-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/15/5.OSPF/">5.OSPF</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">实训-网络建设部分</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/15/6.NAT/" class="archive-article-date">
-  	<time datetime="2020-08-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/15/6.NAT/">6.NAT</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">实训-网络建设部分</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/15/7.%E7%BB%BC%E5%90%88%E5%AE%9E%E9%AA%8C/" class="archive-article-date">
-  	<time datetime="2020-08-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/15/7.%E7%BB%BC%E5%90%88%E5%AE%9E%E9%AA%8C/">7.综合实验</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">实训-网络建设部分</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -519,8 +398,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
