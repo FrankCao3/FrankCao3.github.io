@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>实训-安全部分 | Hexo</title>
+  <title>cmake的使用 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.SQL注入   	      	     2.Web爆破攻击实战   	      	     3.命令注入攻击实战   	      	     4.DOM型XSS攻击实战   	      	     5.存储型 XSS 攻击实战   	      	     5.反射型 XSS 攻击实战   	      	     6.文件包含攻击实战   	      	     7.文件上传攻击实">
+  <meta name="description" content="cmake的使用 本文参考：  https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV16V411k7eF?p&#x3D;6 https:&#x2F;&#x2F;www.hahack.com&#x2F;codes&#x2F;cmake&#x2F; https:&#x2F;&#x2F;blog.csdn.net&#x2F;QTVLC&#x2F;article&#x2F;details&#x2F;82380413   序言：linux中C文件的编译过程 以单文件mian.c为例：12345预处理 gcc -">
 <meta property="og:type" content="article">
-<meta property="og:title" content="实训-安全部分">
-<meta property="og:url" content="http://yoursite.com/2020/08/15/%E5%AE%9E%E8%AE%AD-%E5%AE%89%E5%85%A8%E9%83%A8%E5%88%86/index.html">
+<meta property="og:title" content="cmake的使用">
+<meta property="og:url" content="http://yoursite.com/2020/08/16/cmake%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1.SQL注入   	      	     2.Web爆破攻击实战   	      	     3.命令注入攻击实战   	      	     4.DOM型XSS攻击实战   	      	     5.存储型 XSS 攻击实战   	      	     5.反射型 XSS 攻击实战   	      	     6.文件包含攻击实战   	      	     7.文件上传攻击实">
+<meta property="og:description" content="cmake的使用 本文参考：  https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV16V411k7eF?p&#x3D;6 https:&#x2F;&#x2F;www.hahack.com&#x2F;codes&#x2F;cmake&#x2F; https:&#x2F;&#x2F;blog.csdn.net&#x2F;QTVLC&#x2F;article&#x2F;details&#x2F;82380413   序言：linux中C文件的编译过程 以单文件mian.c为例：12345预处理 gcc -">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-08-14T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-08-16T12:58:06.574Z">
+<meta property="article:published_time" content="2020-08-15T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-08-18T07:52:49.953Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="实训-安全部分">
+<meta property="article:tag" content="cmake">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -171,125 +171,69 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-实训-安全部分" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-cmake使用" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      实训-安全部分
+      cmake的使用
     </h1>
   
 
         
-        <a href="/2020/08/15/%E5%AE%9E%E8%AE%AD-%E5%AE%89%E5%85%A8%E9%83%A8%E5%88%86/" class="archive-article-date">
-  	<time datetime="2020-08-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-15</time>
+        <a href="/2020/08/16/cmake%E4%BD%BF%E7%94%A8/" class="archive-article-date">
+  	<time datetime="2020-08-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-16</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>1.SQL注入</p>
+        <h1 id="cmake的使用"><a href="#cmake的使用" class="headerlink" title="cmake的使用"></a><strong>cmake的使用</strong></h1><hr>
+<p>本文参考：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV16V411k7eF?p=6">https://www.bilibili.com/video/BV16V411k7eF?p=6</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.hahack.com/codes/cmake/">https://www.hahack.com/codes/cmake/</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/QTVLC/article/details/82380413">https://blog.csdn.net/QTVLC/article/details/82380413</a></li>
+</ul>
+<hr>
+<h2 id="序言：linux中C文件的编译过程"><a href="#序言：linux中C文件的编译过程" class="headerlink" title="序言：linux中C文件的编译过程"></a>序言：linux中C文件的编译过程</h2><ul>
+<li>以<strong>单文件</strong>mian.c为例：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">预处理 gcc -E main.c -o main.i    &#x2F;&#x2F;生成main.i</span><br><span class="line">编译 gcc -s main.i   &#x2F;&#x2F;生成main.s</span><br><span class="line">汇编 gcc -c mian.s  &#x2F;&#x2F;生成main.o</span><br><span class="line">链接 gcc main.o -o main  &#x2F;&#x2F;链接到可执行文件main</span><br><span class="line">执行 .&#x2F;main</span><br></pre></td></tr></table></figure></li>
+<li>*一步解决**：执行<code>gcc main.c -o main</code> 可生成可执行文件main。</li>
+<li><strong>多文件</strong>的情况：如fun.h，fun.c，main.c，则执行<code>gcc main.c fun.c -o mian</code> 同时编译2个c文件并生成可执行文件main。<br>若文件太多用命令行编译麻烦，则可在文件当前目录下编写makefile，使用make命令直接批量编译。<br>（参考正点原子Linux第一期P15-17）</li>
+</ul>
+<p>若执行可执行文件时需要传2个int参数，命令可以为：./demo 7 2</p>
+<h2 id="一、单文件CMakeLists的编写"><a href="#一、单文件CMakeLists的编写" class="headerlink" title="一、单文件CMakeLists的编写"></a><strong>一、单文件CMakeLists的编写</strong></h2><p>单个cpp文件( _main.cpp_）：<br>在当前目录下编写CMakelists.txt：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CMAKE_MINIMUM_REQUIRED(VERSION 3.10)  #要求的最低版本</span><br><span class="line">PROJECT(demo1)   #项目名</span><br><span class="line">ADD_EXECUTABLE(demo1 main.cpp)   #由main.cpp生成可执行文件demo1</span><br></pre></td></tr></table></figure>
+<p>写完CMakelists.txt后，在当前目录执行<code>cmake ./</code>，此步骤生成了makefile，然后执行<code>make</code>进行编译，生成可执行文件demo1。</p>
+<h2 id="二、单目录多文件"><a href="#二、单目录多文件" class="headerlink" title="二、单目录多文件"></a><strong>二、单目录多文件</strong></h2><p>以如下为例：<br><em>main.cpp</em><br><em>fun.cpp</em><br><em>fun.h</em><br>在当前目录下编写CMakelists.txt：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CMAKE_MINIMUM_REQUIRED(VERSION 3.10)  #要求的最低版本</span><br><span class="line">PROJECT(demo2)   #项目名</span><br><span class="line">ADD_EXECUTABLE(demo2 main.cpp fun.cpp)   #由多个cpp文件生成可执行文件demo2</span><br></pre></td></tr></table></figure>
+<p>当cpp文件过多时可写为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CMAKE_MINIMUM_REQUIRED(VERSION 3.10)  #要求的最低版本</span><br><span class="line">PROJECT(demo2)   #项目名</span><br><span class="line">AUX_SOURCE_DIRECTORY(.&#x2F; DIR_SRCS)    #将当前目录下的源文件打包命名为DIR_SRCS</span><br><span class="line">ADD_EXECUTABLE(demo1 $&#123;DIR_SRCS&#125;)   #由DIR_SRCS中的多个cpp文件生成可执行文件demo2</span><br></pre></td></tr></table></figure>
+<p>写完CMakelists.txt后，在当前目录执行<code>cmake ./</code>，此步骤生成了makefile，然后执行<code>make</code>进行编译，生成可执行文件demo2。</p>
+<h2 id="三、多目录多文件"><a href="#三、多目录多文件" class="headerlink" title="三、多目录多文件"></a><strong>三、多目录多文件</strong></h2><p>以如下为例：<br><em>main.cpp</em><br><em>CMakeLists.txt</em><br><em>lib</em><br><em>—CMakeLists.txt</em><br><em>—fun.cpp</em><br><em>—fun.h</em></p>
+<h3 id="1-首先写lib中的CMakeLists-txt："><a href="#1-首先写lib中的CMakeLists-txt：" class="headerlink" title="1. 首先写lib中的CMakeLists.txt："></a>1. <strong>首先写lib中的CMakeLists.txt：</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">AUX_SOURCE_DIRECTORY(. DIR_LTB_SRCS)   #将当前目录下的源文件打包命名为DIR_LTB_SRCS</span><br><span class="line">ADD_LIBRARY(lib $&#123;DIR_LTB_SRCS&#125;)  #将lib设置为源文件库&#x2F;共享库（可设为静态库或者动态库）</span><br></pre></td></tr></table></figure>
+<h3 id="2-然后是顶层的CMakeLists-txt"><a href="#2-然后是顶层的CMakeLists-txt" class="headerlink" title="2. 然后是顶层的CMakeLists.txt:"></a>2. <strong>然后是顶层的CMakeLists.txt:</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CMAKE_MINIMUM_REQUIRED(VERSION 3.10)  #要求的最低版本</span><br><span class="line">PROJECT(demo3)   #项目名</span><br><span class="line">ADD_SUBDIRECTORY(.&#x2F;lib)     #向当前工程添加存放源文件的子目录lib</span><br><span class="line">AUX_SOURCE_DIRECTORY(.&#x2F; DIR_SRCS)    #将当前目录下的源文件打包命名为DIR_SRCS</span><br><span class="line">ADD_EXECUTABLE(demo3 $&#123;DIR_SRCS&#125;)   #由DIR_SRCS中的多个cpp文件生成可执行文件demo3</span><br><span class="line">TARGET_LINK_LIBRARIES(demo3 lib)   #为可执行文件demo3添加需要链接的共享库lib</span><br></pre></td></tr></table></figure>
+<p>然后<code>cmake ./</code>，最后<code>make</code>编译。</p>
+<h2 id="四、多目录标准工程"><a href="#四、多目录标准工程" class="headerlink" title="四、多目录标准工程"></a><strong>四、多目录标准工程</strong></h2><p>以如下为例：<br><em>CMakeLists.txt</em><br><em>source</em><br><em>—CMakeLists.txt</em><br><em>—main.cpp</em><br><em>lib</em><br><em>—CMakeLists.txt</em><br><em>—fun.cpp</em><br><em>—fun.h</em><br><em>build</em><br><em>—中间编译文件</em></p>
+<h3 id="1-source下的CMakeLists-txt："><a href="#1-source下的CMakeLists-txt：" class="headerlink" title="1. source下的CMakeLists.txt："></a>1. <strong>source下的CMakeLists.txt：</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">INCLUDE_DIRECTORIES($&#123;PROJECT_SOURCE_DIR&#125;&#x2F;lib)  #添加头文件的搜索路径，PROJECT_SOURCE_DIR指根目录</span><br><span class="line"></span><br><span class="line">#SET(EXECUTABLE_OUTPUT_PATH $&#123;PROJECT_BINARY_DIR&#125;&#x2F;bin)</span><br><span class="line">#设置可执行文件的生成路径为build&#x2F;bin，PROJECT_BINARY_DIR指build文件夹（此步有无均可）</span><br><span class="line"></span><br><span class="line">AUX_SOURCE_DIRECTORY(.&#x2F;DIR_SRCS)   #将当前目录下的源文件打包命名为DIR_LTB_SRCS</span><br><span class="line">ADD_EXECUTABLE(demo4 $&#123;DIR_SRCS&#125;)  #由DIR_SRCS中的cpp文件生成可执行文件demo4</span><br><span class="line"></span><br><span class="line">TARGET_LINK_LIBRARIES(demo4 lib)   #为可执行文件demo4添加需要链接的共享库lib</span><br></pre></td></tr></table></figure>
+<h3 id="2-lib下的CMakeLists-txt："><a href="#2-lib下的CMakeLists-txt：" class="headerlink" title="2. lib下的CMakeLists.txt："></a>2. <strong>lib下的CMakeLists.txt：</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">AUX_SOURCE_DIRECTORY(. DIR_LTB_SRCS)   #将当前目录下的源文件打包命名为DIR_LTB_SRCS</span><br><span class="line"></span><br><span class="line">#SET(LIBRARY_OUTPUT_PATH $&#123;PROJECT_BINARY_DIR&#125;&#x2F;lib)</span><br><span class="line">#设置库文件的生成路径为build&#x2F;lib，PROJECT_BINARY_DIR指build文件夹（此步有无均可）</span><br><span class="line"></span><br><span class="line">ADD_LIBRARY(lib STATIC $&#123;DIR_LTB_SRCS&#125;)  #将lib设置为源文件库&#x2F;共享库（此处设为静态库）</span><br></pre></td></tr></table></figure>
+<h3 id="3-主目录下的CMakeLists-txt："><a href="#3-主目录下的CMakeLists-txt：" class="headerlink" title="3. 主目录下的CMakeLists.txt："></a>3. <strong>主目录下的CMakeLists.txt：</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CMAKE_MINIMUM_REQUIRED(VERSION 3.10)  #要求的最低版本</span><br><span class="line">PROJECT(demo4)   #项目名</span><br><span class="line">ADD_SUBDIRECTORY(.&#x2F;lib)     #向当前工程添加存放源文件的子目录lib</span><br><span class="line">ADD_SUBDIRECTORY(.&#x2F;source)     #向当前工程添加存放源文件的子目录source</span><br></pre></td></tr></table></figure>
+<p>然后在build目录下进行编译，先执行<code>cmake ..</code>（此处是..，因为顶层CMakeList在当前目录的前一个目录），这样生成的编译文件均在build目录下，然后执行<code>make</code>编译。<br>若不写注释中的两条代码，那么生成的可执行文件路径为build/source/demo4。<br>若写注释中的两条代码，那么库文件和可执行文件会在指定路径下生成，便于查找。</p>
+<h2 id="五、自定义编译选项"><a href="#五、自定义编译选项" class="headerlink" title="五、自定义编译选项"></a><strong>五、自定义编译选项</strong></h2><p>编程时我们可能会编写一些与库文件中的函数同名的自定义函数，这时我们需要指定编译时使用哪个函数，是自定义头文件里的，还是标准库里的。</p>
+<p>以如下为例：<br><em>CMakeLists.txt</em><br><em>config</em><br><em>—config.hpp.in</em><br><em>source</em><br><em>—CMakeLists.txt</em><br><em>—main.cpp</em><br><em>lib</em><br><em>—CMakeLists.txt</em><br><em>—fun.cpp</em><br><em>—fun.h</em><br><em>build</em><br><em>—中间编译文件</em></p>
+<h3 id="与上一节对比，如下内容不同："><a href="#与上一节对比，如下内容不同：" class="headerlink" title="++与上一节对比，如下内容不同：++"></a>++<em>与上一节对比，如下内容不同：</em>++</h3><h3 id="1-source下的CMakeLists-txt"><a href="#1-source下的CMakeLists-txt" class="headerlink" title="1. source下的CMakeLists.txt"></a>1. <strong>source下的CMakeLists.txt</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#SET(EXECUTABLE_OUTPUT_PATH $&#123;PROJECT_BINARY_DIR&#125;&#x2F;bin)</span><br><span class="line">#设置可执行文件的生成路径为build&#x2F;bin，PROJECT_BINARY_DIR指build文件夹（此步有无均可）</span><br><span class="line"></span><br><span class="line">CONFIGURE_FILE(</span><br><span class="line">        &quot;$&#123;PROJECT_SOURCE_DIR&#125;&#x2F;config&#x2F;config.h.in&quot;</span><br><span class="line">        &quot;$&#123;PROJECT_SOURCE_DIR&#125;&#x2F;config&#x2F;config.h&quot;</span><br><span class="line">        )</span><br><span class="line">#加入一个配置头文件，用于处理CMake对源码的设置</span><br><span class="line">OPTION(USE_MYMATH</span><br><span class="line">       ON</span><br><span class="line">       )</span><br><span class="line">#是否使用自己的函数，即fun.h中声明的函数</span><br><span class="line">IF(USE_MYMATH)</span><br><span class="line">INCLUDE_DIRECTORIES($&#123;PROJECT_SOURCE_DIR&#125;&#x2F;lib)   #添加头文件的搜索路径，PROJECT_SOURCE_DIR指根目录</span><br><span class="line">ENDIF(USE_MYMATH)</span><br><span class="line"></span><br><span class="line">AUX_SOURCE_DIRECTORY(.&#x2F;DIR_SRCS)   #将当前目录下的源文件打包命名为DIR_LTB_SRCS</span><br><span class="line">ADD_EXECUTABLE(demo4 $&#123;DIR_SRCS&#125;)  #由DIR_SRCS中的cpp文件生成可执行文件demo4</span><br><span class="line"></span><br><span class="line">TARGET_LINK_LIBRARIES(demo4 lib)   #为可执行文件demo4添加需要链接的共享库lib</span><br></pre></td></tr></table></figure>
 
+<h3 id="2-新增config-config-h-in"><a href="#2-新增config-config-h-in" class="headerlink" title="2. 新增config/config.h.in"></a>2. <strong>新增config/config.h.in</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#cmakedefine USE_MYMATH</span><br></pre></td></tr></table></figure>
+<p>这个文件的作用是，在CMake时会自动根据CMakeLists 配置文件中的设置来生成<code>config.h</code>文件，这个config.h文件预定义了 <code>USE_MYMATH</code> 的值，为1或者说ON时使用自定义函数，为0或者说OFF时使用标准库中的函数。</p>
+<h3 id="3-修改main-cpp"><a href="#3-修改main-cpp" class="headerlink" title="3. 修改main.cpp"></a>3. <strong>修改main.cpp</strong></h3><p>（1）修改头文件<code>#include &quot;fun.h&quot;</code>为<code>#include &quot;../config/config.h&quot;</code><br>（2）紧接着增加如下结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#ifdef USE_MYMATH</span><br><span class="line">    #include &quot;..&#x2F;lib&#x2F;fun.h&quot;   &#x2F;&#x2F;若USE_MYMATH为ON，则使用自定义头文件</span><br><span class="line">#else</span><br><span class="line">    #include &lt;math.h&gt;  &#x2F;&#x2F;否则，使用标准库，这里以math.h为例</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+<p>在main.cpp其他代码段也可以使用这个结构作为判断语句：<br>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#ifdef USE_MYMATH</span><br><span class="line">    cout&lt;&lt;&quot;Myfunction&#39;s result:&quot;&lt;&lt;endl;</span><br><span class="line">#else</span><br><span class="line">    cout&lt;&lt;&quot;standard-math&#39;s result:&quot;&lt;&lt;endl;</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
 
-	<div class="row">
-    <embed src="1.SQL注入.pdf" width="100%" height="550" type="application/pdf">
-	</div>
-
-
-
-
-<p>2.Web爆破攻击实战</p>
-
-
-	<div class="row">
-    <embed src="2.Web爆破攻击实战.pdf" width="100%" height="550" type="application/pdf">
-	</div>
-
-
-
-
-<p>3.命令注入攻击实战</p>
-
-
-	<div class="row">
-    <embed src="3.命令注入攻击实战.pdf" width="100%" height="550" type="application/pdf">
-	</div>
-
-
-
-
-<p>4.DOM型XSS攻击实战</p>
-
-
-	<div class="row">
-    <embed src="4.DOM型XSS攻击实战.pdf" width="100%" height="550" type="application/pdf">
-	</div>
-
-
-
-
-<p>5.存储型 XSS 攻击实战</p>
-
-
-	<div class="row">
-    <embed src="5.存储型XSS攻击实战.pdf" width="100%" height="550" type="application/pdf">
-	</div>
-
-
-
-
-<p>5.反射型 XSS 攻击实战</p>
-
-
-	<div class="row">
-    <embed src="5.反射型XSS攻击实战.pdf" width="100%" height="550" type="application/pdf">
-	</div>
-
-
-
-
-<p>6.文件包含攻击实战</p>
-
-
-	<div class="row">
-    <embed src="6.文件包含攻击实战.pdf" width="100%" height="550" type="application/pdf">
-	</div>
-
-
-
-
-<p>7.文件上传攻击实战</p>
-
-
-	<div class="row">
-    <embed src="7.文件上传攻击实战.pdf" width="100%" height="550" type="application/pdf">
-	</div>
-
-
-
-
-<p>8.SQL注入爆表</p>
-
-
-	<div class="row">
-    <embed src="8.SQL注入爆表.pdf" width="100%" height="550" type="application/pdf">
-	</div>
-
-
-
-
-<p>9.XSS攻击渗透报告</p>
-
-
-	<div class="row">
-    <embed src="9.XSS攻击渗透报告.pdf" width="100%" height="550" type="application/pdf">
-	</div>
-
-
-
+<p><strong>_在build目录下执行<code>ccmake ..</code>可查看和修改USE_MYMATH的值。_</strong></p>
 
       
 
@@ -324,7 +268,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">实训-安全部分</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">cmake</a>
         		</li>
       		
 		</ul>
@@ -380,7 +324,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/08/15/%E5%AE%9E%E8%AE%AD-%E5%AE%89%E5%85%A8%E9%83%A8%E5%88%86/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/08/16/cmake%E4%BD%BF%E7%94%A8/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -394,15 +338,20 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/08/15/7.%E7%BB%BC%E5%90%88%E5%AE%9E%E9%AA%8C/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2020/08/16/git%E4%B8%8A%E4%BC%A0%E4%B8%8E%E5%88%A0%E9%99%A4/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          7.综合实验
+          github上传和删除文件
         
       </div>
     </a>
   
+  
+    <a href="/2020/08/15/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Hello World</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
