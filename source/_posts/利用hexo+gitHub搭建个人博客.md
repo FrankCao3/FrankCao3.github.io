@@ -1,5 +1,5 @@
 ---
-title: MyfirstBlog
+title: 利用hexo+gitHub搭建个人博客
 date: 2020-08-15 20:26:40
 tags: 搭建博客
 ---
@@ -8,7 +8,7 @@ tags: 搭建博客
 ---
 Hexo是一个基于nodejs 的静态博客网站生成器，为了实现远程访问，我们将其部署在github上面。
 重要的一点是，由于部署在github上时，只会在github上生成静态网页文件，而不上传hexo的配置文件、主题以及自己写的markdown文件，所以换新电脑时如果旧电脑的这些文件丢失，就无法重新部署了。所以为了解决这个问题，本次增加一个该项目仓库的分支，即使用2个分支master和hexo，用master来存储网页静态文件，用hexo来存放hexo环境和网站源文件。
-   
+
    ![](MyFirstBlog/P1.jpg)
 
 ## 一、利用hexo在本地搭建博客
