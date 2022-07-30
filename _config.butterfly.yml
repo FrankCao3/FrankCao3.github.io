@@ -657,7 +657,7 @@ aside:
       link: https://github.com/xxxxxx
   card_announcement:
     enable: true
-    content: This is my Blog
+    content: 今日事，今日毕
   card_recent_post:
     enable: true
     limit: 5 # if set 0 will show all
