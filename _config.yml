@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: CCB
 subtitle: ''
 description: ''
 keywords:
-author: John Doe
+author: ccb
 language: en
 timezone: ''
 
@@ -98,7 +98,8 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: hexo-theme-yilia
+# theme: hexo-theme-yilia
+theme: hexo-theme-butterfly
 
 # yilia主题新增内容
 jsonContent:
