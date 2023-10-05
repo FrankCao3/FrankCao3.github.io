@@ -15,7 +15,7 @@ timezone: ''
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: https://frankcao3.github.io/
 root: /
-permalink: blog/:tags/:title/
+permalink: posts/:tags/:title/:abbrlink.html
 permalink_defaults:
 pretty_urls:
   trailing_index: false # Set to false to remove trailing 'index.html' from permalinks
@@ -125,5 +125,5 @@ jsonContent:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/FrankCao3/FrankCao3.github.io.git
+  repo: git@github.com:FrankCao3/FrankCao3.github.io.git
   branch: master
