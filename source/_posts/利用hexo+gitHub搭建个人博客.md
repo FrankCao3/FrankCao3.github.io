@@ -1,7 +1,8 @@
 ---
 title: 利用hexo+gitHub搭建个人博客
-date: 2020-08-15 20:26:40
 tags: 搭建博客
+abbrlink: 58062
+date: 2020-08-15 20:26:40
 ---
 
 # 利用hexo+gitHub搭建个人博客
