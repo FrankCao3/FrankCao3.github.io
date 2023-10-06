@@ -18,8 +18,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2023-10-05T11:40:46.695Z</published>
     <updated>2023-10-05T11:40:46.695Z</updated>
     
@@ -38,8 +38,8 @@
   
   <entry>
     <title>SQL注入-WAF绕过</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2022-08-04T16:00:00.000Z</published>
     <updated>2023-10-05T12:00:24.944Z</updated>
     
@@ -60,8 +60,8 @@
   
   <entry>
     <title>CRLF注入漏洞（反弹型XSS）</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2022-08-04T16:00:00.000Z</published>
     <updated>2023-10-05T12:00:37.218Z</updated>
     
@@ -82,8 +82,8 @@
   
   <entry>
     <title>RCE代码及命令执行</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2022-08-04T16:00:00.000Z</published>
     <updated>2023-10-05T12:00:57.177Z</updated>
     
@@ -104,8 +104,8 @@
   
   <entry>
     <title>文件下载</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2022-08-04T16:00:00.000Z</published>
     <updated>2023-10-05T12:01:11.579Z</updated>
     
@@ -126,8 +126,8 @@
   
   <entry>
     <title>XXE</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2022-08-04T16:00:00.000Z</published>
     <updated>2023-10-05T12:01:29.052Z</updated>
     
@@ -149,8 +149,8 @@
   
   <entry>
     <title>反序列化漏洞</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2022-08-04T16:00:00.000Z</published>
     <updated>2023-10-05T12:01:52.692Z</updated>
     
@@ -171,8 +171,8 @@
   
   <entry>
     <title>逻辑漏洞</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2022-08-04T16:00:00.000Z</published>
     <updated>2023-10-05T12:02:19.325Z</updated>
     
@@ -193,8 +193,8 @@
   
   <entry>
     <title>文件上传</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2022-08-04T16:00:00.000Z</published>
     <updated>2023-10-05T12:00:30.807Z</updated>
     
@@ -215,8 +215,8 @@
   
   <entry>
     <title>XSS</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2022-08-04T16:00:00.000Z</published>
     <updated>2023-10-05T12:00:44.303Z</updated>
     
@@ -237,8 +237,8 @@
   
   <entry>
     <title>CSRF、SSRF</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2022-08-04T16:00:00.000Z</published>
     <updated>2023-10-05T12:00:50.107Z</updated>
     
@@ -259,8 +259,8 @@
   
   <entry>
     <title>文件包含</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2022-08-04T16:00:00.000Z</published>
     <updated>2023-10-05T12:01:05.858Z</updated>
     
@@ -281,8 +281,8 @@
   
   <entry>
     <title>文件读取</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2022-08-04T16:00:00.000Z</published>
     <updated>2023-10-05T12:01:17.336Z</updated>
     
@@ -303,8 +303,8 @@
   
   <entry>
     <title>渗透测试全流程</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2022-08-04T16:00:00.000Z</published>
     <updated>2023-10-05T11:58:27.600Z</updated>
     
@@ -326,8 +326,8 @@
   
   <entry>
     <title>基础概念与信息收集</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2022-08-04T16:00:00.000Z</published>
     <updated>2023-10-05T11:56:31.794Z</updated>
     
@@ -348,8 +348,8 @@
   
   <entry>
     <title>SQL注入</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2022-08-04T16:00:00.000Z</published>
     <updated>2023-10-05T11:58:37.395Z</updated>
     
@@ -370,8 +370,8 @@
   
   <entry>
     <title>机器学习实战</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2022-07-30T04:20:29.000Z</published>
     <updated>2023-10-05T11:40:46.701Z</updated>
     
@@ -394,8 +394,8 @@
   
   <entry>
     <title>STL</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2021-08-14T16:00:00.000Z</published>
     <updated>2023-10-05T11:40:46.709Z</updated>
     
@@ -417,8 +417,8 @@
   
   <entry>
     <title>计算机网络</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2021-08-14T16:00:00.000Z</published>
     <updated>2023-10-05T11:40:46.710Z</updated>
     
@@ -439,8 +439,8 @@
   
   <entry>
     <title>操作系统</title>
-    <link href="https://frankcao3.github.io/posts/undefined.html"/>
-    <id>https://frankcao3.github.io/posts/undefined.html</id>
+    <link href="https://frankcao3.github.io/posts/undefined"/>
+    <id>https://frankcao3.github.io/posts/undefined</id>
     <published>2021-08-14T16:00:00.000Z</published>
     <updated>2023-10-05T11:40:46.710Z</updated>
     
