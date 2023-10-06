@@ -1,0 +1,721 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>操作系统 | CCB</title><meta name="keywords" content="计算机基础"><meta name="author" content="ccb"><meta name="copyright" content="ccb"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="操作系统"><meta name="application-name" content="操作系统"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="操作系统"><meta property="og:url" content="https://frankcao3.github.io/posts/1079.html"><meta property="og:site_name" content="CCB"><meta property="og:description" content="操作系统进程管理进程进程是资源分配的基本单位（比如内存、打开的文件等），同一程序可产生多个进程（一对多关系），以允许同时有多位用户运行同一程序，却不会相互冲突。进程需要一些资源才能完成工作，如CPU使用时间、存储器、文件以及IO设备，且为依序逐一进行，也就是任何时间内仅能运行一项进程。 通常进程有如"><meta property="og:locale" content="en"><meta property="og:image" content="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg"><meta property="article:author" content="ccb"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg"><meta name="description" content="操作系统进程管理进程进程是资源分配的基本单位（比如内存、打开的文件等），同一程序可产生多个进程（一对多关系），以允许同时有多位用户运行同一程序，却不会相互冲突。进程需要一些资源才能完成工作，如CPU使用时间、存储器、文件以及IO设备，且为依序逐一进行，也就是任何时间内仅能运行一项进程。 通常进程有如"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="https://frankcao3.github.io/posts/1079"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.20/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: {"enable":true,"img":"https://upload-bbs.miyoushe.com/upload/2023/09/03/125766904/ee23df8517f3c3e3efc4145658269c06_5714860933110284659.png"},
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"w(ﾟДﾟ)w 不要走！再看看嘛！","backTitle":"♪(^∇^*)欢迎肥来！"},
+  LA51: undefined,
+  greetingBox: undefined,
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: undefined,
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"copy":true,"copyrightEbable":true,"limitCount":50,"languages":{"author":"Author: ccb","link":"Link: ","source":"Source: CCB","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.","copySuccess":"Copy success, copy and reprint please mark the address of this article"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: 'CCB',
+  title: '操作系统',
+  postAI: '',
+  pageFillDescription: '操作系统, 进程管理, 进程, 线程, 进程通信与进程同步, 调度算法, 死锁, 内存管理, 逻辑地址空间与物理地址空间, 内存分配管理方式, 基本分页存储管理方式, 基本分段存储管理方式, 段页式管理方式, 虚拟内存管理, 虚拟存储器的定义和特征, 请求分页管理方式, 抖动, 工作集, Linux常用命令, 目录和文件的相关操作, 文本文件内容查看, 查看系统信息操作系统进程管理进程进程是资源分配的基本单位比如内存打开的文件等同一程序可产生多个进程一对多关系以允许同时有多位用户运行同一程序却不会相互冲突进程需要一些资源才能完成工作如使用时间存储器文件以及设备且为依序逐一进行也就是任何时间内仅能运行一项进程通常进程有如下种状态其中前种是进程的基本状态运行状态执行窗台进程正在处理器上运行在单处理器环境下每一时刻最多只有一个进程处于运行状态就绪状态进程已处于准备运行的状态即进程获得了除处理器之外的一切所需资源一旦得到处理器即可运行阻塞状态又称为等待状态进程正在等待某一事件而暂停运行如等待某资源为可用不包括处理器或等待输入输出完成即使处理器空闲该进程也不能运行创建状态进程正在被创建尚未转到就绪状态结束状态进程正从系统中消失可能是进程正常结束或其他原因中断退出运行进程的三个基本状态之间是可以相互转换的如图所示具体地说当一个就绪进程获得处理机时其状态由就绪变为执行当一个运行进程被剥夺处理机时比如用完系统分给它的时间片出现更高优先级别的其他进程其状态由运行变为就绪当一个运行进程因某事件受阻时如所申请资源被占用启动传输未完成其状态由执行变为阻塞当所等待事件发生时如得到申请资源传输完成其状态由阻塞变为就绪进程与程序的区别进程是动态的概念而程序是静态的概念进程是程序及其数据在计算机上的一次运行活动是一个动态的概念进程的运行实体是程序离开程序的进程没有存在的意义从静态角度看进程是由程序数据和进程控制块三部分组成的而程序是一组有序的指令集合是一种静态的概念生存周期不同进程是程序的一次执行过程它是动态地创建和消亡的具有一定的生命期是暂时存在的而程序则是一组代码的集合它是永久存在的可长期保存一个进程可以执行一个或几个程序一个程序也可以构成多个进程进程可创建进程而程序不可能形成新的程序进程与程序的组成不同进程的组成包括程序数据和进程控制块创建新进程时会创建新的地址空间子进程是父进程的复制品在之后子进程获得父进程的数据空间堆和栈的复制品而线程使用当前的地址空间线程或者叫做轻量级进程是程序执行流的最小单元一个标准的线程由线程当前指令指针寄存器集合和堆栈组成另外线程是进程中的一个实体是被系统独立调度和分派的基本单位线程自已不拥有系统资源只拥有一点在运行中必不可少的资源但它可与同属一个进程的其他线程共享进程所拥有的资源共享进程的内存地址空间但拥有属于自己的栈空间以及独立的执行顺序一线程共享的进程环境包括进程代码段进程的公有数据如全局变量利用这些共享的数据线程很容易的实现相互之间的通信进程打开的文件描述符信号的处理器进程的当前目录和进程用户与进程组二线程自己的个性拥有这许多共性的同时还拥有自己的个性有了这些个性线程才能实现并发性这些个性包括线程每个线程都有自己的线程这个在本进程中是唯一的进程用此来标识线程寄存器组的值由于线程间是并发运行的每个线程有自已不同的运行线索当从一个线程切换到另一个线程上时必须将原有线程的寄存器集合的状态进行保存以便将来该线程在被重新切换时能得以恢复线程的堆栈堆栈是保证线程独立运行所必须的线程函数可以调用函数而被调用函数中又是可以层层嵌套的所以线程必须拥有自己的函数堆栈使得函数调用可以正常执行不受其他线程的影响在一个进程的线程共享堆区错误返回码线程的信号屏蔽码线程的优先级一个线程可以创建和撤销另一个线程同一进程中的多个线程之间可以并发执行由于线程之间的相互制约致使线程在运行中呈现出间断性线程也有就绪阻塞和运行三种基本状态每一个程序都至少有一个线程若程序只有一个线程那就是程序本身线程是程序中一个单一的顺序控制流程在单个程序中同时运行多个线程完成不同的工作称为多线程引入线程后进程的内涵发生了改变进程只作为除以外系统资源的分配单元线程则作为处理器的分配单元在同一进程中线程的切换不会引起进程的切换但从一个进程中的线程切换到另一个进程中的线程时将会引起进程的切换线程与进程的区别调度引入线程后线程是独立调度的基本单位进程是资源分配的基本单位在同一进程中线程的切换不会引起进程切换在不同进程中进行的线程切换则会引起进程切换拥有资源进程是拥有资源的基本单位线程不拥有资源也有一点必不可少的资源但线程可以共享其隶属进程的系统资源并发性进程可以并发同一进程内的多个线程也可以并发在引入线程的操作系统中不仅进程可以并发执行而且同一进程内的多个线程也可以并发执行从而使操作系统具有更好的并发性大大提高了系统吞吐量系统开销线程切换以及同步通信的系统开销比进程小创建和撤销进程时系统都要为之分配或回收资源如内存空间设备等因此操作系统所付出的开销远大于创建或撤销线程的开销类似地在进程切换时涉及当前执行进程环境的保存以及新调度的进程环境的设置而线程切换时只需保存和设置少量寄存器内容因此开销很小另外由于同一进程内的多个线程共享进程的地址空间因此这些线程之间的同步与通信比较容易实现甚至无须操作系统的干预地址空间和其他资源如打开的文件进程的地址空间之间互相独立同一进程的各线程间共享进程的资源某进程内的线程对于其他进程不可见通信方面进程间通信需要借助操作系统而线程间可以直接读写进程数据段如全局变量来进行通信进程通信与进程同步多个进程可以共享系统中的各种资源但其中许多资源一次只能为一个进程使用我们把一次仅允许一个进程使用的资源称为临界资源许多物理设备都属于临界资源如打印机等对临界资源的访问必须互斥的进行在每个进程中访问临界资源的那段代码称为临界区进程通信与同步有如下一些目的数据传输一个进程需要将它的数据发送给另一个进程共享数据多个进程想要操作共享数据一个进程对共享数据的修改别的进程应该立刻看到通知事件一个进程需要向另一个或一组进程发送消息通知它它们发生了某种事件如进程终止时要通知父进程资源共享多个进程之间共享同样的资源为了做到这一点需要内核提供锁和同步机制进程控制有些进程希望完全控制另一个进程的执行如进程此时控制进程希望能够拦截另一个进程的所有陷入和异常并能够及时知道它的状态改变下进程间通信的几种主要手段简介管道及有名管道管道可用于具有亲缘关系进程间的通信有名管道克服了管道没有名字的限制因此除具有管道所具有的功能外有名管道还允许无亲缘关系进程间的通信信号信号是比较复杂的通信方式用于通知接受进程有某种事件发生除了用于进程间通信外进程还可以发送信号给进程本身除了支持早期信号语义函数外还支持语义符合标准的信号函数消息队列消息队列是消息的链表包括消息队列消息队列有足够权限的进程可以向队列中添加消息被赋予读权限的进程则可以读走队列中的消息消息队列克服了信号承载信息量少管道只能承载无格式字节流以及缓冲区大小受限等缺点共享内存使得多个进程可以访问同一块内存空间是最快的可用进程间通信形式是针对其他通信机制运行效率较低而设计的往往与其他通信机制如信号量结合使用来达到进程间的同步及互斥信号量主要作为进程间以及同一进程不同线程之间的同步手段套接口更为一般的进程间通信机制可用于不同机器之间的进程间通信起初是由系统的分支开发出来的但现在一般可以移植到其他类系统上和的变种都支持套接字线程间通信互斥体互斥量信号量条件变量进程间通信管道共享内存消息队列信号量线程间通信临界区互斥量信号量信号灯事件临界区与互斥体的区别临界区只能用来同步本进程内的线程而不可用来同步多个进程中的线程互斥量信号量事件都可以被跨越进程使用来进行同步数据操作临界区是非内核对象只在用户态进行锁操作速度快互斥体是内核对象在核心态进行锁操作速度慢临界区和互斥体在平台都下可用下只有互斥体可用调度算法调度的基本准则包括利用率系统吞吐量周转时间等待时间响应时间等系统吞吐量表示单位时间内完成作业的数量周转时间作业完成时刻作业到达时刻带权周转时间周转时间所需服务时间等待时间是指进程处于等处理器状态的时间之和等待时间越长用户满意度越低响应时间是指从用户提交请求到系统首次产生响应所用的时间典型调度算法包括先来先服务算法短作业优先算法优先级调度算法高响应比优先调度算法时间片轮转算法多级反馈队列调度算法其中的平均等待时间平均周转时间最少最高响应比优先算法能兼顾短作业和长作业先来先服务算法按照作业到达系统的时间依次分配服务短作业优先算法已到达的作业中优先服务所需时间短的作业下列作业中最先到达服务完毕后均已到达然后从中挑选出所需服务时间最短的先执行然后是高响应比优先调度算法响应比上一个作业的完成时间本作业的到达时间本作业的所需服务时间本作业的所需服务时间其中上一个作业的完成时间本作业的到达时间就是本作业的等待时间最先到达先服务之后再计算已到达的的响应比从中选出响应比最高的先服务服务完之后再次计算的响应比从中选出响应比最高的先服务最后服务优先级调度算法优先级的数值越大优先级越高执行顺序时间片轮转算法用于分时系统中的进程调度按照时间片执行总是选择就绪队列的队首进程让其在上运行一个系统预先设置好的时间片不考虑优先级一个时间片内没有完成运行的进程返回到绪队列末尾重新排队等待下一次调度由于题例中各进程同时到达则初始就绪队列为每个进程依次执行每次仅执行一个时间片题例中执行完毕后来到队尾执行完个时间片后又来到队首再次依次执行个时间片后执行满个时间片结束死锁多个进程因竞争资源而造成的一种僵局互相等待若无外力作用这些进程都将无法向前推进死锁产生的原因系统资源的竞争进程推进顺序非法死锁产生的必要条件产生死锁必须同时满足以下四个条件只要其中任一条件不成立死锁就不会发生互斥条件进程要求对所分配的资源进行排他性控制即在一段时间内某资源仅为一个进程所占有此时若有其他进程请求该资源则请求进程只能等待不剥夺条件进程所获得的资源在未使用完毕之前不能被其他进程强行夺走即只能由获得该资源的进程自己来释放部分分配条件请求和保持条件进程每次申请它所需要的一部分资源在等待新资源的同时进程继续占有已分配到的资源循环等待条件存在一种进程资源的循环等待链链中每个进程己获得的资源同时被链中下一个进程所请求即存在一个处于等待状态的进程集合其中等待的资源被占有等待资源被占有死锁的处理策略预防死锁设置某些限制条件破坏产生死锁的四个必要条件中的一个或几个避免死锁在资源的动态分配过程中用某种方法防止系统进入不安全状态银行家算法是著名的死锁避免算法死锁的检测及解除无须采取任何限制性措施允许进程在运行过程中发生死锁通过系统的检测机制及时地检测出死锁的发生然后采取某种措施解除死锁死锁的检测可利用资源分配图来描述死锁的解除主要方法如下资源剥夺法撤销进程法进程回退法银行家算法在进程提出资源申请时先预判此分配是否会导致系统进入不安全状态如果会进入不安全状态就暂时不答应这次请求让该进程先阻塞等待解答系统拥有类资源各个对于这类资源已被五个进程占有的资源量分别为类个类个类个类个因此这类资源分别还剩类个类个类个类个首先列出各个进程的已分配尚需以及剩余可用资源然后开始寻找可行的安全序列不唯一比如最开始的为可满足的任选其一选择被满足后再释放已分配的资源使得变为这时的可满足的继续选择即可按照这个方法可以得到一条可行的安全序列先判断所提需求的是否小于等于的在其需求范围内以及同时小于等于在可提供资源范围内当同时满足这两个条件时可以更新的和即的减少的增加以及剩余可用资源减少接着再按照第问的做法寻找可行的安全序列若能找到安全序列则代表系统能满足的请求内存管理操作系统对内存的划分和动态分配就是内存管理的概念内存管理的功能有内存空间的分配与回收包括内存的管理和共享地址转换把逻辑地址转换成相应的物理地址内存空间的扩充利用虚拟存储技术或自动覆盖技术从逻辑上扩充内存存储保护保证各道作业在各自的存储空间内运行互不干扰逻辑地址空间与物理地址空间逻辑地址编译后每个目标模块都是从号单元开始编址称为该目标模块的相对地址或逻辑地址当链接程序将各个模块链接成一个完整的可执行目标程序时链接程序顺序依次按各个模块的相对地址构成统一的从号单元开始编址的逻辑地址空间物理地址物理地址空间是指内存中物理单元的集合它是地址转换的最终地址进程在运行时执行指令和访问数据最后都要通过物理地址来存取主存当装入程序将可执行代码装入内存时必须通过地址转换将逻辑地址转换成物理地址这个过程称为地址重定位内存分配管理方式内存分配管理方式包括连续分配管理方式与非连续分配管理方式连续分配管理方式是指为一个用户程序分配一个连续的内存空间它主要包括单一连续分配固定分区分配和动态分区分配非连续分配管理方式允许一个程序分散地装入到不相邻的内存分区中根据分区的大小是否固定分为分页存储管理方式和分段存储管理方式分页存储管理方式中又根据运行作业时是否要把作业的所有页面都装入内存才能运行分为基本分页存储管理方式和请求分页存储管理方式固定分区将主内存分为固定大小的分区这些大小可以相等或不相等每当我们必须分配进程内存时就会找到一个足够大的空闲分区来容纳该进程然后将内存分配给进程如果没有可用空间则进程在队列中等待分配内存会产生内部碎片处于已分配区域内部或页面内部的存储块占有这些区域或页面的进程并不使用这个存储块直到进程释放它或进程结束时系统才有可能利用这个存储块动态分区主内存不划分为多个分区并且为进程分配了一块足够大的可用内存剩余的空间被视为可以由其他进程进一步使用的自由空间会产生外部碎片还没有被分配出去不属于任何进程但由于太小了无法分配给申请内存空间的新进程的内存空闲区域外部碎片是处于任何已分配区域或页面外部的空闲存储块这些存储块的总和可以满足当前申请的长度要求但是由于它们的地址不连续或其他原因使得系统无法满足当前申请基本分页存储管理方式基本分页存储管理方式中分区块的大小是固定的运行作业时要把作业的所有页面都装入内存才能运行概念由于固定分区和动态分区都会产生内存的碎片为了提高内存利用率引入分页的思想把主存空间划分为大小相等且固定的块块相对较小作为主存的基本单位每个进程也以块为单位进行划分进程在执行时以块为单位逐个申请主存中的块空间特点仅产生很小的页内碎片分页的方法从形式上看像分区相等的固定分区技术分页管理不会产生外部碎片但它又有本质的不同点块的大小相对分区要小很多而且进程也按照块进行划分进程运行时按块申请主存可用空间并执行这样进程只会在为最后一个不完整的块申请一个主存块空间时才产生主存碎片所以尽管会产生内部碎片但是这种碎片相对于进程来说也是很小的每个进程平均只产生半个块大小的内部碎片也称页内碎片分页存储的几个基本概念页面和页面大小进程中的块称为页逻辑上内存中的块称为页框或页帧外存也以同样的单位进行划分称为块物理上进程在执行时需要申请主存空间就是要为每个页面分配主存中的可用页框这就产生了页和页框的一一对应为方便地址转换页面大小应是的整数幂同时页面大小应该适中如果页面太小会使进程的页面数过多这样页表就过长占用大量内存而且也会增加硬件地址转换的开销降低页面换入换出的效率页面过大又会使页面内碎片增大降低内存的利用率地址结构分页存储管理的逻辑地址结构如下图所示地址结构包含两部分前一部分为页号后一部分为页内偏移量地址长度为位其中位为页内地址即每页大小为即位为页号地址空间最多允许有页页表为了便于在内存中找到进程的每个页面所对应的物理块系统为每个进程建立一张页表记录页面在内存中对应的物理块号页表一般存放在内存中在配置了页表后进程执行时通过查找该表即可找到每页在内存中的物理块号可见页表的作用是实现从页号到物理块号的地址映射注意页号是系统自动生成的本身地址是线性连续的当要访问特定地址时只需要提供地址即可系统会自动将地址划分为页号和页内位移而页号对于程序员来说是没有实际意义的因此分页地址空间是一维的基本分段存储管理方式基本分段存储管理方式中段的大小是不固定的运行作业时要把作业的所有页面都装入内存才能运行段式管理方式按照用户进程中的自然段划分逻辑空间例如用户进程由主程序两个子程序栈和一段数据组成于是可以把这个用户进程划分为个段每段从开始编址并分配一段连续的地址空间段内要求连续段间不要求连续因此整个作业的地址空间是二维的段名段内地址其逻辑地址由段号与段内偏移量两部分组成在下图中段号为位段内偏移量为位则一个作业最多可有个段最大段长为在页式系统中逻辑地址的页号和页内偏移量对用户是透明的但在段式系统中段号和段内偏移量必须由用户显示提供在高级程序设计语言中这个工作由编译程序完成分页和分段存储管理方式的区别分页存储管理中块是信息的物理单位能够提高内存利用率而分段存储管理中段是逻辑单位分段是为了反映程序的逻辑结构方便满足用户程序模块化的需要页的大小是固定的由系统决定而段的大小不固定取决于用户编写的程序分页的地址空间是一维的因为页是连续的分段的地址空间是二维的需要段名段内地址段页式管理方式页式存储管理能有效地提高内存利用率而分段存储管理能反映程序的逻辑结构并有利于段的共享如果将这两种存储管理方法结合起来就形成了段页式存储管理方式在段页式系统中作业的地址空间首先被分成若干逻辑段每段都有自己的段号然后再将每一段分成若干大小固定的页对内存空间的管理仍然和分页存储管理一样将其分成若干和页面大小相同的存储块对内存的分配以存储块为单位逻辑上分段物理上分页在段页式系统中作业的逻辑地址分为三部分段号页号和页内偏移量为了实现地址变换系统为每个进程建立一张段表而每个分段有一张页表段表表项中至少包括段号页表长度和页表起始地址页表表项中至少包括页号和块号此外系统中还应有一个段表寄存器指出作业的段表起始地址和段表长度在进行地址变换时首先通过段表查到页表起始地址然后通过页表找到页帧号最后形成物理地址虚拟内存管理针对的问题前面的分页分段段页式存储管理都具有以下两个共同特征缺点运行作业时要把作业的所有页面都装入内存才能运行驻留性作业被装入内存后就一直驻留在内存中其任何部分都不会被换出直至作业运行结束由以上分析可知许多在程序运行中不用或暂时不用的程序数据占据了大量的内存空间而一些需要运行的作业又无法装入运行显然浪费了宝贵的内存资源依据的原理局部性原理是指访问存储器时无论是存取指令还是存取数据所访问的存储单元都趋于聚集在一个较小的连续区域中时间局部性在一个具有良好的时间局部性的程序中被访问过一次的存储器位置很可能在不远的将来会被再次访问空间局部性在一个具有良好空间局部性的程序中如果一个存储器位置被访问了一次那么程序很可能在不远的将来访问附近的一个存储器位置虚拟存储器的定义和特征基于局部性原理在程序装入时可以将程序的一部分装入内存而将其余部分留在外存就可以启动程序执行在程序执行过程中当所访问的信息不在内存时由操作系统将所需要的部分调入内存然后继续执行程序另一方面操作系统将内存中暂时不使用的内容换出到外存上从而腾出空间存放将要调入内存的信息这样系统好像为用户提供了一个比实际内存大得多的存储器称为虚拟存储器之所以将其称为虚拟存储器是因为这种存储器实际上并不存在只是由于系统提供了部分装入请求调入和置换功能后对用户完全透明给用户的感觉是好像存在一个比实际物理内存大得多的存储器虚拟内存的实现有以下三种方式请求分页存储管理请求分段存储管理请求段页式存储管理不管哪种方式都需要有一定的硬件支持一般需要的支持有以下几个方面一定容量的内存和外存页表机制或段表机制作为主要的数据结构中断机构当用户程序要访问的部分尚未调入内存则产生中断地址变换机构逻辑地址到物理地址的变换段页式虚拟存储器基本思想是对用户原来编写程序的虚拟存储空间采用分段的方法管理而对主存储器的物理空间采用分页的方法管理段页式虚拟存储器一方面具有段式虚拟存储器的主要优点例如用户程序可以模块化编写程序段的共享和信息的保护都比较方便程序可以在执行时再动态链接等另一方面也具有页式虚拟存储器的主要优点例如主存储器的利用率比较高对辅助存储器的管理比较容易等请求分页管理方式运行作业时不需要把作业的所有页面都装入内存才能运行需要哪一页就请求哪一页请求分页系统建立在基本分页系统基础之上为了支持虚拟存储器功能而增加了请求调页功能和页面置换功能请求分页是目前最常用的一种实现虚拟存储器的方法在请求分页系统中只要求将当前需要的一部分页面装入内存便可以启动作业运行在作业执行过程中当所要访问的页面不在内存时再通过调页功能将其调入同时还可以通过置换功能将暂时不用的页面换出到外存上以便腾出内存空间为了实现请求分页系统必须提供一定的硬件支持除了需要一定容量的内存及外存的计算机系统还需要有页表机制缺页中断机构和地址变换机构常见的置换算法有以下三种最佳置换算法先进先出页面置换算法最近最久未使用置换算法最佳置换算法最佳置换算法所选择的被淘汰页面将是以后永不使用的或者是在最长时间内不再被访问的页面这样可以保证获得最低的缺页率但由于人们目前无法预知进程在内存下的若干页面中哪个是未来最长时间内不再被访问的因而该算法无法实现最佳置换算法可以用来评价其他算法先进先出页面置换算法优先淘汰最早进入内存的页面亦即在内存中驻留时间最久的页面该算法实现简单只需把调入内存的页面根据先后次序链接成队列设置一个指针总指向最早的页面但该算法与进程实际运行时的规律不适应因为在进程中有的页面经常被访问算法还会产生当所分配的物理块数增大而页故障数不减反增的异常现象这是由于年发现故称为异常如图所示算法可能出现异常而和算法永远不会出现异常最近最久未使用置换算法选择最近最长时间未访问过的页面予以淘汰它认为过去一段时间内未访问过的页面在最近的将来可能也不会被访问该算法为每个页面设置一个访问字段来记录页面自上次被访问以来所经历的时间淘汰页面时选择现有页面中值最大的予以淘汰性能较好但需要寄存器和栈的硬件支持是堆栈类的算法理论上可以证明堆栈类算法不可能出现异常算法基于队列实现不是堆栈类算法手写实现使用双向链表哈希表实现构造函数头尾保护节点初始化双链表关系移动到最前面相当于在链表中一个操作在和的之间插入一个节点到的要进行将的对值从存储结构中删除然后重新排列前后的数据关键字存在修改对应的值将变为最近使用关键字不存在插入链表尾部就是最久未使用的类内共享容量值用的内置类型来实现算法将变为最近使用修改的值将变为最近使用链表头部就是最久未使用的将新的添加链表尾部删除重新插入到队尾算法根据数据的历史访问频率来淘汰数据其核心思想是如果数据过去被访问多次那么将来被访问的频率也更高的每个数据块都有一个引用计数所有数据块按照引用计数排序具有相同引用计数的数据块则按照时间排序抖动内存抖动非常频繁的换页活动系统中的颠簸是由缺页率高引起的与内存容量交换信息量无直接关系在页面置换过程中的一种最糟糕的情形是刚刚换出的页面马上又要换入主存刚刚换入的页面马上就要换出主存这种频繁的页面调度行为称为抖动或颠簸如果一个进程在换页上用的时间多于执行时间那么这个进程就在颠簸频繁的发生缺页中断其主要原因是某个进程频繁访问的页面数目高于可用的物理页帧数目虚拟内存技术可以在内存中保留更多的进程以提高系统效率但系统必须很聪明地管理页面分配方案在稳定状态几乎主存的所有空间都被进程块占据处理机和操作系统可以直接访问到尽可能多的进程但如果管理不当处理机的大部分时间都将用于交换块即请求调入页面的操作而不是执行进程的指令这就会大大降低系统效率工作集工作集或驻留集是指在某段时间间隔内进程要访问的页面集合经常被使用的页面需要在工作集中而长期不被使用的页面要从工作集中被丢弃为了防止系统出现抖动现象需要选择合适的工作集大小工作集模型的原理是让操作系统跟踪每个进程的工作集并为进程分配大于其工作集的物理块如果还有空闲物理块则可以再调一个进程到内存以增加多道程序数如果所有工作集之和增加以至于超过了可用物理块的总数那么操作系统会暂停一个进程将其页面调出并且将其物理块分配给其他进程防止出现抖动现象正确选择工作集的大小对存储器的利用率和系统吞吐量的提高都将产生重要影响常用命令目录和文件的相关操作变换工作目录代表当前目录代表上一层目录代表前一个工作目录输出当前工作目录新建单层目录新建多层目录只能用来删除空目录删除目录时需要使用选项删除非空目录默认仅删除文件将当前目录下的文件复制到下并更名为复制目录时需要使用选项如复制目录下的所有内容到下移动或更名现有的文件或目录文本文件内容查看由第一行开始查看文件是连续的简写主要的功能是将一个文件的内容连续输出在屏幕上从最后一行开始显示可以看出与是倒置的是由第一行到最后一行连续显示在屏幕上而则是由最后一行到第一行反向在屏幕上显示出来显示文件内容的时候一起显示文件行号一页一页显示文件内容前面提到的等都是一次性将数据显示到屏幕上面若是文件行数很多前面的内容就会看不到这时就需要使用与来一页一页查看文件内容命令如下向后翻页向前翻页命令查看文本文件时只显示头几行用法如下文件名只显示文件的前行选项后面的参数如果是负数代表列出前面的所有行数但不包括后面行如共有行则就会列出前面行后面行不会打印出来了命令查看文本文件时只显示尾几行用法如下文件名当前面有号时与有异曲同工之妙如代表该文件从行以后都会被列出来同样在共有行因此第行就会被列出来前面的行都不会被显示出来建立一个空文件分析一行信息若当中有需要的信息就将该行显示出来常用在管道中例如将文件中包含的行的内容显示出来的命令为或者当使用表示后面跟着的是延申型正则表达式等价于比如找到文件含有以字母为行开头的内容可以使用表示以开头的行表示以结尾的行文件中包含的行的内容与上一行作用相同查看系统信息列出文件系统的整体磁盘使用量将某个时间点的程序运行情况显示出来动态观察程序变化持续侦测程序运行状态',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-10-06 17:09:05',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="CCB" type="application/atom+xml">
+</head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://npm.elemecdn.com/anzhiyu-blog-static@1.0.4/img/avatar.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">CCB</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/fcircle/"><i class="anzhiyufont anzhiyu-icon-artstation faa-tada" style="font-size: 0.9em;"></i><span> 朋友圈</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/bangumis/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追番页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li><li><a class="site-page child faa-parent animated-hover" href="javascript:toRandomPost()"><i class="anzhiyufont anzhiyu-icon-shoe-prints1 faa-tada" style="font-size: 0.9em;"></i><span> 随便逛逛</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> Newest Comments</span></div><div class="aside-list"><span>loading...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/DVWA%E9%9D%B6%E5%9C%BA/" style="font-size: 1.05rem;">DVWA靶场<sup>10</sup></a><a href="/tags/%E5%AE%9E%E8%AE%AD-%E7%BD%91%E7%BB%9C%E5%BB%BA%E8%AE%BE%E9%83%A8%E5%88%86/" style="font-size: 1.05rem;">实训-网络建设部分<sup>7</sup></a><a href="/tags/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 1.05rem;">搭建博客<sup>1</sup></a><a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 1.05rem;">机器学习<sup>1</sup></a><a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 1.05rem;">渗透测试<sup>15</sup></a><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" style="font-size: 1.05rem;">计算机基础<sup>5</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/10/"><span class="card-archive-list-date">October 2023</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/08/"><span class="card-archive-list-date">August 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">15</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/07/"><span class="card-archive-list-date">July 2022</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/08/"><span class="card-archive-list-date">August 2021</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">5</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2020/08/"><span class="card-archive-list-date">August 2020</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">18</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item on" id="consoleCommentBarrage" onclick="anzhiyu.switchCommentBarrage()" title="热评开关"><a class="commentBarrage"><i class="anzhiyufont anzhiyu-icon-message"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="article-meta tags"><a class="article-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>计算机基础</span></a></span></div></div><h1 class="post-title" itemprop="name headline">操作系统</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2021-08-14T16:00:00.000Z" title="Created 2021-08-15 00:00:00">2021-08-15</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2023-10-06T09:09:05.986Z" title="Updated 2023-10-06 17:09:05">2023-10-06</time></span></div><div class="meta-secondline"><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为长沙"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>长沙</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src=""></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="https://frankcao3.github.io/posts/1079"><header><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" tabindex="-1" itemprop="url">计算机基础</a><h1 id="CrawlerTitle" itemprop="name headline">操作系统</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">ccb</span><time itemprop="dateCreated datePublished" datetime="2021-08-14T16:00:00.000Z" title="Created 2021-08-15 00:00:00">2021-08-15</time><time itemprop="dateCreated datePublished" datetime="2023-10-06T09:09:05.986Z" title="Updated 2023-10-06 17:09:05">2023-10-06</time></header><h1 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h1><h2 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h2><h3 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h3><p>进程是<strong>资源分配的基本单位</strong>（比如内存、打开的文件等），<strong>同一程序可产生多个进程（一对多关系）</strong>，以允许同时有多位用户运行同一程序，却不会相互冲突。进程需要一些资源才能完成工作，如CPU使用时间、存储器、文件以及IO设备，且为依序逐一进行，也就是任何时间内仅能运行一项进程。</p>
+<p>通常进程有如下5种状态，其中前3种是进程的基本状态。</p>
+<ol>
+<li><p><strong>运行状态</strong>(执行窗台)：进程正在处理器上运行。在单处理器环境下，每一时刻最多只有一个进程处于运行状态。</p>
+</li>
+<li><p><strong>就绪状态</strong>：进程已处于准备运行的状态，即进程<strong>获得了除处理器之外的一切所需资源</strong>，一旦得到处理器即可运行。</p>
+</li>
+<li><p><strong>阻塞状态</strong>：又称为等待状态，进程正在等待某一事件而暂停运行，如等待某资源为可用(不包括处理器)或等待输入输出完成。即使处理器空闲，该进程也不能运行。</p>
+</li>
+<li><p><strong>创建状态</strong>：进程正在被创建，尚未转到就绪状态。</p>
+</li>
+<li><p><strong>结束状态</strong>：进程正从系统中消失。可能是进程正常结束或其他原因中断退出运行。</p>
+</li>
+</ol>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220706142135268.png" alt="image-20220706142135268"></p>
+<p><em>进程的三个基本状态之间是可以相互转换的，如图1-1所示。</em></p>
+<p>具体地说，当一个就绪进程<strong>获得处理机时</strong>，其状态<strong>由就绪变为执行</strong>；</p>
+<p>当一个运行进程<strong>被剥夺处理机时</strong>，比如<u>用完系统分给它的时间片、出现更高优先级别的其他进程</u>，其状态<strong>由运行变为就绪</strong>；</p>
+<p>当一个运行进程<strong>因某事件受阻时</strong>，如<u>所申请资源被占用、启动IO传输未完成</u>，其状态<strong>由执行变为阻塞</strong>；</p>
+<p>当<strong>所等待事件发生时</strong>，如得到申请资源、IO传输完成，其状态<strong>由阻塞变为就绪</strong>。</p>
+<p>&#x3D;&#x3D;<strong>进程与程序的区别：</strong>&#x3D;&#x3D;</p>
+<ul>
+<li><p>进程是动态的概念，而程序是静态的概念</p>
+<p>进程是程序及其数据在计算机上的<strong>一次运行活动</strong>，是一个<strong>动态</strong>的概念。进程的运行实体是程序、离开程序的进程没有存在的意义。从静态角度看，**<u>进程是由程序、数据和进程控制块(PCB) 三部分组成的</u><strong>。而</strong>程序是一组有序的指令集合，是一种静态的概念**。</p>
+</li>
+<li><p>生存周期不同</p>
+<p>进程是程序的一次执行过程，它是动态地创建和消亡的，具有一定的生命期，是暂时存在的；而程序则是一组代码的集合，它是永久存在的，可长期保存。</p>
+</li>
+<li><p>一个进程可以执行一个或几个程序，一个程序也可以构成多个进程。进程可创建进程，而程序不可能形成新的程序。</p>
+</li>
+<li><p>进程与程序的组成不同。</p>
+<p>进程的组成包括程序、数据和进程控制块。</p>
+<p>创建新进程时会创建新的地址空间：子进程是父进程的复制品，在fork 之后子进程<u><strong>获得父进程的数据空间、堆和栈的复制品</strong></u>，而线程使用当前的地址空间。</p>
+</li>
+</ul>
+<h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><p>或者叫做轻量级进程（Lightweight Process, LWP）, 是程序执行流的最小单元。</p>
+<p>一个标准的线程由<strong>线程ID，当前指令指针(PC)，寄存器集合和堆栈(stack)</strong> 组成。另外，线程是进程中的一个实体，是被系统独立调度和分派的基本单位，线程自已不拥有系统资源，只拥有一点在运行中必不可少的资源，但它<u><strong>可与同属一个进程的其他线程共享进程所拥有的资源（共享进程的内存地址空间），但拥有属于自己的栈空间以及独立的执行顺序</strong></u>。</p>
+<p><strong>一、线程共享的进程环境</strong>包括：</p>
+<p>进程代码段、进程的公有数据（如<u>全局变量</u>，利用这些共享的数据，线程很容易的实现相互之间的通信）、进程打开的文件描述符、信号的处理器、进程的当前目录和进程用户ID与进程组ID。</p>
+<p><strong>二、线程自己的个性：</strong></p>
+<p>拥有这许多共性的同时，还拥有自己的个性。有了这些个性，<strong>线程才能实现并发性</strong>。这些个性包括:</p>
+<ol>
+<li><p>线程ID</p>
+<p>每个线程都有自己的线程ID，这个ID在本进程中是唯一的。 进程用此来标识线程。</p>
+</li>
+<li><p>寄存器组的值</p>
+<p>由于线程间是并发运行的，每个线程有自已不同的运行线索，当从一个线程切换到另一个线程上时，必须<strong>将原有线程的寄存器集合的状态进行保存</strong>，以便将来该线程在被重新切换时能得以恢复。</p>
+</li>
+<li><p>线程的堆栈(stack)</p>
+<p>堆栈是保证线程独立运行所必须的。线程函数可以调用函数，而被调用函数中又是可以层层嵌套的，所以<strong>线程必须拥有自己的函数堆栈</strong>，使得函数调用可以正常执行，不受其他线程的影响。<u><strong>在一个进程的线程共享堆区(heap)</strong></u>。</p>
+</li>
+<li><p>错误返回码</p>
+</li>
+<li><p>线程的信号屏蔽码</p>
+</li>
+<li><p>线程的优先级</p>
+</li>
+</ol>
+<p><strong>一个线程可以创建和撤销另一个线程，同一进程中的多个线程之间可以并发执行</strong>。</p>
+<p>由于线程之间的相互制约，致使线程在运行中呈现出间断性。线程也有就绪、阻塞和运行三种基本状态。每一个程序都至少有一个线程，若程序只有一个线程，那就是程序本身。线程是程序中一个单一的顺序控制流程。<strong>在单个程序中同时运行多个线程完成不同的工作，称为</strong><br><strong>多线程。</strong></p>
+<p>引入线程后，进程的内涵发生了改变，<strong>进程只作为除CPU以外系统资源的分配单元，线程则作为处理器的分配单元。</strong>在同一进程中，线程的切换不会引起进程的切换，但从一个进程中的线程切换到另一个进程中的线程时，将会引起进程的切换。</p>
+<p><strong>&#x3D;&#x3D;线程与进程的区别?&#x3D;&#x3D;</strong></p>
+<ol>
+<li><strong>调度</strong>：</li>
+</ol>
+<p>引入线程后，<u>线程是独立调度的基本单位</u>，<u>进程是资源分配的基本单位。</u>在同一进程中，线程的切换不会引起进程切换。在不同进程中进行的线程切换，则会引起进程切换。</p>
+<ol start="2">
+<li><strong>拥有资源</strong>：</li>
+</ol>
+<p>进程是拥有资源的基本单位，线程不拥有资源(也有一点必不可少的资源)，但线程可以共享其隶属进程的系统资源。</p>
+<ol start="3">
+<li><strong>并发性</strong>：<u>进程可以并发，同一进程内的多个线程也可以并发</u></li>
+</ol>
+<p>在引入线程的操作系统中，不仅进程可以并发执行，而且同一进程内的多个线程也可以并发执行，从而使操作系统具有更好的并发性，大大提高了系统吞吐量。</p>
+<ol start="4">
+<li><strong>系统开销</strong>：<u>线程切换以及同步、通信的系统开销比进程小</u></li>
+</ol>
+<p>创建和撤销进程时，系统都要为之分配或回收资源，如内存空间、IO设备等，因此操作系统所付出的开销远大于创建或撤销线程的开销。类似地，在进程切换时，涉及当前执行进程CPU环境的保存以及新调度的进程CPU环境的设置；而线程切换时只需保存和设置少量寄存器内容，因此开销很小。</p>
+<p>另外，由于同一进程内的多个线程共享进程的地址空间，因此这些线程之间的同步与通信比较容易实现，甚至无须操作系统的干预。</p>
+<ol start="5">
+<li><strong>地址空间和其他资源</strong>（如打开的文件）：</li>
+</ol>
+<p><u>进程的地址空间之间互相独立，同一进程的各线程间共享进程的资源</u>，某进程内的线程对于其他进程不可见。</p>
+<ol start="6">
+<li><strong>通信方面</strong>：</li>
+</ol>
+<p><u>进程间通信需要借助操作系统，而线程间可以直接读&#x2F;写进程数据段(如全局变量)来进行通信。</u></p>
+<h3 id="进程通信与进程同步"><a href="#进程通信与进程同步" class="headerlink" title="进程通信与进程同步"></a>进程通信与进程同步</h3><p>多个进程可以共享系统中的各种资源，但其中许多资源一次只能为一个进程使用，我们把<u><strong>一次仅允许一个进程使用的资源称为临界资源</strong></u>。许多物理设备都属于临界资源，如打印机等。</p>
+<p>对临界资源的访问，必须互斥的进行，**在每个进程中，访问临界资源的那段代码称为临界区(Critical Section)**。</p>
+<p><em>进程通信与同步有如下一些目的：</em></p>
+<p>1)数据传输：一个进程需要将它的数据发送给另一个进程;</p>
+<p>2)共享数据： 多个进程想要操作共享数据，一个进程对共享数据的修改，别的进程应该立刻看到；</p>
+<p>3)通知事件：一个进程需要向另一个或一组进程发送消息， 通知它(它们)发生了某种事件(如进程终止时要通知父进程);</p>
+<p>4)资源共享：多个进程之间共享同样的资源。为了做到这一点， 需要内核提供<strong>锁和同步机制</strong>；</p>
+<p>5)进程控制：有些进程希望完全控制另一个进程的执行(如Debug进程)，此时控制进程希望能够拦截另一个进程的所有陷入和异常，并能够及时知道它的状态改变。</p>
+<p><strong>&#x3D;&#x3D;Linux下进程间通信的几种主要手段简介：&#x3D;&#x3D;</strong></p>
+<ul>
+<li><strong>管道(Pipe) 及有名管道(named pipe)</strong></li>
+</ul>
+<p><u>管道可用于具有亲缘关系进程间的通信</u>，有名管道克服了管道没有名字的限制，因此，除具有管道所具有的功能外，<u>有名管道还允许无亲缘关系进程间的通信</u>;</p>
+<ul>
+<li><strong>信号(Signal)</strong></li>
+</ul>
+<p>信号是比较复杂的通信方式，用于通知接受进程有某种事件发生，除了用于进程间通信外，进程还可以发送信号给进程本身；Linux 除了支持UNIX早期信号语义函数sigal外，还支持语义符合Posix.1标准的信号函数sigaction；</p>
+<ul>
+<li><strong>Message (消息队列)</strong></li>
+</ul>
+<p>消息队列是消息的链表，包括Posix消息队列System V消息队列。有足够权限的进程可以向队列中添加消息，被赋予读权限的进程则可以读走队列中的消息。<u>消息队列克服了信号承载信息量少，管道只能承载无格式字节流以及缓冲区大小受限等缺点。</u></p>
+<ul>
+<li><strong>共享内存</strong></li>
+</ul>
+<p><u>使得多个进程可以访问同一块内存空间，是最快的可用IPC（进程间通信）形式</u>。是针对其他通信机制运行效率较低而设计的。往往与其他通信机制，如信号量结合使用，来达到进程间的同步及互斥。</p>
+<ul>
+<li><strong>信号量(semaphore)</strong></li>
+</ul>
+<p>主要作为进程间以及同一进程不同线程之间的同步手段。</p>
+<ul>
+<li><strong>套接口(Socket)</strong></li>
+</ul>
+<p>更为一般的进程间通信机制，可用于不同机器之间的进程间通信。起初是由UNIX系统的BSD分支开发出来的，但现在一般可以移植到其他类UNIX系统上：Linux 和System V的变种都支持套接字。</p>
+<p>**<u>Linux线程间通信</u>**：互斥体(互斥量)，信号量，条件变量。.</p>
+<p>**<u>Windows进程间通信</u>**：管道、共享内存、消息队列、信号量、socket。</p>
+<p>**<u>Windows线程间通信</u>**：临界区(Critical Section)、互斥量(Mutex)、信号量(信号灯) (Semaphore)、事件(Event)。</p>
+<p>**&#x3D;&#x3D;临界区(Critical section)与互斥体(Mutex) 的区别&#x3D;&#x3D;**：</p>
+<ol>
+<li><p><u>临界区只能用来同步本进程内的线程</u>，而不可用来同步多个进程中的线程；互斥量(Mutex)，信号量(Semaphore)，事件(Event) 都可以被跨越进程使用来进行同步数据操作；</p>
+</li>
+<li><p><u>临界区是非内核对象，只在用户态进行锁操作，速度快</u>；互斥体是内核对象，在核心态进行锁操作，速度慢。</p>
+</li>
+<li><p>临界区和互斥体在Windows平台都下可用，<u>Linux下只有互斥体可用</u>。</p>
+</li>
+</ol>
+<h3 id="调度算法"><a href="#调度算法" class="headerlink" title="调度算法"></a>调度算法</h3><p>调度的基本准则包括CPU利用率、系统吞吐量、周转时间、等待时间、响应时间等。</p>
+<p><strong>系统吞吐量</strong>表示单位时间内CPU完成作业的数量。</p>
+<p>&#x3D;&#x3D;<strong>周转时间</strong> &#x3D; 作业完成时刻 - 作业到达时刻&#x3D;&#x3D;</p>
+<p>&#x3D;&#x3D;<strong>带权周转时间</strong> &#x3D; 周转时间 &#x2F; 所需服务时间&#x3D;&#x3D;</p>
+<p><strong>等待时间</strong>是指进程处于等处理器状态的时间之和，等待时间越长，用户满意度越低。</p>
+<p><strong>响应时间</strong>是指从用户提交请求到系统首次产生响应所用的时间。</p>
+<p>典型调度算法包括：先来先服务算法(FCFS)、短作业优先算法(SJF)、优先级调度算法、高响应比优先调度算法、时间片轮转算法、多级反馈队列调度算法。<strong>其中SJF的平均等待时间、平均周转时间最少；最高响应比优先算法能兼顾短作业和长作业。</strong></p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220708102518420.png" alt="image-20220708102518420"></p>
+<ul>
+<li><p><strong>先来先服务算法（FCFS）</strong></p>
+<p>按照作业到达系统的时间依次分配服务。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220708103037631.png" alt="image-20220708103037631"></p>
+</li>
+<li><p><strong>短作业优先算法（SJF）</strong></p>
+<p>已到达的作业中优先服务所需时间短的作业。</p>
+<p>下列作业中，J1最先到达，服务完毕后，J2、J3、J4均已到达；然后从中挑选出所需服务时间最短的J3先执行，然后是J4、J2。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220708103209648.png" alt="image-20220708103209648"></p>
+</li>
+<li><p><strong>高响应比优先调度算法（HRRN）</strong> </p>
+<p> &#x3D;&#x3D;<strong>响应比</strong> &#x3D; （上一个作业的完成时间 - 本作业的到达时间 + 本作业的所需服务时间）&#x2F; 本作业的所需服务时间&#x3D;&#x3D;</p>
+<p>其中，上一个作业的完成时间 - 本作业的到达时间，就是本作业的等待时间。 </p>
+<p>J1最先到达，先服务J1。之后再计算已到达的J2、J3、J4的响应比，从中选出响应比最高的J3先服务；J3服务完之后，再次计算J2、J4的响应比，从中选出响应比最高的J2先服务；最后服务J4。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220708103802458.png" alt="image-20220708103802458"></p>
+</li>
+<li><p><strong>优先级调度算法</strong></p>
+<p>优先级的数值越大，优先级越高</p>
+<p>执行顺序：P2、P3、P4、P1</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220708104836191.png" alt="image-20220708104836191"></p>
+</li>
+<li><p><strong>时间片轮转算法（RR）</strong></p>
+<p>用于分时系统中的进程调度。按照时间片执行，总是选择就绪队列的队首进程，让其在CPU上运行一个系统预先设置好的时间片，不考虑优先级。一个时间片内没有完成运行的进程，返回到绪队列末尾重新排队，等待下一次调度。</p>
+<p>由于题例中各进程同时到达，则初始就绪队列为P1、P2、P3、P4，每个进程依次执行，每次仅执行一个时间片（题例中q&#x3D;1ms），执行完毕后来到队尾。执行完4个时间片后，P1又来到队首，再次依次执行。8个时间片后，P4执行满2个时间片，结束。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220708105102223.png" alt="image-20220708105102223"></p>
+</li>
+</ul>
+<h3 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h3><p>多个进程<strong>因竞争资源</strong>而造成的一种僵局（<strong>互相等待</strong>），<strong>若无外力作用，这些进程都将无法向前推进</strong>。</p>
+<ol>
+<li><p>死锁产生的原因</p>
+<p>系统资源的竞争、进程推进顺序非法</p>
+</li>
+<li><p>死锁产生的必要条件</p>
+<p>产生死锁必须同时满足以下四个条件，只要其中任一条件不成立， 死锁就不会发生。</p>
+<ul>
+<li><p><strong>互斥条件</strong></p>
+<p>进程要求对所分配的资源进行排他性控制，即<u>在一段时间内某资源仅为一个进程所占有</u>。此时若有其他进程请求该资源，则请求进程只能等待。</p>
+</li>
+<li><p><strong>不剥夺条件</strong></p>
+<p>进程所获得的资源在未使用完毕之前，不能被其他进程强行夺走，即只能由获得该资源的进程自己来释放。</p>
+</li>
+<li><p><strong>部分分配条件</strong>（请求和保持条件）</p>
+<p>进程每次申请它所需要的一部分资源，<u>在等待新资源的同时，进程继续占有已分配到的资源</u>。</p>
+</li>
+<li><p><strong>循环等待条件</strong></p>
+<p>存在一种进程资源的循环等待链，链中每个进程己获得的资源同时被链中下一个进程所请求。即存在一个处于等待状态的进程集合{${P_1, P_2, P_3, ……, P_n}$} ,其中$P_i$等待的资源被$P_{i+1}$(i&#x3D;0,1, … n-1)占有，$P_n$等待资源被$P_0$占有。</p>
+</li>
+</ul>
+</li>
+<li><p>死锁的处理策略</p>
+<ol>
+<li><p><strong>预防死锁</strong>：设置某些限制条件，破坏产生死锁的四个必要条件中的一个或几个。</p>
+</li>
+<li><p><strong>避免死锁</strong>：在资源的动态分配过程中，用某种方法防止系统进入不安全状态。<strong>银行家算法</strong>是著名的死锁避免算法。</p>
+</li>
+<li><p><strong>死锁的检测及解除</strong>：无须采取任何限制性措施，允许进程在运行过程中发生死锁，通过系统的检测机制及时地检测出死锁的发生，然后采取某种措施解除死锁。</p>
+</li>
+</ol>
+<p>死锁的检测可利用资源分配图来描述。死锁的解除主要方法如下:</p>
+<p>(1) 资源剥夺法。</p>
+<p>(2) 撤销进程法。</p>
+<p>(3) 进程回退法。</p>
+</li>
+</ol>
+<p><strong>&#x3D;&#x3D;银行家算法&#x3D;&#x3D;</strong></p>
+<p>在进程提出资源申请时，先预判此分配是否会导致系统进入不安全状态。如果会进入不安全状态，就暂时不答应这次请求，让该进程先阻塞等待。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220708110103384.png" alt="image-20220708110103384"></p>
+<p>解答：</p>
+<p>（1）系统拥有A、B、C、D类资源各3、14、12、12个。对于这4类资源，已被五个进程占有的资源量分别为A类2个、B类9个、C类10个、D类12个。因此这4类资源分别还剩A类1个、B类5个、C类2个、D类0个。</p>
+<p>（2）首先列出各个进程的已分配allocated、尚需need，以及剩余可用资源available。然后开始寻找可行的安全序列（不唯一）。</p>
+<p>比如，最开始的available为<code>1 5 2 0</code>，可满足P1、P4的need，任选其一，选择P1。P1被满足后再释放已分配的资源allocated，使得available变为<code>1 5 3 2</code>，这时的available可满足P3、P4的need，继续选择即可。按照这个方法可以得到一条可行的安全序列P1、P4、P2、P3、P5。</p>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220708145951210.png" alt="image-20220708145951210" style="zoom:50%;">
+
+<p>（3）先判断所提需求的<code>0 4 2 0</code>是否小于等于P2的need（在其需求范围内），以及同时小于等于Allocated（在可提供资源范围内）。当同时满足这两个条件时，可以更新P2的need和Allocated，即P2的need减少<code>0 4 2 0</code>，P2的Allocated增加<code>0 4 2 0</code>，以及剩余可用资源available减少<code>0 4 2 0</code>。接着，再按照第2问的做法，寻找可行的安全序列。若能找到安全序列，则代表系统能满足P2的请求。</p>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><p>操作系统<strong>对内存的划分和动态分配</strong>，就是内存管理的概念。</p>
+<p>内存管理的功能有:</p>
+<ol>
+<li>内存空间的分配与回收，包括内存的管理和共享。</li>
+<li>地址转换，把逻辑地址转换成相应的物理地址。</li>
+<li>内存空间的扩充，利用虚拟存储技术或自动覆盖技术，从逻辑上扩充内存。</li>
+<li>存储保护，保证各道作业在各自的存储空间内运行，互不干扰。</li>
+</ol>
+<h3 id="逻辑地址空间与物理地址空间"><a href="#逻辑地址空间与物理地址空间" class="headerlink" title="逻辑地址空间与物理地址空间"></a>逻辑地址空间与物理地址空间</h3><p><strong>逻辑地址：</strong></p>
+<p>编译后，每个目标模块都是从0号单元开始编址，称为该目标模块的相对地址(或逻辑地址)。当链接程序将各个模块链接成一个完整的可执行目标程序时，链接程序顺序依次按各个模块的相对地址构成<strong>统一的从0号单元开始编址的逻辑地址空间</strong>。</p>
+<p><strong>物理地址：</strong></p>
+<p>物理地址空间是指内存中物理单元的集合，它是地址转换的最终地址，进程在运行时执行指令和访问数据最后都要通过物理地址来存取主存。<u>当装入程序将可执行代码装入内存时，必须通过地址转换将逻辑地址转换成物理地址</u>，这个过程称为<strong>地址重定位</strong>。</p>
+<h3 id="内存分配管理方式"><a href="#内存分配管理方式" class="headerlink" title="内存分配管理方式"></a>内存分配管理方式</h3><p>内存分配管理方式包括连续分配管理方式与非连续分配管理方式。</p>
+<p><strong>连续分配管理方式</strong>，是指为一个用户程序<u>分配一个连续的内存空间</u>。它主要包括单一连续分配、固定分区分配和动态分区分配。</p>
+<p><strong>非连续分配管理方式</strong>允许一个程序<u>分散地装入到不相邻的内存分区中</u>，根据分区的大小是否固定分为<strong>分页存储管理方式和分段存储管理方式</strong>。分页存储管理方式中，又根据运行作业时是否要把作业的所有页面都装入内存才能运行分为<strong>基本分页存储管理方式和请求分页存储管理方式</strong>。</p>
+<ul>
+<li>固定分区：</li>
+</ul>
+<p>将主内存分为固定大小的分区, 这些大小可以相等或不相等。每当我们必须分配进程内存时, 就会找到一个足够大的空闲分区来容纳该进程。然后将内存分配给进程。如果没有可用空间, 则进程在队列中等待分配内存。会产生<strong>内部碎片</strong>（<u>处于已分配区域内部或页面内部</u>的存储块，占有这些区域或页面的进程并不使用这个存储块。直到进程释放它，或进程结束时，系统才有可能利用这个存储块）。</p>
+<ul>
+<li>动态分区</li>
+</ul>
+<p>主内存不划分为多个分区, 并且<u>为进程分配了一块足够大的可用内存</u>。剩余的空间被视为可以由其他进程进一步使用的自由空间。会产生<strong>外部碎片</strong>（还没有被分配出去，不属于任何进程，但由于太小了无法分配给申请内存空间的新进程的内存空闲区域），外部碎片是<u>处于任何已分配区域或页面外部</u>的空闲存储块。这些存储块的总和可以满足当前申请的长度要求，但是由于它们的地址不连续或其他原因，使得系统无法满足当前申请。</p>
+<h4 id="基本分页存储管理方式"><a href="#基本分页存储管理方式" class="headerlink" title="基本分页存储管理方式"></a>基本分页存储管理方式</h4><p>基本分页存储管理方式中，分区（块）的大小是固定的；运行作业时要把作业的所有页面都装入内存才能运行；</p>
+<ul>
+<li><p>概念</p>
+<p>由于固定分区和动态分区都会产生内存的碎片，为了提高内存利用率，引入分页的思想：<strong>把主存空间划分为大小相等且固定的块，块相对较小，作为主存的基本单位。每个进程也以块为单位进行划分，进程在执行时，以块为单位逐个申请主存中的块空间。</strong></p>
+</li>
+<li><p>特点：仅产生很小的页内碎片</p>
+<p>分页的方法从形式上看，像分区相等的固定分区技术，分页管理不会产生外部碎片。但它又有本质的不同点：</p>
+<p>块的大小相对分区要小很多，而且进程也按照块进行划分，进程运行时按块申请主存可用空间并执行。这样，<strong>进程只会在为最后一个不完整的块申请一个主存块空间时，才产生主存碎片，所以尽管会产生内部碎片，但是这种碎片相对于进程来说也是很小的，每个进程平均只产生半个块大小的内部碎片</strong>(也称<strong>页内碎片</strong>)。</p>
+</li>
+<li><p>分页存储的几个基本概念</p>
+<p>① 页面和页面大小</p>
+<p><strong>进程中的块称为页</strong>(Page)（逻辑上），<strong>内存中的块称为页框</strong>(Page Frame,或页帧)。外存也以同样的单位进行划分，称为块(Block)（物理上）。进程在执行时需要申请主存空间，就是要<strong>为每个页面分配主存中的可用页框，这就产生了页和页框的一一对应</strong>。</p>
+<p>为方便地址转换，<strong>页面大小应是2的整数幂</strong>。同时页面大小应该适中，如果页面太小，会使进程的页面数过多，这样页表就过长，占用大量内存，而且也会增加硬件地址转换的开销，降低页面换入换出的效率；页面过大又会使页面内碎片增大，降低内存的利用率。</p>
+<p>②地址结构</p>
+<p>分页存储管理的<strong>逻辑地址结构</strong>如下图所示：</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220708155843373.png" alt="image-20220708155843373"></p>
+<p>地址结构包含两部分：前一部分为页号P，后一部分为页内偏移量M。地址长度为32位，其中0<del>11位为页内地址，即每页大小为$2^{12}$B，即4KB; 12</del>31 位为页号，地址空间最多允许有$2^{20}$页。</p>
+<p>③页表</p>
+<p>为了便于在内存中找到进程的每个页面所对应的物理块，系统为每个进程建立一张页表，<strong>记录页面在内存中对应的物理块号</strong>，页表一般存放在内存中。 在配置了页表后，进程执行时，通过查找该表，即可找到每页在内存中的物理块号。可见，页表的作用是<strong>实现从页号到物理块号的地址映射</strong>。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220708160731815.png" alt="image-20220708160731815"></p>
+</li>
+</ul>
+<p>&#x3D;&#x3D;注意&#x3D;&#x3D;：<strong>页号是系统自动生成的，本身地址是线性连续的，当要访问特定地址时，只需要提供地址即可。系统会自动将地址划分为页号和页内位移，而页号对于程序员来说是没有实际意义的，因此分页地址空间是一维的。</strong></p>
+<h4 id="基本分段存储管理方式"><a href="#基本分段存储管理方式" class="headerlink" title="基本分段存储管理方式"></a>基本分段存储管理方式</h4><p>基本分段存储管理方式中，段的大小是不固定的；运行作业时要把作业的所有页面都装入内存才能运行；</p>
+<p>段式管理方式按照用户进程中的自然段划分逻辑空间。例如，用户进程由主程序、两个子程序、栈和一段数据组成，于是可以把这个用户进程划分为5个段，每段从0开始编址，并<strong>分配一段连续的地址空间（段内要求连续，段间不要求连续，因此整个作业的地址空间是二维的，段名+段内地址)。</strong> </p>
+<p>其逻辑地址由段号s与段内偏移量W两部分组成。在下图中，段号为16位，段内偏移量为16位，则一个作业最多可有2^16&#x3D; 65536个段，最大段长为64KB。</p>
+<p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://frankcao3-picgo.oss-cn-shenzhen.aliyuncs.com/img/image-20220708160942731.png" alt="image-20220708160942731"></p>
+<p>在页式系统中，逻辑地址的页号和页内偏移量对用户是透明的，但<u>在段式系统中，段号和段内偏移量必须由用户显示提供</u>，在高级程序设计语言中，这个工作由编译程序完成。</p>
+<p><strong>&#x3D;&#x3D;分页和分段存储管理方式的区别：&#x3D;&#x3D;</strong></p>
+<ul>
+<li>分页存储管理中块是信息的物理单位，能够提高内存利用率；而分段存储管理中段是逻辑单位，分段是为了反映程序的逻辑结构，方便满足用户程序模块化的需要；</li>
+<li>页的大小是固定的，由系统决定；而段的大小不固定，取决于用户编写的程序；</li>
+<li>分页的地址空间是一维的，因为页是连续的；分段的地址空间是二维的，需要段名+段内地址。</li>
+</ul>
+<h4 id="段页式管理方式"><a href="#段页式管理方式" class="headerlink" title="段页式管理方式"></a>段页式管理方式</h4><p>页式存储管理能有效地提高内存利用率，而分段存储管理能反映程序的逻辑结构并有利于段的共享。如果将这两种存储管理方法结合起来，就形成了段页式存储管理方式。</p>
+<p>在段页式系统中，作业的地址空间<strong>首先被分成若干<u>逻辑段</u>，每段都有自己的段号</strong>，然后<strong>再将每一段分成若干大小固定的页</strong>。对内存空间的管理仍然和分页存储管理一样，将其分成若干和页面大小相同的存储块，对内存的分配以存储块为单位。<u>（逻辑上分段，物理上分页）</u></p>
+<p>在段页式系统中，<strong>作业的逻辑地址分为三部分：段号、页号和页内偏移量</strong>。为了实现地址变换，系统为<strong>每个进程建立一张段表，而每个分段有一张页表</strong>。段表表项中至少包括段号、页表长度和页表起始地址，页表表项中至少包括页号和块号。此外，系统中还应有一个段表寄存器，指出作业的段表起始地址和段表长度。<strong>在进行地址变换时，首先通过段表查到页表起始地址，然后通过页表找到页帧号，最后形成物理地址。</strong></p>
+<h3 id="虚拟内存管理"><a href="#虚拟内存管理" class="headerlink" title="虚拟内存管理"></a>虚拟内存管理</h3><ul>
+<li><p>针对的问题</p>
+<p>前面的分页、分段、段页式存储管理都具有以下两个共同特征（缺点）：运行作业时要把作业的所有页面都装入内存才能运行；驻留性：作业被装入内存后，就一直驻留在内存中，其任何部分都不会被换出，直至作业运行结束。</p>
+<p>由以上分析可知，<u>许多在程序运行中不用或暂时不用的程序(数据)占据了大量的内存空间，而一些需要运行的作业又无法装入运行</u>，显然浪费了宝贵的内存资源。</p>
+</li>
+<li><p>依据的原理</p>
+<p>&#x3D;&#x3D;<strong>局部性原理</strong>&#x3D;&#x3D;是指CPU访问存储器时，无论是存取指令还是存取数据，所访问的存储单元都趋于聚集在一个较小的连续区域中。</p>
+<p>时间局部性：在一个具有良好的时间局部性的程序中，被访问过一次的存储器位置很可能在不远的将来会被再次访问。</p>
+<p>空间局部性：在一个具有良好空间局部性的程序中，如果一个存储器位置被访问了一次，那么程序很可能在不远的将来访问附近的一个存储器位置。</p>
+</li>
+</ul>
+<h4 id="虚拟存储器的定义和特征"><a href="#虚拟存储器的定义和特征" class="headerlink" title="虚拟存储器的定义和特征"></a>虚拟存储器的定义和特征</h4><p>基于局部性原理，在程序装入时，可以<strong>将程序的一部分装入内存</strong>，而将其余部分留在外存，就可以<strong>启动程序执行</strong>。在程序执行过程中，当<strong>所访问的信息不在内存时，由操作系统将所需要的部分调入内存，然后继续执行程序</strong>。另一方面， 操作系统将内存中暂时不使用的内容换出到外存上，从而腾出空间存放将要调入内存的信息。这样，系统好像为用户提供了一个比实际内存大得多的存储器，称为<u><strong>虚拟存储器</strong></u>。</p>
+<p>之所以将其称为虚拟存储器，是因为这种存储器实际上并不存在，只是由于系统提供了部分装入、请求调入和置换功能后（对用户完全透明），给用户的感觉是好像存在一个比实际物理内存大得多的存储器。</p>
+<p>虚拟内存的实现有以下三种方式:</p>
+<p>1)请求分页存储管理</p>
+<p>2)请求分段存储管理</p>
+<ol start="3">
+<li>请求段页式存储管理</li>
+</ol>
+<p>不管哪种方式，都需要有一定的硬件支持。一般需要的支持有以下几个方面: .</p>
+<ol>
+<li>一定容量的内存和外存。</li>
+<li>页表机制(或段表机制)，作为主要的数据结构。</li>
+<li>中断机构，当用户程序要访问的部分尚未调入内存，则产生中断。</li>
+<li>地址变换机构，逻辑地址到物理地址的变换。</li>
+</ol>
+<p><strong>段页式虚拟存储器</strong></p>
+<p>基本思想是<strong>对用户原来编写程序的虚拟存储空间采用分段的方法管理</strong>，而<strong>对主存储器的物理空间采用分页的方法管理</strong>。<br>段页式虚拟存储器一方面具有段式虚拟存储器的主要优点。例如，用户程序可以模块化编写，程序段的共享和信息的保护都比较方便，程序可以在执行时再动态链接等。另一方面也具有页式虚拟存储器的主要优点。例如：主存储器的利用率比较高，对辅助存储器的管理比较容易等。</p>
+<h4 id="请求分页管理方式"><a href="#请求分页管理方式" class="headerlink" title="请求分页管理方式"></a>请求分页管理方式</h4><p>运行作业时不需要把作业的所有页面都装入内存才能运行，需要哪一页就请求哪一页。</p>
+<p>请求分页系统建立在基本分页系统基础之上，为了支持虚拟存储器功能而增加了<strong>请求调页功能和页面置换功能</strong>。请求分页是目前最常用的一种实现虚拟存储器的方法。</p>
+<p>在请求分页系统中，只要求将当前需要的一部分页面装入内存，便可以启动作业运行。在作业执行过程中，当所要访问的页面不在内存时，再通过调页功能将其调入，同时还可以通过置换功能将暂时不用的页面换出到外存上，以便腾出内存空间。</p>
+<p>为了实现请求分页，系统必须提供一定的硬件支持。 除了需要一定容量的内存及外存的计算机系统，还需要有<strong>页表</strong>机制、<strong>缺页中断</strong>机构和<strong>地址变换</strong>机构。</p>
+<p>常见的置换算法有以下三种：最佳置换算法、先进先出(FIFO)页面置换算法、最近最久未使用(LRU)置换算法。</p>
+<ul>
+<li><p><em><strong>最佳置换算法(OPT)</strong></em></p>
+<p>最佳(Optimal, OPT)置换算法所选择的<strong>被淘汰页面将是以后永不使用的，或者是在最长时间内不再被访问的页面</strong>，这样可以保证获得最低的缺页率。但由于人们目前无法预知进程在内存下的若干页面中哪个是未来最长时间内不再被访问的，因而<strong>该算法无法实现</strong>。最佳置换算法可以用来评价其他算法。</p>
+</li>
+<li><p><em><strong>先进先出（FIFO）页面置换算法</strong></em></p>
+<p><strong>优先淘汰最早进入内存的页面</strong>，亦即在内存中驻留时间最久的页面。该算法实现简单，只需把调入内存的页面根据先后次序链接成队列，设置一个指针总指向最早的页面。但该算法与进程实际运行时的规律不适应，因为在进程中，有的页面经常被访问。</p>
+<p>FIFO算法还会产生当所分配的物理块数增大而页故障数不减反增的异常现象，这是由Belady于1969年发现，故称为<strong>Belady异常</strong>，如图2-3所示。FIFO算法可能出现Belady异常，而LRU和OPT算法永远不会出现Belady异常。</p>
+</li>
+<li><p><em><strong>最近最久未使用（LRU）置换算法</strong></em></p>
+<p>选择最近最长时间未访问过的页面予以淘汰，它认为过去一-段时间内未访问过的页面， 在最近的将来可能也不会被访问。该算法为每个页面设置一个访问字段，来记录页面自上次被访问以来所经历的时间，淘汰页面时选择现有页面中值最大的予以淘汰。</p>
+<p>LRU性能较好，但需要寄存器和栈的硬件支持。LRU是堆栈类的算法。理论上可以证明，堆栈类算法不可能出现Belady异常。FIFO 算法基于队列实现，不是堆栈类算法。</p>
+<p>&#x3D;&#x3D;手写LRU&#x3D;&#x3D;</p>
+<p>C++实现：<a target="_blank" rel="noopener" href="https://blog.csdn.net/Appleeatingboy/article/details/118306037">https://blog.csdn.net/Appleeatingboy/article/details/118306037</a></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*使用双向链表 + 哈希表 实现*/</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">LRUCache</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Node</span>&#123;</span><br><span class="line">        <span class="keyword">public</span>:</span><br><span class="line">            <span class="type">int</span> key;</span><br><span class="line">            <span class="type">int</span> val;</span><br><span class="line">            Node* pre;</span><br><span class="line">            Node* next;</span><br><span class="line">            <span class="built_in">Node</span>()&#123;&#125;</span><br><span class="line">            <span class="built_in">Node</span>(<span class="type">int</span> mkey, <span class="type">int</span> mvalue):<span class="built_in">key</span>(mkey),<span class="built_in">val</span>(mvalue),<span class="built_in">pre</span>(<span class="literal">NULL</span>),<span class="built_in">next</span>(<span class="literal">NULL</span>)&#123; &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="comment">//构造函数</span></span><br><span class="line">    <span class="built_in">LRUCache</span>(<span class="type">int</span> capacity) &#123;</span><br><span class="line">        <span class="keyword">this</span>-&gt;size = capacity;</span><br><span class="line">        <span class="comment">//头尾保护节点</span></span><br><span class="line">        head = <span class="keyword">new</span> <span class="built_in">Node</span>();</span><br><span class="line">        tail = <span class="keyword">new</span> <span class="built_in">Node</span>();</span><br><span class="line">        <span class="comment">//初始化双链表关系</span></span><br><span class="line">        head-&gt;next = tail;</span><br><span class="line">        tail-&gt;pre = head;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function">Node* <span class="title">delete_currentnode</span><span class="params">(Node* current)</span></span>&#123;</span><br><span class="line">        current-&gt;pre-&gt;next = current-&gt;next;</span><br><span class="line">        current-&gt;next-&gt;pre = current-&gt;pre;</span><br><span class="line">        <span class="keyword">return</span> current;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//移动到最前面</span></span><br><span class="line">    <span class="comment">//相当于在链表中一个insert操作，在head 和 head的next之间插入一个节点</span></span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">move_to_head</span><span class="params">(Node* current)</span></span>&#123;</span><br><span class="line">        Node* next = head-&gt;next;</span><br><span class="line">        head-&gt;next = current;</span><br><span class="line">        current-&gt;pre = head;</span><br><span class="line">        next-&gt;pre = current;</span><br><span class="line">        current-&gt;next = next;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">make_recently</span><span class="params">(Node* current)</span></span>&#123;</span><br><span class="line">        Node* temp = <span class="built_in">delete_currentnode</span>(current);</span><br><span class="line">        <span class="built_in">move_to_head</span>(temp);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">get</span><span class="params">(<span class="type">int</span> key)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> ret = <span class="number">-1</span>;</span><br><span class="line">        <span class="comment">//get 到key的value,要进行将key的对值从存储结构中删除，然后重新排列前后的数据</span></span><br><span class="line">        <span class="keyword">if</span>(map.<span class="built_in">find</span>(key)!= map.<span class="built_in">end</span>())&#123;</span><br><span class="line">            Node* temp = map[key];</span><br><span class="line">            <span class="built_in">make_recently</span>(temp);</span><br><span class="line">            ret = temp-&gt;val;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">put</span><span class="params">(<span class="type">int</span> key, <span class="type">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(map.<span class="built_in">find</span>(key) != map.<span class="built_in">end</span>())&#123;</span><br><span class="line">            <span class="comment">//关键字存在，修改key,对应的值</span></span><br><span class="line">            Node* temp = map[key];</span><br><span class="line">            temp-&gt;val= value;</span><br><span class="line">            <span class="comment">//将key变为最近使用</span></span><br><span class="line">            <span class="built_in">make_recently</span>(temp);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="comment">//关键字不存在，插入,(key,value)</span></span><br><span class="line">            Node* cur = <span class="keyword">new</span> <span class="built_in">Node</span>(key,value);</span><br><span class="line">            <span class="keyword">if</span>( map.<span class="built_in">size</span>()==size )&#123;</span><br><span class="line">                <span class="comment">//链表尾部就是最久未使用的key</span></span><br><span class="line">                Node* temp = <span class="built_in">delete_currentnode</span>(tail-&gt;pre);</span><br><span class="line">                map.<span class="built_in">erase</span>(temp-&gt;key);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">move_to_head</span>(cur);</span><br><span class="line">            map[key] = cur;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">//类内共享容量值</span></span><br><span class="line">    <span class="type">int</span> size;</span><br><span class="line">    unordered_map&lt;<span class="type">int</span>, Node*&gt; map;</span><br><span class="line">    Node* head;</span><br><span class="line">    Node* tail;</span><br></pre></td></tr></table></figure>
+
+<p>用 Java 的内置类型 <code>LinkedHashMap</code> 来实现 LRU 算法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/lwb102063/article/details/114085191">https://blog.csdn.net/lwb102063/article/details/114085191</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LRUCache</span> &#123;</span><br><span class="line">    <span class="type">int</span> cap;</span><br><span class="line">    LinkedHashMap&lt;Integer, Integer&gt; cache = <span class="keyword">new</span> <span class="title class_">LinkedHashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">LRUCache</span><span class="params">(<span class="type">int</span> capacity)</span> &#123; </span><br><span class="line">        <span class="built_in">this</span>.cap = capacity;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">get</span><span class="params">(<span class="type">int</span> key)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!cache.containsKey(key)) &#123;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 将 key 变为最近使用</span></span><br><span class="line">        makeRecently(key);</span><br><span class="line">        <span class="keyword">return</span> cache.get(key);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">put</span><span class="params">(<span class="type">int</span> key, <span class="type">int</span> val)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (cache.containsKey(key)) &#123;</span><br><span class="line">            <span class="comment">// 修改 key 的值</span></span><br><span class="line">            cache.put(key, val);</span><br><span class="line">            <span class="comment">// 将 key 变为最近使用</span></span><br><span class="line">            makeRecently(key);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">if</span> (cache.size() &gt;= <span class="built_in">this</span>.cap) &#123;</span><br><span class="line">            <span class="comment">// 链表头部就是最久未使用的 key</span></span><br><span class="line">            <span class="type">int</span> <span class="variable">oldestKey</span> <span class="operator">=</span> cache.keySet().iterator().next();</span><br><span class="line">            cache.remove(oldestKey);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 将新的 key 添加链表尾部</span></span><br><span class="line">        cache.put(key, val);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">makeRecently</span><span class="params">(<span class="type">int</span> key)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">val</span> <span class="operator">=</span> cache.get(key);</span><br><span class="line">        <span class="comment">// 删除 key，重新插入到队尾</span></span><br><span class="line">        cache.remove(key);</span><br><span class="line">        cache.put(key, val);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+<li><p><em><strong>LFU（Least Frequently Used）算法</strong></em></p>
+<p>根据数据的历史访问频率来淘汰数据，其核心思想是“如果数据过去被访问多次，那么将来被访问的频率也更高”。LFU的每个数据块都有一个引用计数，所有数据块按照引用计数排序，具有相同引用计数的数据块则按照时间排序。</p>
+</li>
+</ul>
+<h4 id="抖动"><a href="#抖动" class="headerlink" title="抖动"></a>抖动</h4><p><strong>内存抖动：非常频繁的换页活动；</strong></p>
+<p><strong>系统中的“颠簸”是由缺页率高引起的，与内存容量、交换信息量无直接关系。</strong></p>
+<p>在页面置换过程中的一种最糟糕的情形是，刚刚换出的页面马上又要换入主存，刚刚换入的页面马上就要换出主存，这种**<u>频繁的页面调度行为</u>称为抖动，或颠簸<strong>。</strong>如果一个进程在换页上用的时间多于执行时间，那么这个进程就在颠簸**。频繁的发生缺页中断，其主要原因是某个进程频繁访问的页面数目高于可用的物理页帧数目。虚拟内存技术可以在内存中保留更多的进程以提高系统效率。但系统必须很“聪明”地管理页面分配方案。在稳定状态，几乎主存的所有空间都被进程块占据，处理机和操作系统可以直接访问到尽可能多的进程。但如果管理不当，处理机的大部分时间都将用于交换块，即请求调入页面的操作，而不是执行进程的指令，这就会大大降低系统效率。</p>
+<h4 id="工作集"><a href="#工作集" class="headerlink" title="工作集"></a>工作集</h4><p>工作集(或驻留集)是指<strong>在某段时间间隔内，进程要访问的页面集合</strong>。经常被使用的页面需要在工作集中，而长期不被使用的页面要从工作集中被丢弃。为了防止系统出现抖动现象，需要选择合适的工作集大小。</p>
+<p>工作集模型的原理是：<u>让操作系统跟踪每个进程的工作集，并为进程分配大于其工作集的物理块。</u>如果还有空闲物理块，则可以再调一个 进程到内存以增加多道程序数。如果所有工作集之和增加以至于超过了可用物理块的总数，那么操作系统会暂停一个进程， 将其页面调出并且将其物理块分配给其他进程，防止出现抖动现象。</p>
+<p>正确选择:工作集的大小，对存储器的利用率和系统吞吐量的提高，都将产生重要影响。</p>
+<h2 id="Linux常用命令"><a href="#Linux常用命令" class="headerlink" title="Linux常用命令"></a>Linux常用命令</h2><h3 id="目录和文件的相关操作"><a href="#目录和文件的相关操作" class="headerlink" title="目录和文件的相关操作"></a>目录和文件的相关操作</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /home      # 变换工作目录</span><br><span class="line">cd .          # 代表当前目录</span><br><span class="line">cd ..         # 代表上一层目录</span><br><span class="line">cd ~          # 代表前一个工作目录</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pwd           # 输出当前工作目录 </span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /test   # 新建单层目录</span><br><span class="line">mkdir -p /test/testing   # 新建多层目录</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rmdir         # 只能用来删除空目录</span><br><span class="line">rm -r test    # 删除目录时需要使用&quot;-r&quot;选项，删除非空目录</span><br><span class="line">rm aaa        # 默认仅删除文件</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp ./aaa /tmp/bbb  # 将当前目录下的aaa文件复制到tmp下并更名为bbb</span><br><span class="line">cp -r /etc /tmp    # 复制目录时需要使用&quot;-r&quot;选项，如复制/etc/目录下的所有内容到/tmp下</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv /home/test /home/test2  # 移动或更名现有的文件或目录</span><br></pre></td></tr></table></figure>
+
+<h3 id="文本文件内容查看"><a href="#文本文件内容查看" class="headerlink" title="文本文件内容查看"></a>文本文件内容查看</h3><p><strong>cat</strong>：由第一行开始查看文件。cat 是Concatenate (连续)的简写，主要的功能是将-一个文件的内容连续输出在屏幕上。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat ./aaa</span><br></pre></td></tr></table></figure>
+
+<p><strong>tac</strong>：从最后一行开始显示，可以看出cat与tac是倒置的。cat 是由第一行到最后一行连续显示在屏幕上，而tac则是由最后一行到第一行反向在屏幕上显示出来。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tac ./aaa</span><br></pre></td></tr></table></figure>
+
+<p><strong>nl</strong>：显示文件内容的时候，一起显示文件行号。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nl ./aaa</span><br></pre></td></tr></table></figure>
+
+<p><strong>more、less</strong>：一页一页显示文件内容。前面提到的nl、cat、 tac等，都是一次性将数据显示到屏幕上面，若是文件行数很多，前面的内容就会看不到，这时就需要使用more与less来一页一页查看文件内容。命令如下:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">more ./aaa   # 向后翻页</span><br><span class="line">less ./aaa   # 向前翻页</span><br></pre></td></tr></table></figure>
+
+<p><strong>head</strong>：head命令查看文本文件时，只显示头几行。用法如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">head -n number 文件名   # 只显示文件的前number行</span><br></pre></td></tr></table></figure>
+
+<p>-n选项后面的参数number如果是负数，代表列出前面的所有行数，但不包括后面number行。如&#x2F;etc&#x2F;man.config 共有141行，则<code>head -n -100 /etc/man. config</code>就会列出前面41行，后面100行不会打印出来了。</p>
+<p><strong>tail</strong>：tail命令查看文本文件时，只显示尾几行。用法如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail -n number 文件名</span><br></pre></td></tr></table></figure>
+
+<p>当number前面有“+”号时，与head -n -xx有异曲同工之妙。如<code>tail -n +100 /etc/man.config</code>代表该文件从100行以后都会被列出来，同样，在man.config共有141行，因此第100~141行就会被列出来，前面的99行都不会被显示出来。</p>
+<p><strong>touch</strong>：建立一个空文件。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch aaa</span><br></pre></td></tr></table></figure>
+
+<p><strong>grep</strong>：分析一行信息，若当中有需要的信息，就将该行显示出来。常用在管道中。例如将文件aaa中包含”root”的行的内容显示出来的命令为<code>cat aaa | grep &quot;root&quot;</code>或者<code>grep &quot;root&quot; aaa</code>。当使用<code>grep -E</code>表示后面跟着的是延申型正则表达式，等价于”egrep”。比如找到文件try_ grep含有以a字母为行开头的内容，可以使用<code>grep -E ^a try_grep</code>。^M表示以M开头的行，M$表示以M结尾的行。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat aaa | grep &quot;root&quot;  # 文件aaa中包含&quot;root&quot;的行的内容</span><br><span class="line">grep &quot;root&quot; aaa        # 与上一行作用相同</span><br><span class="line">grep -E ^a try_grep    # </span><br></pre></td></tr></table></figure>
+
+<h3 id="查看系统信息"><a href="#查看系统信息" class="headerlink" title="查看系统信息"></a>查看系统信息</h3><p><strong>df</strong>：列出文件系统的整体磁盘使用量。</p>
+<p><strong>ps</strong>：将某个时间点的程序运行情况显示出来。</p>
+<p><strong>top</strong>：动态观察程序变化，持续侦测程序运行状态。</p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">ccb</div><div class="post-copyright__author_desc"></div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="https://frankcao3.github.io/posts/1079">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('https://frankcao3.github.io/posts/1079')">操作系统</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"><div class="post-reward" onclick="anzhiyu.addRewardMask()"><div class="reward-button button--animated" title="赞赏作者"><i class="anzhiyufont anzhiyu-icon-hand-heart-fill"></i>打赏作者</div><div class="reward-main"><div class="reward-all"><span class="reward-title">感谢你赐予我前进的力量</span><ul class="reward-group"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul><a class="reward-main-btn" href="/about/#about-reward" target="_blank"><div class="reward-text">赞赏者名单</div><div class="reward-dec">因为你们的支持让我意识到写文章的价值🙏</div></a></div></div></div><div id="quit-box" onclick="anzhiyu.removeRewardMask()" style="display: none"></div></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="https://frankcao3.github.io/posts/1079"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=操作系统&amp;url=https://frankcao3.github.io/posts/1079&amp;pic=" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="rm.copyPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>计算机基础<span class="tagsPageCount">5</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/50843"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">C/C++ 基础知识</div></div></a></div><div class="next-post pull-right"><a href="/posts/28758"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">计算机网络</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/posts/9423" title="STL"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2021-08-15</div><div class="title">STL</div></div></a></div><div><a href="/posts/28758" title="计算机网络"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2021-08-15</div><div class="title">计算机网络</div></div></a></div><div><a href="/posts/50843" title="C&#x2F;C++ 基础知识"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2021-08-15</div><div class="title">C&#x2F;C++ 基础知识</div></div></a></div><div><a href="/posts/1106" title="数据结构"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2021-08-15</div><div class="title">数据结构</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2023/04/27/64496e511b09c.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__description"></div></div></div><div class="card-widget anzhiyu-right-widget" id="card-wechat" onclick="null"><div id="flip-wrapper"><div id="flip-content"><div class="face" style="background: url(https://bu.dusays.com/2023/01/13/63c02edf44033.png) center center / 100% no-repeat"></div><div class="back face" style="background: url(https://bu.dusays.com/2023/05/13/645fa415e8694.png) center center / 100% no-repeat"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.</span> <span class="toc-text">操作系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">进程管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.1.1.</span> <span class="toc-text">进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.1.2.</span> <span class="toc-text">线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1%E4%B8%8E%E8%BF%9B%E7%A8%8B%E5%90%8C%E6%AD%A5"><span class="toc-number">1.1.3.</span> <span class="toc-text">进程通信与进程同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95"><span class="toc-number">1.1.4.</span> <span class="toc-text">调度算法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%BB%E9%94%81"><span class="toc-number">1.1.5.</span> <span class="toc-text">死锁</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-number">1.2.</span> <span class="toc-text">内存管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4%E4%B8%8E%E7%89%A9%E7%90%86%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4"><span class="toc-number">1.2.1.</span> <span class="toc-text">逻辑地址空间与物理地址空间</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.2.</span> <span class="toc-text">内存分配管理方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%88%86%E9%A1%B5%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">基本分页存储管理方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%88%86%E6%AE%B5%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">基本分段存储管理方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AE%B5%E9%A1%B5%E5%BC%8F%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">段页式管理方式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-number">1.2.3.</span> <span class="toc-text">虚拟内存管理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%AD%98%E5%82%A8%E5%99%A8%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E7%89%B9%E5%BE%81"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">虚拟存储器的定义和特征</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%88%86%E9%A1%B5%E7%AE%A1%E7%90%86%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.3.2.</span> <span class="toc-text">请求分页管理方式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8A%96%E5%8A%A8"><span class="toc-number">1.2.3.3.</span> <span class="toc-text">抖动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E9%9B%86"><span class="toc-number">1.2.3.4.</span> <span class="toc-text">工作集</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">1.3.</span> <span class="toc-text">Linux常用命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E5%92%8C%E6%96%87%E4%BB%B6%E7%9A%84%E7%9B%B8%E5%85%B3%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.1.</span> <span class="toc-text">目录和文件的相关操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E6%9C%AC%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E6%9F%A5%E7%9C%8B"><span class="toc-number">1.3.2.</span> <span class="toc-text">文本文件内容查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF"><span class="toc-number">1.3.3.</span> <span class="toc-text">查看系统信息</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/16107" title="Hello World">Hello World</a><time datetime="2023-10-05T11:40:46.695Z" title="Created 2023-10-05 19:40:46">2023-10-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/34953" title="渗透测试全流程">渗透测试全流程</a><time datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/39395" title="基础概念与信息收集">基础概念与信息收集</a><time datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/57467" title="XXE">XXE</a><time datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/58219" title="反序列化漏洞">反序列化漏洞</a><time datetime="2022-08-04T16:00:00.000Z" title="Created 2022-08-05 00:00:00">2022-08-05</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2020 - 2023 By <a class="footer-bar-link" href="/" title="ccb" target="_blank">ccb</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">Articles</div><div class="length-num">40</div></a><a href="/tags/" title="tag"><div class="headline">Tags</div><div class="length-num">6</div></a><a href="/categories/" title="category"><div class="headline">Categories</div><div class="length-num">0</div></a></div><span class="sidebar-menu-item-title">Function</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="Display Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>Display Mode</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://blog.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/fcircle/"><i class="anzhiyufont anzhiyu-icon-artstation faa-tada" style="font-size: 0.9em;"></i><span> 朋友圈</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/bangumis/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追番页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li><li><a class="site-page child faa-parent animated-hover" href="javascript:toRandomPost()"><i class="anzhiyufont anzhiyu-icon-shoe-prints1 faa-tada" style="font-size: 0.9em;"></i><span> 随便逛逛</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/DVWA%E9%9D%B6%E5%9C%BA/" style="font-size: 0.88rem;">DVWA靶场<sup>10</sup></a><a href="/tags/%E5%AE%9E%E8%AE%AD-%E7%BD%91%E7%BB%9C%E5%BB%BA%E8%AE%BE%E9%83%A8%E5%88%86/" style="font-size: 0.88rem;">实训-网络建设部分<sup>7</sup></a><a href="/tags/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" style="font-size: 0.88rem;">搭建博客<sup>1</sup></a><a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 0.88rem;">机器学习<sup>1</sup></a><a href="/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 0.88rem;">渗透测试<sup>15</sup></a><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" style="font-size: 0.88rem;">计算机基础<sup>5</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="Switch Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="8152976493" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.20/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.4/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("04/01/2021 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2020 By 安知鱼 V1.6.8",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 ccb 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "visitor@anheyu.com";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404')
+  }
+})</script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
