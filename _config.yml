@@ -99,7 +99,7 @@ ignore:
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 # theme: hexo-theme-yilia
-theme: hexo-theme-yilia
+theme: hexo-theme-anzhiyu
 
 # yilia主题新增内容
 jsonContent:

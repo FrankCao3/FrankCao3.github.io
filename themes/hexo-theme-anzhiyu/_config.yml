@@ -1,28 +1,28 @@
 menu:
-  文章:
-    隧道: /archives/ || anzhiyu-icon-box-archive
-    分类: /categories/ || anzhiyu-icon-shapes
-    标签: /tags/ || anzhiyu-icon-tags
+  # 文章:
+  #   隧道: /archives/ || anzhiyu-icon-box-archive
+  #   分类: /categories/ || anzhiyu-icon-shapes
+  #   标签: /tags/ || anzhiyu-icon-tags
 
-  友链:
-    友人帐: /link/ || anzhiyu-icon-link
-    朋友圈: /fcircle/ || anzhiyu-icon-artstation
-    留言板: /comments/ || anzhiyu-icon-envelope
+  # 友链:
+  #   友人帐: /link/ || anzhiyu-icon-link
+  #   朋友圈: /fcircle/ || anzhiyu-icon-artstation
+  #   留言板: /comments/ || anzhiyu-icon-envelope
 
-  我的:
-    音乐馆: /music/ || anzhiyu-icon-music
-    追番页: /bangumis/ || anzhiyu-icon-bilibili
-    相册集: /album/ || anzhiyu-icon-images
-    小空调: /air-conditioner/ || anzhiyu-icon-fan
+  # 我的:
+  #   音乐馆: /music/ || anzhiyu-icon-music
+  #   追番页: /bangumis/ || anzhiyu-icon-bilibili
+  #   相册集: /album/ || anzhiyu-icon-images
+  #   小空调: /air-conditioner/ || anzhiyu-icon-fan
 
-  关于:
-    关于本人: /about/ || anzhiyu-icon-paper-plane
-    闲言碎语: /essay/ || anzhiyu-icon-lightbulb
-    随便逛逛: javascript:toRandomPost() || anzhiyu-icon-shoe-prints1
+  # 关于:
+  #   关于本人: /about/ || anzhiyu-icon-paper-plane
+  #   闲言碎语: /essay/ || anzhiyu-icon-lightbulb
+  #   随便逛逛: javascript:toRandomPost() || anzhiyu-icon-shoe-prints1
 
 # nav相关配置
 nav:
-  enable: true
+  enable: false
   travelling: false
   clock: false
   menu:
@@ -59,7 +59,7 @@ code_word_wrap: false
 copy:
   enable: true
   copyright:
-    enable: true
+    enable: false
     limit_count: 50
 
 # social settings (社交图标设置)
@@ -90,7 +90,7 @@ author_status:
 
 # Algolia search
 algolia_search:
-  enable: true
+  enable: false
   hits:
     per_page: 6
   tags:
@@ -102,7 +102,7 @@ algolia_search:
 # Crawler Admin Console: see https://crawler.algolia.com/
 # Settings: https://www.algolia.com/
 docsearch:
-  enable: true
+  enable: false
   appId: # see email
   apiKey: # see email
   indexName: # see email
@@ -110,7 +110,7 @@ docsearch:
 
 # Local search
 local_search:
-  enable: true
+  enable: false
   preload: true
   CDN:
 
@@ -201,7 +201,7 @@ mainTone:
 # wordcount (字数统计)
 # see https://blog.anheyu.com/posts/c27d.html#字数统计
 wordcount:
-  enable: true
+  enable: false
   post_wordcount: true
   min2read: true
   total_wordcount: true
@@ -234,7 +234,7 @@ post_copyright:
   enable: true
   decode: false
   author_href:
-  location: 武汉
+  location: 长沙
   license: CC BY-NC-SA 4.0
   license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
   avatarSinks: false # hover时头像下沉
@@ -1023,13 +1023,13 @@ home_top:
   subTitle: 万物可爱。
   siteText: anheyu.com
   category:
-    - name: 计算机基础
-      path: /tags/计算机基础/
+    - name: 前端
+      path: /categories/前端开发/
       shadow: var(--anzhiyu-shadow-blue)
       class: blue
       icon: anzhiyu-icon-dove
-    - name: 渗透测试
-      path: /tags/渗透测试/
+    - name: 大学
+      path: /categories/大学生涯/
       shadow: var(--anzhiyu-shadow-red)
       class: red
       icon: anzhiyu-icon-fire
